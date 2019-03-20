@@ -1,42 +1,42 @@
-    #include "jeu.h" /* Appelle du fichier header "jeu.h" pour la fonction 
-    void jouer(unsigned short int, unsigned short int, unsigned short int, unsigned short int)
-    définie dans "jeu.c" */
+#include "jeu.h" /* Appelle du fichier header "jeu.h" pour la fonction 
+void jouer(unsigned short int, unsigned short int, unsigned short int, unsigned short int)
+définie dans "jeu.c" */
 
-    /*
-    *** Paramètre de la librairie lgraph utilisé ***
-      --> couleur char[] : Type définit déterminant une couleur.
-      --> _X : Coordonnées en abscisse relevé au passage du curseur de la souris sur l'écran.
-      --> _Y : Coordonnées en ordonnée relevé au passage du curseur de la souris sur l'écran.
-      On compare donc ces deux paramètres avec des couples de coordonnés, à valeur entière, 
-      définit dans des conditions avec l'opérateur ET.
-      --> XK : Coordonnées de relevé d'une touche.
-      --> XK_n : Avec n qui est un chiffre, sert à commander un paramètre de touche clavier
-      --> XK_KP_n : Avec n qui est un chiffre, sert à commander un paramètre de touche clavier
-      --> ChargerImageFond(char[]) : Permet de charger une image sur l'ensemble de la fenêtre
-      en inscrivant en argument son chemin relatif.
-      --> ChargerImage(char[], int, int, int, int, int, int) : Permet de charger une image,
-      à partir de son chemin relatif, avec ses dimensions et les coordonnées de sa position sur
-      une fenêtre graphique.
-      --> RemplirRectangle(int, int, int, int) : Permet de construire un rectangle avec ses dimensions
-      et sa position sur la fenêtre.
-      --> CouleurParNom(char[]) : 
-      --> ChoisirCouleurDessin(couleur) :
-      --> EcrireTexte(int, int, int, int) :
-      --> ToucheEnAttente() : Détectera une touche cliquée, tant qu'aucune touche est encore cliquée.
-      --> Touche() : Défini une touche active.
-      --> SourisCliquee() : Détecte si on a cliqué sur la souris.
-      --> SourisPosition() : Relève les coordonnées de la position du curseur de la souris sur l'écran.
-    */
+/*
+*** Paramètre de la librairie lgraph utilisé ***
+  --> couleur char[] : Type définit déterminant une couleur.
+  --> _X : Coordonnées en abscisse relevé au passage du curseur de la souris sur l'écran.
+  --> _Y : Coordonnées en ordonnée relevé au passage du curseur de la souris sur l'écran.
+  On compare donc ces deux paramètres avec des couples de coordonnés, à valeur entière, 
+  définit dans des conditions avec l'opérateur ET.
+  --> XK : Coordonnées de relevé d'une touche.
+  --> XK_n : Avec n qui est un chiffre, sert à commander un paramètre de touche clavier
+  --> XK_KP_n : Avec n qui est un chiffre, sert à commander un paramètre de touche clavier
+  --> ChargerImageFond(char[]) : Permet de charger une image sur l'ensemble de la fenêtre
+  en inscrivant en argument son chemin relatif.
+  --> ChargerImage(char[], int, int, int, int, int, int) : Permet de charger une image,
+  à partir de son chemin relatif, avec ses dimensions et les coordonnées de sa position sur
+  une fenêtre graphique.
+  --> RemplirRectangle(int, int, int, int) : Permet de construire un rectangle avec ses dimensions
+  et sa position sur la fenêtre.
+  --> CouleurParNom(char[]) : 
+  --> ChoisirCouleurDessin(couleur) :
+  --> EcrireTexte(int, int, int, int) :
+  --> ToucheEnAttente() : Détectera une touche cliquée, tant qu'aucune touche est encore cliquée.
+  --> Touche() : Défini une touche active.
+  --> SourisCliquee() : Détecte si on a cliqué sur la souris.
+  --> SourisPosition() : Relève les coordonnées de la position du curseur de la souris sur l'écran.
+*/
 
-    /* Définition de types généraux pour le restant du programme */
-    couleur coloris; 
-    unsigned short int touche;
-    unsigned short int text_design;
-    unsigned short int ligne = 3;
-    unsigned short int colonne = 3;
-    char selection[10];
+/* Définition de types généraux pour le restant du programme */
+couleur coloris; 
+unsigned short int touche;
+unsigned short int text_design;
+unsigned short int ligne = 3;
+unsigned short int colonne = 3;
+char selection[10];
 
-    void choix(unsigned short int longueur, unsigned short int hauteur, 
+void choix(unsigned short int longueur, unsigned short int hauteur, 
       unsigned short int image, unsigned short int miniature) {
       /* Recharge l'écran pour préparer la page suivante. */
       ChargerImageFond("../images/fond.png");
@@ -156,9 +156,9 @@
         /* Fin du rechargement */
         }
       }
-    }
+}
 
-    void image_choisie(unsigned short int longueur, unsigned short int hauteur) {
+void image_choisie(unsigned short int longueur, unsigned short int hauteur) {
       /* Recharge l'écran pour préparer la page suivante. */
       ChargerImageFond("../images/fond.png");
       
@@ -209,4 +209,4 @@
             exit(0);
         }
       }
-    }
+}
