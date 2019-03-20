@@ -1,5 +1,5 @@
 /* Question 3 : Chaînée. 
-Faite un file de caractère avec une des structure et un système de maillage.
+Faite une file de caractère avec une des structure et un système de maillage.
 */
 
 #include <stdio.h>
