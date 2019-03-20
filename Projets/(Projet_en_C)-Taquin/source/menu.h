@@ -1,5 +1,3 @@
-/**** Arthur Chenu ****/
-
 #ifndef menu_h
 #define menu_h
 
