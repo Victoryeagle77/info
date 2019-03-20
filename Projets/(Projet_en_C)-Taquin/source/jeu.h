@@ -1,5 +1,3 @@
-/**** Arthur Chenu ****/
-
 #ifndef jeu_h
 #define jeu_h
 
