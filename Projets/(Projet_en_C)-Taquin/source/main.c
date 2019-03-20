@@ -1,5 +1,3 @@
-/**** Arthur Chenu ****/
-
 /*
 *** Paramètres de la librairie "lgraph" utilisés dans le fichier "main.c" ***
 - InitialiserGraphique() --> Permet d'initialiser et de préparer une fenêtre graphique.
