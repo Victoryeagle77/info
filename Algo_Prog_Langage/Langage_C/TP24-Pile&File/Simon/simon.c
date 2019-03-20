@@ -1,5 +1,5 @@
 /*
-Question 1 : Simon
+Question 4 : Simon
 Écrivez un programme qui affiche une fenêtre comportant quatre zones séparées. 
 Dans la première phase, le programme met graphiquement en valeur durant une seconde une zone choisie au hasard. 
 Le choix est mémorisé dans une file. 
