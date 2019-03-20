@@ -1,5 +1,3 @@
-/***** Arthur Chenu *****/
-
 #include "menu.h"
 
 int main(void) {
