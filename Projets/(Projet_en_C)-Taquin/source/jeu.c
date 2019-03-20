@@ -1,5 +1,3 @@
-/**** Arthur Chenu ****/
-
 #include "menu.h" /* Appelle du fichier header "menu.h" pour la fonction 
 void image_choisie(unsigned short int, unsigned short int) définie dans "menu.c" */
 
