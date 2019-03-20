@@ -170,7 +170,7 @@ body {
 @keyframes effet {
   from {opacity: .1} to {opacity: 2}
 }
-.slides img { width: 100%; }
+.slides img, .slides video { width: 100%; }
 
 /*** ELEMENTS DE MISE EN FORME DE LA CARTE GOOGLE MAP ***/
 iframe {
