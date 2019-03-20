@@ -1,5 +1,3 @@
-/***** Arthur Chenu *****/
-
 #include "jeu.h"
 #include "menu.h"
 /* Permet d'obtenir en constante les plus grande valeur de chaque type */
