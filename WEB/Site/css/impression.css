@@ -1,0 +1,9 @@
+/* Permet de définir une mise en page spéciale pour l'impression du CV.
+-> Disparition des éléments suivants : */
+.ouvrir, #nav, button, footer { display: none; }
+
+.txt {
+  margin : 0 auto;
+  width : 90%;
+  position : relative;
+}

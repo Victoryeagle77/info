@@ -1,0 +1,1 @@
+La commande hexdump permet l'affichage d'un fichier à la console.

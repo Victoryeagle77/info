@@ -1,0 +1,22 @@
+Question 1 : Modélisation. 
+-Pour chacun de ces cas, décidez quel type serait le plus approprié pour stocker une telle donnée en mémoire :
+    - vos notes du bac.
+    - le nombre d'étudiants en première année de DUT Informatique.
+    - une somme d'argent sur un porte-monnaie électronique.
+    - le nombre d'étudiants en DUT Informatique.
+    - le nombre d'octets dans un fichier.
+    - une somme d'argent dans les comptes d'Apple.
+    - le nombre d'étudiants de l'UPEC sur le site de Fontainebleau.
+    - la masse d'un proton.
+    - le nombre d'étudiants à l'UPEC.
+
+
+1) - vos notes du bac.                                             => Type float
+   - le nombre d'étudiants en première année de DUT Informatique.  => Type unsigned short int 
+   - une somme d'argent sur un porte-monnaie électronique.         => Type double
+   - le nombre d'étudiants en DUT Informatique.                    => Type unsigned int
+   - le nombre d'octets dans un fichier.                           => Type unsigned long long int
+   - une somme d'argent dans les comptes d'Apple.                  => Type long double
+   - le nombre d'étudiants de l'UPEC sur le site de Fontainebleau. => Type short int
+   - la masse d'un proton.                                         => Type long double
+   - le nombre d'étudiants à l'UPEC.                               => Type unsigned short int

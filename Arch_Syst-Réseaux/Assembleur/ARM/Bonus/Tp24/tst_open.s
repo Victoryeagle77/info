@@ -1,0 +1,3 @@
+.arm
+.data
+outfile
