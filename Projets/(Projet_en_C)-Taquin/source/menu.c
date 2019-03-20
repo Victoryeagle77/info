@@ -1,5 +1,3 @@
-    /**** Arthur Chenu ****/
-
     #include "jeu.h" /* Appelle du fichier header "jeu.h" pour la fonction 
     void jouer(unsigned short int, unsigned short int, unsigned short int, unsigned short int)
     définie dans "jeu.c" */
