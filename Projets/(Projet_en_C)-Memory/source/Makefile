@@ -1,5 +1,3 @@
-###### Arthur Chenu ######
-
 ### 1] But final du fichier Makefile ###
 
 compilation : memory
