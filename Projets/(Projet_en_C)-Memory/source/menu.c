@@ -1,5 +1,3 @@
-/***** Arthur Chenu *****/
-
 #include "jeu.h"
 
 /* Fonction permettant d'effectuer le choix de la difficulté 
