@@ -17,35 +17,34 @@ bob@box:~$ ./a.out
 #define TAB 10
 
 void ligne(void){
-    putchar('+');
-    for(int i=0; i<TAB; i++)
-	    printf("-----+");
-    putchar('\n');
+  putchar('+');
+  for(int i=0; i<TAB; i++)
+    printf("-----+");
+  putchar('\n');
 }
 
 int main(void){
-	int i=0, max=0;
-	int tab[TAB];
-	srand(time(NULL));
+  int i=0, max=0;
+  int tab[TAB];
+  srand(time(NULL));
 	
-	for(i=0;i<TAB;i++){
-	    tab[i]=(rand()%101)-50;
-        if(tab[i]>tab[max])
-            max=i; // Variable tampon retenant successivement chaque valeurs supérieur à 0
-    }
-    for(i=0; i<(3*max)+1; i++) // Boucle pour le décalage
-        printf("%2.s"); // Espace a répété (3 * maximum) + 1 nombre de fois
-    printf(" |\n");
-    for(i=0; i<(3*max)+1; i++)
-      printf("%2.s");
-    printf(" V\n");
+  for(i=0;i<TAB;i++){
+    tab[i]=(rand()%101)-50;
+    if(tab[i]>tab[max]){ max=i; } /* Variable tampon retenant successivement chaque valeurs supérieur à 0 */
+  }
+  for(i=0; i<(3*max)+1; i++) /* Boucle pour le décalage */
+    printf("%2.s"); /* Espace a répété (3 * maximum) + 1 nombre de fois */
+  printf(" |\n");
+  for(i=0; i<(3*max)+1; i++)
+    printf("%2.s");
+  printf(" V\n");
 
-    ligne();
-    printf("| ");
-      for(i=0; i<TAB; i++)
-          printf("%3.1d | ", tab[i]);
-    putchar('\n');
-    ligne();
+  ligne();
+  printf("| ");
+  for(i=0; i<TAB; i++)
+    printf("%3.1d | ", tab[i]);
+  putchar('\n');
+  ligne();
 
-    return EXIT_SUCCESS;
+  return EXIT_SUCCESS;
 }

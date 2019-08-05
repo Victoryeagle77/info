@@ -14,7 +14,7 @@ public class Etoile implements ProducteurDePoints {
     if (this.numero < 6.0) {
       double angle = Etoile.angle + this.numero * Etoile.i;
       point = new Point((int)(Etoile.rayon * Math.cos(angle)),
-                    (int)(Etoile.rayon * Math.sin(angle)));
+                        (int)(Etoile.rayon * Math.sin(angle)));
       point.translate(Etoile.x, Etoile.y);
       this.numero++;
     } else { this.numero = 0.0; }

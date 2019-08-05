@@ -11,25 +11,25 @@ import java.awt.*;
 
 public class Boutons {
 
-	public static void main(String[] args) {
-		JFrame fenetre = new JFrame();
+  public static void main(String[] args) {
+    JFrame fenetre = new JFrame();
 
-		fenetre.setSize(300,200);
-		fenetre.setLocation(100,100);
-		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    fenetre.setSize(300,200);
+    fenetre.setLocation(100,100);
+    fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		JButton bouton1 = new JButton("Bouton 1");
-		JButton bouton2 = new JButton("Bouton 2");
-		JButton bouton3 = new JButton("Bouton 3");
-		JButton bouton4 = new JButton("Bouton 4");
-		JButton bouton5 = new JButton("Bouton 5");
+    JButton bouton1 = new JButton("Bouton 1");
+    JButton bouton2 = new JButton("Bouton 2");
+    JButton bouton3 = new JButton("Bouton 3");
+    JButton bouton4 = new JButton("Bouton 4");
+    JButton bouton5 = new JButton("Bouton 5");
 
-		fenetre.add(bouton1,BorderLayout.CENTER);
-		fenetre.add(bouton2,BorderLayout.NORTH);
-		fenetre.add(bouton3,BorderLayout.EAST);
-		fenetre.add(bouton4,BorderLayout.WEST);
-		fenetre.add(bouton5,BorderLayout.SOUTH);
+    fenetre.add(bouton1,BorderLayout.CENTER);
+    fenetre.add(bouton2,BorderLayout.NORTH);
+    fenetre.add(bouton3,BorderLayout.EAST);
+    fenetre.add(bouton4,BorderLayout.WEST);
+    fenetre.add(bouton5,BorderLayout.SOUTH);
 
-		fenetre.setVisible(true);
-	}
+    fenetre.setVisible(true);
+  }
 }

@@ -14,7 +14,8 @@ entrez un entier : 5
   5 x  9 =   45
   5 x 10 =   50
 
-Notez l'alignement des colonnes. Pour obtenir ce résultat, vous pouvez vous inspirer de la technique ci dessous : 
+Notez l'alignement des colonnes. Pour obtenir ce résultat, 
+vous pouvez vous inspirer de la technique ci dessous : 
 printf("%9.4f", 10.25);
 */
 
@@ -22,13 +23,13 @@ printf("%9.4f", 10.25);
 #include <stdlib.h>
 
 int main(void) {
-	int x,i,res;
-	printf("entrez un entier : ");
-	scanf("%d", &x);
+  int x,i,res;
+  printf("entrez un entier : ");
+  scanf("%d", &x);
 
-	for (i=1; i<=10;i++) {
-		res = x*i;	
-		printf("%3d x %2d = %4d\n", x, i, res);
-	}
-	return EXIT_SUCCESS;
+  for (i=1; i<=10;i++) {
+    res = x*i;	
+    printf("%3d x %2d = %4d\n", x, i, res);
+  }
+  return EXIT_SUCCESS;
 }

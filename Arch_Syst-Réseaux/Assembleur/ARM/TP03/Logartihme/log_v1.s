@@ -23,45 +23,44 @@ str:	.space 256
 .globl _start
 
  _start:
-    ldr r1, =int
-    ldr r0, [r1] /* Correspond à n */
-    mov r1, #31 
-    /* Correspond à k. Fera le test par la suite
-     en prenant le bit le plus à gauche */
-    /* Boucle for(k=31; k<0 && !(n>>k&1); k--) */
-    boucle:
-      /* Met dans r1 la soustraction de r1 avec la valeur 1 */
-      subs r1, r1, #1 
-      /* Passe à l'étiquette "break" si l'instruction 
-      précédente est une infériorité ou une égalité */
-      ble break 
-      /* Met le décalage vers la gauche des bits de r0, de r1 position, dans r2 */
-      lsr r2, r0, r1
-      /* Comparaison avec le premier bit de r2 (le plus à gauche) */
-      tst r2, #1
-      /* Passe à "boucle" si égalité */
-      beq boucle
+   ldr r1, =int
+   ldr r0, [r1] /* Correspond à n */
+   mov r1, #31 
+   /* Correspond à k. Fera le test par la suite
+   en prenant le bit le plus à gauche */
+   /* Boucle for(k=31; k<0 && !(n>>k&1); k--) */
+   boucle:
+     /* Met dans r1 la soustraction de r1 avec la valeur 1 */
+     subs r1, r1, #1 
+     /* Passe à l'étiquette "break" si l'instruction 
+     précédente est une infériorité ou une égalité */
+     ble break 
+     /* Met le décalage vers la gauche des bits de r0, de r1 position, dans r2 */
+     lsr r2, r0, r1
+     /* Comparaison avec le premier bit de r2 (le plus à gauche) */
+     tst r2, #1
+     /* Passe à "boucle" si égalité */
+     beq boucle
        
-    break:
-      ldr r0, =str
-      bl sprintfd /* Appel de la fonction dans le fichier sprintfd */
-      mov r2, r1 
-      mov r1, r0 
-      /* Equivalent de printf("%d"...) */
-      mov r7, #SYS_WRITE
-      mov r0, #1
-      swi #0 
-      /* Equivalent de printf("\n") */
-      mov r7, #SYS_WRITE
-      mov r0, #1
-      ldr r1, =strfin
-      mov r2, #1
-      swi #0
+  break:
+    ldr r0, =str
+    bl sprintfd /* Appel de la fonction dans le fichier sprintfd */
+    mov r2, r1 
+    mov r1, r0 
+    /* Equivalent de printf("%d"...) */
+    mov r7, #SYS_WRITE
+    mov r0, #1
+    swi #0 
+    /* Equivalent de printf("\n") */
+    mov r7, #SYS_WRITE
+    mov r0, #1
+    ldr r1, =strfin
+    mov r2, #1
+    swi #0
 
-      b sortie
-
-    sortie:
-      mov r0, #EXIT_SUCCESS
-      mov r7, #SYS_EXIT
-      swi #0
+   sortie:
+     mov r0, #EXIT_SUCCESS
+     mov r7, #SYS_EXIT
+     swi #0
+     
 .end

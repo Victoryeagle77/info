@@ -1,9 +1,9 @@
 public class Compteur {
-  // attribut
+  /* attribut */
   private int compte;
-  // méthode
+  /* méthode */
   public void plusUn() { this.compte++; }
-  // autre méthode
+  /* autre méthode */
   public String toString() {
     return Integer.toBinaryString(this.compte);
   }

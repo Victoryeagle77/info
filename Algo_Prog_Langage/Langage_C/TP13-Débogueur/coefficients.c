@@ -79,18 +79,18 @@ int main(void) {
 /* Pour commencer on tape dans l'invite de commande (dans le répertoire de ce fichier) : 
 
 ---> Manuel <---
--> breakpoint :    b   <Numéro de la ligne>
+-> breakpoint : b <Numéro de la ligne>
 Permet de marquer une ligne et de faire suivre l'exécution,
 à partir de celle-ci.
--> run :           r
+-> run : r
 Permet de lancer un programme dans (gdb)
--> print :         p   <Nom de variables>
+-> print : p <Nom de variables>
 Permet d'afficher la valeur d'une variable,
 à n'importe quel endroit d'un programme après le breakpoint.
--> backtrace :     bt 
--> list :          l   <Numéro de la ligne>
+-> backtrace : bt 
+-> list : l <Numéro de la ligne>
 Permet d'afficher une liste de lignes en inscrivant le numéro de la dernière.
--> step :          s
+-> step : s
 Permet la lecture ligne par ligne depuis le breakpoint.
 
 [bob@box TP13-Débogueur]$ gcc -g <programme>
@@ -98,7 +98,7 @@ Permet la lecture ligne par ligne depuis le breakpoint.
 Un fois dans gdb, on attérit dans l'intérface de déboguage.
 (gdb) b coefficients.c:6
 (gdb) r
-// Observation des variables
+--> Observation des variables
 (gdb) s
 (gdb) p <Variables(i, j, k, n) | Pointeurs(*p)>
 Et ainsi de suite pour afficher l'évolution des variables.

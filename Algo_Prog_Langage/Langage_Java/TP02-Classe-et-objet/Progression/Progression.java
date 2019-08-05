@@ -8,8 +8,7 @@ public class Progression {
     Compteur compte = new Compteur();
 
     for (int i=0; i<=9; i++) {
-    if(i>=5)
-       System.out.println(i + " = " + compte.toString());
+      if(i>=5) { System.out.println(i + " = " + compte.toString()); }
       compte.plusUn();
     }
   }

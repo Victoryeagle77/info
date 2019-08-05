@@ -3,25 +3,23 @@ Question 2 :
 Billevesées. Compilez et exécutez le programme suivant. Pouvez-vous expliquer ce qui se passe ? 
 
 int main(void) {
-  int x=3;               
- 
-  if (x=2)
-    printf("%s", "x vaut 2\n");   
+ int x=3;               
+ if (x=2)
+ printf("%s", "x vaut 2\n");   
   else
-    printf("%s", "x est different de 2\n");              
+ printf("%s", "x est different de 2\n");              
  
-  printf("%d", x);                                          
-  printf("%c", '\n');                                          
+ printf("%d", x);                                          
+ printf("%c", '\n');                                          
  
-  if (x=0)
-    printf("%s", "x vaut 0\n");                                         
-  else
-    printf("%s", "x est different de 0\n");          
+ if (x=0)
+  printf("%s", "x vaut 0\n");                                         
+ else
+  printf("%s", "x est different de 0\n");          
  
-  printf("%d", x);                                          
-  printf("%c", '\n');                                          
- 
-  return EXIT_SUCCESS;
+ printf("%d", x);                                          
+ printf("%c", '\n');                                          
+ return EXIT_SUCCESS;
 }
 */
 
@@ -29,16 +27,16 @@ int main(void) {
 #include <stdlib.h>
 
 int main(void) {
-	int x=3;               
-	printf("%s", (x=2) ? "x vaut 2\n" : "x est different de 2\n");              
-	printf("%d", x);                                          
-	printf("%c", '\n');                                          	 
+  int x=3;               
+  printf("%s", (x=2) ? "x vaut 2\n" : "x est different de 2\n");              
+  printf("%d", x);                                          
+  printf("%c", '\n');                                          	 
 	
-	printf("%s", (x=0) ? "x vaut 0\n" : "x est different de 0\n");         	 
-	printf("%d", x);                                          
-	printf("%c", '\n');
+  printf("%s", (x=0) ? "x vaut 0\n" : "x est different de 0\n");         	 
+  printf("%d", x);                                          
+  printf("%c", '\n');
 
-	return EXIT_SUCCESS;
+  return EXIT_SUCCESS;
 }
 
 /* 

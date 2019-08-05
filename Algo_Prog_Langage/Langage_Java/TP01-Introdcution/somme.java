@@ -1,5 +1,5 @@
 /*
-Question 3 : Somme. 
+Question 2 : Somme. 
 Écrivez une application qui prend une liste d'entiers sur la ligne de commande et affiche leur somme. 
 Pour cela, il va falloir transformer les arguments (qui sont des objets de la classe String) en int. 
 On utilise une méthode de classe (une méthode qui ne s'applique pas à un objet mais à la classe elle-même).

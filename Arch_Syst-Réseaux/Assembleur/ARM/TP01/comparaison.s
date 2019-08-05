@@ -15,14 +15,14 @@ Ecrivez un programme qui compare 2 entier entre eux.
 .globl _start
 
 _start:
-   mov r0, #entier_1
-   mov r1, #entier_2
-   /* Comparaison (soustraction) entre les valeurs contenu dans les registres */
-   cmp r0,r1
-   /* Arrêt du programme et analyse des valeurs dans les registres,
-   Puis relancement du programme. */
-   mov r0,#0
-   /* Déplace 1 dans r7 */
-   mov r7, #SYS_EXIT
-   swi #0
+  mov r0, #entier_1
+  mov r1, #entier_2
+  /* Comparaison (soustraction) entre les valeurs contenu dans les registres */
+  cmp r0,r1
+  /* Arrêt du programme et analyse des valeurs dans les registres,
+  Puis relancement du programme. */
+  mov r0,#0
+  /* Déplace 1 dans r7 */
+  mov r7, #SYS_EXIT
+  swi #0
 .end

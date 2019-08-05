@@ -8,17 +8,13 @@ public class Fond implements ActionListener{
 	public Fond(JPanel panel){ this.panneau=panel; }
 	
 	public void actionPerformed(ActionEvent e){
-		String nomButton = e.getActionCommand();
+		String bouton = e.getActionCommand();
 
 		if(nomButton.equals("Cyan"))
 			panneau.setBackground(Color.CYAN);
-		else if(nomButton.equals("Magenta"))
+		else if(bouton.equals("Magenta"))
 			panneau.setBackground(Color.MAGENTA);
-		else if(nomButton.equals("Jaune"))
+		else if(bouton.equals("Jaune"))
 			panneau.setBackground(Color.YELLOW);
 	}	
 }
-
-
-
-

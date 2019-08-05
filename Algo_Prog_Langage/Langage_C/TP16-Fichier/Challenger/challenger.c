@@ -20,46 +20,44 @@ bob@box:~$ ./a.out 1581427 '>_>'
 
 
 int main (int argc, const char *argv[]){
+  if (argc!=3){
+    printf("usage:%s <long int> <string>\n", argv[0]);
+    return EXIT_FAILURE;
+  }
 
-	if (argc!=3){
-		printf("usage:%s <long int> <string>\n", argv[0]);
-		return EXIT_FAILURE;
-	}
+  int score, scoring, val_update;
+  char login[4]; /* Permettera de gérer les 3 caractères des logins. */
+  FILE *flux, *flux_update; /* flux source et flux de destination. */   
 
-	int score, scoring, val_update;
-	char login[4]; // Permettera de gérer les 3 caractères des logins.
-	FILE *flux, *flux_update; // flux source et flux de destination.   
-
-	score = strtol(argv[1], NULL, 10); // Coversion en entier
-    // Ouverture 
-  	flux = fopen("top10", "r"); 
-  	
-  	if (flux == NULL) {
- 		perror("Probleme d'ouverture ");
-	    exit(0);         
-	}
-    // Erreur d'ouverture
-
-	while(1){
-      
-		fread (&scoring, sizeof(int), 1, flux); // Lecutre sur l'entrée standard
-		fread (login, sizeof(char), 3, flux);
-        /* Repérage de la fin du flux du fichier source. */
-		feof(flux); 
-		if(feof(flux)) exit(0);
+  score = strtol(argv[1], NULL, 10); /* Coversion en entier */
+  /* Ouverture  */
+  flux = fopen("top10", "r"); 
+  
+  /* Erreur d'ouverture */
+  if (flux == NULL) {
+    perror("Probleme d'ouverture ");
+    exit(0);         
+  }
+  
+  while(1){
+    fread (&scoring, sizeof(int), 1, flux); /* Lecutre sur l'entrée standard */
+    fread (login, sizeof(char), 3, flux);
+    /* Repérage de la fin du flux du fichier source. */
+    feof(flux); 
+    if(feof(flux)) exit(0);
 		
-		if ((scoring < score) && (val_update > score)) { // Pour le fichier destination
-			fwrite (&score, sizeof(int), 1,flux); // Prend 1 eniter : le score
-			fwrite (&argv[2], sizeof(char), 3,flux); // Prend 3 caractères : le login
-			printf("%09d %s\n", score , argv[2]);
-		}
-        // Pour le fichier destination
-		fwrite (&scoring, sizeof(int), 1, flux);
-		fwrite (login, sizeof(char), 3, flux);
-		printf("%09d %s\n", scoring, login);
-		val_update = scoring; // Tampon du nouveau 
-	}
-    // Fermeture des flux.
-	fclose(flux); 
-	return EXIT_SUCCESS;
+    if ((scoring < score) && (val_update > score)) { /* Pour le fichier destination */
+      fwrite (&score, sizeof(int), 1,flux); /* Prend 1 eniter : le score */
+      fwrite (&argv[2], sizeof(char), 3,flux); /* Prend 3 caractères : le login */
+      printf("%09d %s\n", score , argv[2]);
+    }
+    /* Pour le fichier destination */
+    fwrite (&scoring, sizeof(int), 1, flux);
+    fwrite (login, sizeof(char), 3, flux);
+    printf("%09d %s\n", scoring, login);
+    val_update = scoring; /* Tampon du nouveau */
+  }
+  /* Fermeture des flux. */
+  fclose(flux); 
+  return EXIT_SUCCESS;
 }

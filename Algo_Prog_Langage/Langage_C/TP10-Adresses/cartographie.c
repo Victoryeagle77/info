@@ -32,14 +32,16 @@ int main(void){
 
 /* 
 1)
-On remarque que la partie 0061FF ne change pas quelque soit l'adresse des types, et seul le suffixe change pour identifier une nouvelle adresse.
-Les adresses ne sont donc pas distrubué au hasard, après exécution, elles sont répartis en fonction de leur disponibilité dans la mémoire.
+On remarque que la partie 0061FF ne change pas quelque soit l'adresse des types, 
+et seul le suffixe change pour identifier une nouvelle adresse.
+Les adresses ne sont donc pas distrubué au hasard, après exécution, 
+elles sont répartis en fonction de leur disponibilité dans la mémoire.
 
 A l'exécution, une nouvelle adresse est attrbuée à une variable et le suffixe des autres en découle.
 
 On peut imaginer que la cartograpqhie de la mémoire lors de la distribution des adresses ressemble à ceci.
 
-      ----------       Attribution d'une adresse    Corps de l'adresse
+      ----------       Attribution d'une adresse     Corps de l'adresse
       | Memory |_______________EXECUTION________________> 0061FF-- <
       ----------                                                 |
                                                                  <<<<<<<<<<<<<<<>>>>>>>>>>>>>>	

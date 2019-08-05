@@ -14,26 +14,25 @@ import java.awt.event.*;
 public class Main {
 public static void main(String[] args) {
 
-	JFrame fenetre = new JFrame();
-	fenetre.setSize(200, 200);
-       	fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+  JFrame fenetre = new JFrame();
+  fenetre.setSize(200, 200);
+  fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+  JButton cyan = new JButton("Cyan");
+  JButton magenta = new JButton("magenta");
+  JButton jaune = new JButton("jaune");
 
-       	JButton cyan = new JButton("Cyan");
-	JButton magenta = new JButton("magenta");
-       	JButton jaune = new JButton("jaune");
+  JPanel panel = new JPanel();	
+  Fond ctrl = new Fond(panel);
 
-       	JPanel panel = new JPanel();	
-       	Fond ctrl = new Fond(panel);
+  panel.add(cyan);
+  panel.add(magenta);
+  panel.add(jaune);
 
-       	panel.add(cyan);
-       	panel.add(magenta);
-       	panel.add(jaune);
+  fenetre.add(panel, BorderLayout.CENTER);
+  cyan.addActionListener(ctrl);
+  magenta.addActionListener(ctrl);
+  jaune.addActionListener(ctrl);
 
-       	fenetre.add(panel, BorderLayout.CENTER);
-       	cyan.addActionListener(ctrl);
-       	magenta.addActionListener(ctrl);
-       	jaune.addActionListener(ctrl);
-
-       	fenetre.setVisible(true);
-	}
+  fenetre.setVisible(true);
+  }
 }

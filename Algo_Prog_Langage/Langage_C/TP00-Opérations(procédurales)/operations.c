@@ -1,6 +1,7 @@
 /*
 Question 2 : Opération. 
-Écrivez un programme qui calcule 73×16, 73/16, 73+16 et affiche le résultat, mais sans utiliser d'opérateur arithmétique (avec les opérateur bit à bit). 
+Écrivez un programme qui calcule 73×16, 73/16, 73+16 et affiche le résultat, 
+mais sans utiliser d'opérateur arithmétique (avec les opérateur bit à bit). 
 */
 
 #include <stdio.h>

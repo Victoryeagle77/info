@@ -15,8 +15,10 @@ Question 3.5 : Écrivez un programme qui affiche la table de multiplication.
   9  |   0   9  18  27  36  45  54  63  72  81  90
  10  |   0  10  20  30  40  50  60  70  80  90 100
 
-Utilisez dans votre programme une constante nommée pour représenter la taille de la table (10 dans l'exemple ci-dessus). 
-Votre programme devra encore fonctionner si on choisit une taille différente en changeant la valeur de cette constante. 
+Utilisez dans votre programme une constante nommée pour représenter la taille de la table 
+(10 dans l'exemple ci-dessus). 
+Votre programme devra encore fonctionner si on choisit une taille différente,
+en changeant la valeur de cette constante. 
 */
 
 #include <stdio.h>
@@ -26,32 +28,28 @@ Votre programme devra encore fonctionner si on choisit une taille différente en
 #define MIN_SIZE 0
 
 int main(void){
-    int y=-1, x=-1, i, hauteur, longueur = MIN_SIZE, res;
+  int y=-1, x=-1, i, hauteur, longueur = MIN_SIZE, res;
     
-    printf(" %1.sX  |");
-    for (longueur = MIN_SIZE; longueur <= MAX_SIZE; longueur++){
-    	y++;
-    	printf("%3d ", y);	
-    } 	
+  printf(" %1.sX  |");
+  for (longueur = MIN_SIZE; longueur <= MAX_SIZE; longueur++){
+    y++;
+    printf("%3d ", y);	
+  } 	
+  putchar('\n');
+    
+  printf("-----+");  
+  for(int i=0; i<(MAX_SIZE*4)+3; i++)
+    printf("-");
+  putchar('\n');
+    
+  for(hauteur = MIN_SIZE; hauteur <= MAX_SIZE; hauteur++){
+    x++;
+    printf("%3d  |", x);	    
+    for (longueur = MIN_SIZE; longueur <= MAX_SIZE; longueur++) {
+      res = x*longueur;	
+      printf("%3d ", res);
+    }
     putchar('\n');
-    
-    printf("-----+");
-    
-    for(int i=0; i<(MAX_SIZE*4)+3; i++)
-    	printf("-");
-
-    putchar('\n');
-    
-    for(hauteur = MIN_SIZE; hauteur <= MAX_SIZE; hauteur++){
-	    x++;
-	    printf("%3d  |", x);
-	    
-	    for (longueur = MIN_SIZE; longueur <= MAX_SIZE; longueur++) {
-		    res = x*longueur;	
-		    printf("%3d ", res);
-	    }
-	    
-	    putchar('\n');
-	}
-	return EXIT_SUCCESS;
+  }
+  return EXIT_SUCCESS;
 }

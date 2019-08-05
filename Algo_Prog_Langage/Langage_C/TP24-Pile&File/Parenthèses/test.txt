@@ -30,8 +30,6 @@ void main(void) {
 				printf("La pile a été vidé\n");
 			}
 		}
-
-		getchar();
 	}
 	printf("Au revoir\n");
 }

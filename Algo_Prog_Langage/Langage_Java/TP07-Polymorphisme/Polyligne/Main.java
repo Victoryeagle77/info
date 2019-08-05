@@ -59,17 +59,17 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Main {
-	public static void main(String[] args) {
-	    if(args.length != 1){
-	       System.err.println("Usage : <int [0 - 5]>");
-	       System.exit(0);
-	    }
-	    Polyligne test = new Polyligne(new Etoile(), Integer.parseInt(args[0]));
-	    JFrame fenetre = new JFrame();
-	    fenetre.setSize(200, 200);
-	    fenetre.setLocation(100, 100);
-	    fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    fenetre.add(test);
-	    fenetre.setVisible(true);
-	}
+  public static void main(String[] args) {
+    if(args.length != 1){
+      System.err.println("Usage : <int [0 - 5]>");
+      System.exit(0);
+    }
+    Polyligne test = new Polyligne(new Etoile(), Integer.parseInt(args[0]));
+    JFrame fenetre = new JFrame();
+    fenetre.setSize(200, 200);
+    fenetre.setLocation(100, 100);
+    fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    fenetre.add(test);
+    fenetre.setVisible(true);
+  }
 }

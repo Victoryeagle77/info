@@ -1,21 +1,23 @@
 /*
 Question 3 : Débordement. 
-- Écrivez un programme qui demande à l'utilisateur un entier, le stocke dans une variable de type int puis dans une variable de type char avant de l'afficher.
-Testez votre programme en entrant les valeurs 65, -65, 191, puis 321. Comprenez-vous comment la conversion fonctionne ?
+- Écrivez un programme qui demande à l'utilisateur un entier, 
+le stocke dans une variable de type int puis dans une variable de type char avant de l'afficher.
+Testez votre programme en entrant les valeurs 65, -65, 191, puis 321. 
+Comprenez-vous comment la conversion fonctionne ?
 */
 
 #include <stdio.h>
 #include <stdlib.h>
 
 int main(int argc, char** argv) {
-	if (argc != 2) {
-		printf("%s <int>\n", argv[0]);
-		return 1;
-	}
-	int valeur = (int)strtol(argv[1],NULL,0);
-	// On caste la variable valeur directement en char au moment de l'afficher
-	printf("Valeur en char : %c\n", (char)valeur);
-	return 0;
+  if (argc != 2) {
+    printf("%s <int>\n", argv[0]);
+    return 1;
+  }
+  int valeur = (int)strtol(argv[1],NULL,0);
+  /* On caste la variable valeur directement en char au moment de l'afficher */
+  printf("Valeur en char : %c\n", (char)valeur);
+  return 0;
 }
 
 /* 

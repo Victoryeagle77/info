@@ -1,5 +1,5 @@
 /*
-Question 4 : Tri. 
+Question 3 : Tri. 
 Reprenez le programme de l'exercice précédent, et au lieu d'afficher la somme, affichez la liste des entiers en ordre croissant. 
 Une autre méthode de classe va vous y aider : la méthode sort de la classe Arrays.
 

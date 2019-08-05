@@ -36,13 +36,14 @@ public class Main {
   public static void main(String[] args) {
     Vehicules v;
     Object[] choix = {"Voiture", "Moto"};
+    /* Ouverture d'un panneau définit par un canvas */
     int reponse = JOptionPane.showOptionDialog(null,
-      "Quel v\u00E9hicule choisissez-vous ?",
-      "Question", JOptionPane.DEFAULT_OPTION,
-      JOptionPane.QUESTION_MESSAGE, null, choix, null);
+                                               "Quel v\u00E9hicule choisissez-vous ?",
+                                               "Question", JOptionPane.DEFAULT_OPTION,
+                                               JOptionPane.QUESTION_MESSAGE, null, choix, null);
     if (reponse == 0) { v = new Voiture(); }
     else { v = new Moto(); }
     System.out.println("Une " + v.sorte() + " poss\u00E8de " 
-      + v.nbRoues() + " roues.");
+                       + v.nbRoues() + " roues.");
   }
 }

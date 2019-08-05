@@ -1,7 +1,19 @@
+/* Question 1 : Poussières. 
+Testez ce programme :
+
+int main(void) {
+  printf("%f\n", 12345.678910111213);
+  return EXIT_SUCCESS;
+}
+
+Vous ne devriez pas être surpris par le résultat. 
+Modifiez le format du printf pour qu'il affiche 12 chiffres après la virgule. 
+Êtes-vous satisfaits du résultat ? Affichez maintenant 15 chiffres. Qu'avez-vous appris ?
+*/
+
 #include <stdio.h>
 
 /*
-
 int main(void){
    printf("%f\n", 12345.678910111213);
    return EXIT_SUCCESS;
@@ -14,7 +26,7 @@ de la même manière que sur une chaîne de caractère en rajoutant des esapces.
 */
 
 int main(void){
-   printf("%.12f\n", 12345.678910111213); // 12 chiffres après la virgules.
-   printf("%.15f\n", 12345.678910111213); // 15 chiffres après la virgules.
+   printf("%.12f\n", 12345.678910111213); /* 12 chiffres après la virgules. */
+   printf("%.15f\n", 12345.678910111213); /* 15 chiffres après la virgules. */
    return 0;
 }

@@ -10,22 +10,22 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Main {
-	public static void main(String[] args) {
-		if (args.length != 1){ 
-			System.err.println("Usage : <int>");
-			return; 
-		}
+  public static void main(String[] args) {
+    if (args.length != 1){ 
+      System.err.println("Usage : <int>");
+      return; 
+    }
         
-		JPanel panneau = new JPanel();
-		JFrame fenetre = new JFrame();
+    JPanel panneau = new JPanel();
+    JFrame fenetre = new JFrame();
 
-		fenetre.setSize(200, 200);
-    	fenetre.setLocation(100, 100);
-    	fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    fenetre.setSize(200, 200);
+    fenetre.setLocation(100, 100);
+    fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		panneau.setBackground(new Gris(Integer.parseInt(args[0])));    	
+    panneau.setBackground(new Gris(Integer.parseInt(args[0])));    	
 		
-		fenetre.add(panneau);
-		fenetre.setVisible(true);
-	}
+    fenetre.add(panneau);
+    fenetre.setVisible(true);
+  }
 }

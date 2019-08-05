@@ -4,8 +4,8 @@ Faites en sorte que l'utilisateur puisse déplacer la balle comme il le ferait p
 */
 
 public class Main {
-	public static void main(String[] args) {
-		Fenetre fenetre = new Fenetre();
-		fenetre.setVisible(true);
-	}
+  public static void main(String[] args) {
+    Fenetre fenetre = new Fenetre();
+    fenetre.setVisible(true);
+  }
 }

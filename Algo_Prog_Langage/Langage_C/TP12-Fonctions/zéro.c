@@ -27,7 +27,7 @@ void zero(double *a) {
 int main(void) {
   double x = 37.5;
   printf("avant : %.1f\n", x);
-  zero(&x); // Récupération de l'adresse
+  zero(&x); /* Récupération de l'adresse */
   printf("après : %.1f\n", x);
   return EXIT_SUCCESS;
 }

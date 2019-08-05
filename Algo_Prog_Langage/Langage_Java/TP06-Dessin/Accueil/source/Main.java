@@ -10,24 +10,24 @@ import java.awt.*;
 import javax.swing.*;
 
 public class Main {
-    public static void main(String[] args) {
-        JFrame fenetre = new JFrame();
-        fenetre.setLayout(null);
-        fenetre.setSize(280,210);
-        fenetre.setLocation(0,0);
-        fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        fenetre.setContentPane(new accueil());
+  public static void main(String[] args) {
+    JFrame fenetre = new JFrame();
+    fenetre.setLayout(null);
+    fenetre.setSize(280,210);
+    fenetre.setLocation(0,0);
+    fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    fenetre.setContentPane(new accueil());
         
-        JTextField Login = new JTextField();
-        JTextField Password = new JTextField();
+    JTextField Login = new JTextField();
+    JTextField Password = new JTextField();
         
-        Login.setBackground(Color.WHITE);
-        Login.setLocation(120,100);
-        Login.setSize(120,25);
-        Password.setLocation(120,140);
-        Password.setSize(120,25);
-        fenetre.add(Password);
-        fenetre.add(Login);
-        fenetre.setVisible(true);
-    }
+    Login.setBackground(Color.WHITE);
+    Login.setLocation(120,100);
+    Login.setSize(120,25);
+    Password.setLocation(120,140);
+    Password.setSize(120,25);
+    fenetre.add(Password);
+    fenetre.add(Login);
+    fenetre.setVisible(true);
+  }
 }

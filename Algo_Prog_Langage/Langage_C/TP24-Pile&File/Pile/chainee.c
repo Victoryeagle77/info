@@ -30,34 +30,31 @@ Au revoir
 #include "pile.h"
 
 void main(void) {
-	pile p=NULL;
-	char instruction;
-	char stock;
-	printf("La pile attend vos ordres\n");
-	while (instruction != 'q') {
-		printf("> ");
-		instruction = getchar();
-		if (instruction=='+') {
-			stock=getchar();
-			push(&p, stock);
-			printf("Le caractère %c a été ajouté\n", stock);
-		}
-		if (empty(p))
-			printf("La pile est vide\n");
-		else {
-			if (instruction=='-') {
-				stock=pop(&p);
-				printf("Le caractère %c a été supprimé\n", stock);	
-			} else if (instruction=='t') {
-				stock=top(p);
-				printf("Le caractère au sommet de la pile est %c\n", stock);
-			} else if (instruction=='c') {
-				clear(&p);
-				printf("La pile a été vidé\n");
-			}
-		}
-
-		getchar();
-	}
-	printf("Au revoir\n");
+  pile p=NULL;
+  char instruction;
+  char stock;
+  printf("La pile attend vos ordres\n");
+  while (instruction != 'q') {
+    printf("> ");
+    instruction = getchar();
+    if (instruction=='+') {
+      stock=getchar();
+      push(&p, stock);
+      printf("Le caractère %c a été ajouté\n", stock);
+    }
+    if (empty(p)){ printf("La pile est vide\n"); }
+    else {
+      if (instruction=='-') {
+        stock=pop(&p);
+        printf("Le caractère %c a été supprimé\n", stock);	
+      } else if (instruction=='t') {
+        stock=top(p);
+        printf("Le caractère au sommet de la pile est %c\n", stock);
+      } else if (instruction=='c') {
+        clear(&p);
+        printf("La pile a été vidé\n");
+      }
+    }
+  }
+  printf("Au revoir\n");
 }

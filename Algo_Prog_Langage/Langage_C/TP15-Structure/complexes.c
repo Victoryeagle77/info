@@ -11,29 +11,28 @@ Définissez une structure pour représenter un complexe sous forme algébrique.
 #include <stdio.h>
  
 struct complexe { /* Strucutre d'un nombre complexe */
-	double reel;	// partie reelle
-	double imaginaire;  // partie imaginaire
+  double reel;	/* partie reelle */
+  double imaginaire;  /* partie imaginaire */
 };
  
 /* Type de définition de strcuture, de la structure Complexe. */
 typedef struct complexe Complexe;
  
 void saisir(Complexe *x){
-	printf("\nSaisir Partie reelle (Re) : ");
-	// L'opérateur '->' est utilisé pour accéder aux éléments de la structure, en utilisant une variable de pointeur.
-	scanf("%lf", &x -> reel); // " x -> reel " revient à faire : " (*x).reel "
-	printf("Saisir Partie imaginaire (Im) : ");
-	scanf("%lf", &x -> imaginaire); // (*x).imaginaire
+  printf("\nSaisir Partie reelle (Re) : ");
+  /* L'opérateur '->' est utilisé pour accéder aux éléments de la structure, 
+  en utilisant une variable de pointeur. */
+  scanf("%lf", &x -> reel); /* " x -> reel " revient à faire : " (*x).reel " */
+  printf("Saisir Partie imaginaire (Im) : ");
+  scanf("%lf", &x -> imaginaire); /* (*x).imaginaire */
 }
 
 int main(void){
-	Complexe x;
-	printf("\n=== Complexe ===\n");
-	saisir(&x);
-	printf("--> Affichage du complexe : ");
-	printf("%lg + %lg i", x.reel, x.imaginaire);
-	printf("\n");
-	return 0;
+  Complexe x;
+  printf("\n=== Complexe ===\n");
+  saisir(&x);
+  printf("--> Affichage du complexe : ");
+  printf("%lg + %lg i", x.reel, x.imaginaire);
+  printf("\n");
+  return 0;
 }
- 
- 

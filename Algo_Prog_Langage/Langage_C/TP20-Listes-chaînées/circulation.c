@@ -1,13 +1,16 @@
 /*
 Question 2 : Circulation. 
-Écrivez une fonction qui retire le dernier élément d'une liste, et partant de là une autre fonction qui effectue une permutation circulaire sur 
+Écrivez une fonction qui retire le dernier élément d'une liste, 
+et partant de là une autre fonction qui effectue une permutation circulaire sur 
 une liste (tous les éléments avancent d'une position, le dernier élément se retrouve au début).
 
-Écrivez une fonction qui ajoute un élément à la fin d'une liste, et une fonction qui retire le premier élément d'une liste. 
+Écrivez une fonction qui ajoute un élément à la fin d'une liste, 
+et une fonction qui retire le premier élément d'une liste. 
 Écrivez ensuite une fonction qui applique à une liste une permutation circulaire dans le sens inverse 
 (tous les éléments reculent d'une position, le premier élément se retrouve à la fin).
 
-Testez vos fonctions dans un programme qui crée une liste comme au premier exercice et qui permet à l'utilisateur de lui appliquer une rotation de son choix.
+Testez vos fonctions dans un programme qui crée une liste,
+et qui permet à l'utilisateur de lui appliquer une rotation de son choix.
 
 bob@box:~$ ./a.out
 181 572 648 251 994 637 518 249 175 321 

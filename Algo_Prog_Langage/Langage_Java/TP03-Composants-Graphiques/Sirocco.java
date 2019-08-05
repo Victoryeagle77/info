@@ -1,6 +1,7 @@
 /* 
 Question 1 : Sirocco. 
-En vous inspirant de l'exemple donné, écrivez un programme qui ouvre une fenêtre de 500 pixels de large, 300 pixels de haut, collée dans le coin supérieur gauche de l'écran. 
+En vous inspirant de l'exemple donné, écrivez un programme qui ouvre une fenêtre de 500 pixels de large, 
+300 pixels de haut, collée dans le coin supérieur gauche de l'écran. 
 Cette fenêtre devra contenir le texte «Sirocco» dans son coin inférieur droit. 
 */
 

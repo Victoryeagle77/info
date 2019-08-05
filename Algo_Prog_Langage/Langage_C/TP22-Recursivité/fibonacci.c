@@ -1,16 +1,15 @@
 /*
 Question 2 : Fibonacci 
-Écrivez ensuite une fonction qui affiche les m premiers termes de la suite, et un programme qui exécute cette fonction avec m valant 15. 
+Écrivez ensuite une fonction qui affiche les m premiers termes de la suite, 
+et un programme qui exécute cette fonction avec m valant 15. 
 */
 
 #include <stdio.h>
 #include <stdlib.h>
 
 unsigned fibonacci(unsigned m, unsigned u0, unsigned u1) {
-  if(m >= 1)
-    fibonacci(m-1, u1, u0 + u1);
-  else
-    return u1;
+  if(m >= 1) { fibonacci(m-1, u1, u0 + u1); }
+  else { return u1; }
 }
 
 void affibonacci(unsigned m){

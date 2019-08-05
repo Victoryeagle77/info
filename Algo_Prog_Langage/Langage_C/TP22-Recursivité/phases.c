@@ -22,21 +22,21 @@ Pouvez-vous identifier les phases ascendantes et descendantes ?
 
 void exemple(unsigned n) {
   if (n != 0) {
-  /*** Pour n = 4 par exemple ***/
+    /*** Pour n = 4 par exemple ***/
     putchar('>');
     exemple(n-1);
     /* Phases descendantes :
     exemple(4-1)
-		  exemple(3-1)
-			  exemple(2-1)
-				  exemple(1-1)
+      exemple(3-1)
+        exemple(2-1)
+          exemple(1-1)
     */
     putchar('<');
     /* Phases ascendantes :
-				  exemple(4-1)
-			  exemple(3-1)
-		  exemple(2-1)
-	  exemple(1-1)
+            exemple(4-1)
+         exemple(3-1)
+      exemple(2-1)
+	exemple(1-1)
     */
   } else 
     /* Phase neutre exemple(1-1) */
@@ -44,10 +44,10 @@ void exemple(unsigned n) {
 }
 
 void main(void){
-	system("clear");
-	unsigned short int n;
-	printf("Entrer un entier positif non-nulle : ");
-	scanf("%hu", &n);
-	exemple(n);
-	putchar('\n');
+  system("clear");
+  unsigned short int n;
+  printf("Entrer un entier positif non-nulle : ");
+  scanf("%hu", &n);
+  exemple(n);
+  putchar('\n');
 }
