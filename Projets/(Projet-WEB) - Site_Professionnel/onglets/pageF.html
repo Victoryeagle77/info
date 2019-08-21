@@ -1,0 +1,58 @@
+<!-- Arthur Chenu !-->
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+   <meta charset="UTF-8">
+   <link href="../css/style.css" rel="stylesheet" media="all"/>
+   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans">
+   <script src="../js/js.js"></script>
+   <title>Formulaire</title>
+  </head>
+  <body onload="fermnav()">
+    <!--  Menu de navigation !-->
+    <div id="nav">
+      <div class="fermer" onclick="fermnav()">&#10006; Fermer</div>
+      <ul>
+        <li><a href="../index.html">Accueil&ensp;
+            <img src="../img/illustre/home.png" alt="home" width="18" height="18">
+        </a></li>
+        <li><a href="pageC.html">Compétences&ensp;
+          <img src="../img/illustre/skill.png" alt="skill" width="17" height="17">
+        </a></li>
+        <li><a href="pageR.html">Réalisations&ensp;
+          <img src="../img/illustre/projet.png" alt="projet" width="18" height="18">
+        </a></li>
+        <li><a href="../img/cv.pdf">CV&ensp; 
+          <img src="../img/illustre/cv.png" alt="cv" width="18" height="17">
+        </a></li>
+        <li><div id="dif">&#10148; Contacter&ensp;
+          <img src="../img/illustre/gmail.png" alt="gmail" width="18" height="18">
+        </div></li>
+      </ul>
+    </div>
+    
+    <span id="haut" class="ouvrir" onclick="ouvnav()">&#9776; Menu</span>
+    
+    <div class="txt">
+      <h2>Formulaire de contact</h2>
+      <p>N'hésitez pas à remplir ce formulaire, si vous le souhaitez, afin que je prenne connaissance de vos intentions si ma candidature vous interresse. 
+       <br>&#8226; Vous pouvez consulter mon profil <a href="https://www.linkedin.com/in/arthur-chenu-53404816b/">LinkedIn&ensp;
+       <img src="../img/illustre/linkedin.png" style="border-radius:3px;" alt="linkedin" width="21" height="21"></a>
+       <br>&#8226; Ou me contacter par <a href="mailto:victoryeagle77@gmail.com">mail&ensp;
+       <img src="../img/illustre/gmail.png" alt="gmail" width="20" height="20"></a>
+      </p>
+      <!-- Formulaire !-->
+      <fieldset>
+        <legend>INFORMATIONS</legend>
+        <form action="http://www.iut-fbleau.fr/sitebp/post.php" method="POST">
+          <p><label for="Entreprise">Nom de l'entreprise </label><br><input type="text" name="Entreprise" id="Entreprise"/></p>
+          <p><label for="Email">Email </label><br><input type="email" name="Email" id="Email"/></p>
+          <p><label for="Message">Message </label><br><textarea name="Message" id="Message" rows=10 cols=17></textarea></p>
+          <input type="reset" value="Réinisialiser" onclick="alert('Valeurs réinisialisées')" /> <input type="submit" value="Confirmer" onclick="alert('Valeurs enregistrées')"/>
+        </form>
+      </fieldset>
+    </div>
+    <br><br>
+    <footer><a href="#haut">Haut de page &#9650;</a></footer>
+</body>
+</html>

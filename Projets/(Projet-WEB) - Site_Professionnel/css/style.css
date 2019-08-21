@@ -1,0 +1,221 @@
+/**** Arthur Chenu ****/
+
+/*** CHARGEMENT D'UNE IMAGE DANS L'INTEGRALITE DU FICHIER ***/
+html {
+  background : url("../img/fond.jpg") center center no-repeat fixed;
+  background-size : cover;
+  /* Coloration pour dégrader sur téléphone en cas de marge blanche */
+  background-color: black;
+}
+
+/*** MISE EN FORME DE L'ECRITURE DANS LE CORPS PRINCIPALE ***/
+body {
+  font-family: "Open sans", Georgia, serif;
+  color : #EEEEEE;
+  margin : 0 auto;
+  font-size : 1em;
+}
+
+/*** CONTAINER DE TEXTE ***/
+.txt {
+  margin : 0 auto;
+  width : 60%;
+  position : relative;
+}
+
+img{ position: absolute; }
+/*** ELEMENTS DE MISE EN FORME DU MENU DE NAVIGATION ***/
+/* Ouvrir le menu */
+.ouvrir {
+  display : block;
+  padding : 20px;
+  width: 20%;
+  text-align : justify;
+  cursor : pointer;
+}
+.ouvrir:hover { color : red; }
+/* Fermer le menu */
+.fermer {
+  display : block;
+  padding : 20px;
+  background-color : maroon;
+  text-align : justify;
+  cursor : pointer;
+}
+.fermer:hover {
+  background-color : gray;
+  transition : 0.3s;
+}
+/* menu de navigation */
+#nav {
+  font-size : 0.9em;
+  position : fixed;
+  width : 180px;
+  height : 100%;
+  background : #151719;
+  overflow : hidden;
+  z-index : 1;
+}
+#nav ul {
+  margin : 0;
+  padding : 0;
+}
+#nav ul li {
+  text-align : justify;
+  list-style : none;
+  padding : 15px;
+  border-bottom : 1px solid gray;
+}
+#nav ul li a {
+  text-decoration : none;
+  color : #EEEEEE;
+  display : block;
+  transition : 0.3s;
+}
+#nav li a:hover { color : red; }
+#nav ul li:hover {
+  transition : 0.3s;
+  background-color : #303030;
+}
+/* Différenciation par couleur de l'onglet actuellement consulté */
+#dif { color : orange; }
+
+/* Logo de mon nom sur le fichier index.html */
+.name { text-align : center; }
+.name img {
+  position: relative;
+  width : 200px;
+  height : 120px;
+  box-shadow : 20px 20px 20px black;
+  border-radius : 3px;
+  opacity : 0.5;
+}
+
+/*** ELEMENTS DE MISE EN FORME DU DIAPORAMA  ***/
+/* Container du diaporama */
+.diaporama {
+  position: relative;
+  margin: auto;
+}
+/* Boutton pour faire avancer ou reculer le diaporama */
+.precedent, .suivant {
+  cursor: pointer;
+  position: absolute;
+  background-color: #101010;
+  top: 50%;
+  width: auto;
+  padding: 10px;
+  margin-top: -20px;
+  color: white;
+  font-weight: bold;
+  font-size: 15px;
+  transition: 0.6s ease;
+}
+/* Bouton d'avancé placé à l'opposé de celui de recul des slides */
+.suivant { right: 0; }
+/* Curseurs en forme de poins */
+.position {
+  cursor: pointer;
+  height: 8px;
+  width: 8px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+/* Disposition au centre des points */
+#indicage { text-align: center; }
+/* Coloration des points */
+.active, .position:hover { background-color: red; }
+/* Animation de transition entre les slides */
+.effet {
+  -webkit-animation-name: effet;
+  -webkit-animation-duration: 1.5s;
+  animation-name: effet;
+  animation-duration: 1.5s;
+}
+/* Légende pour les images */
+.description {
+  font-size: 0.8em;
+  color: white;
+  text-align: center;
+  padding: 0.5%;
+  background-color: #303030;
+}
+/* Keyframes css pour effectuer l'effet de la transition entre les slides */
+@-webkit-keyframes effet {
+  from {opacity: .1} to {opacity: 2}
+}
+@keyframes effet {
+  from {opacity: .1} to {opacity: 2}
+}
+.slides img, .slides video { 
+  position: relative;
+  width: 100%;
+}
+
+/*** ELEMENTS DE MISE EN FORME DE LA CARTE GOOGLE MAP ***/
+iframe {
+  width : 100%;
+  height : 500px;
+  box-shadow : 20px 20px 20px black;
+  border : gray solid 5px;
+}
+
+/*** DEFINITION DE TEXTES PARTICULIERS ***/
+/* Gros titres */
+h1, h2, h3, h4, .trier { text-align: center; }
+/* Liens à séléctionner */
+a {
+  text-decoration: none;
+  color : #d36420;
+}
+/* Pied de page */
+footer {
+  position: fixed;
+  bottom: 0px;
+  width : 100%;
+  text-align : center;
+  padding : 3px;
+  background-color : #151719;
+}
+footer a {
+  color : white;
+  font-size : 0.9em;
+}
+a:hover { color : #e63c0e; }
+
+/*** ELEMENTS DE MISE EN FORME DU FORMULAIRE ***/
+/* Zone de texte pour le message */
+textarea, input {
+  vertical-align: top;
+  font-family: "Open sans", Georgia, serif;
+  border: solid 2px gray;
+  border-radius: 2px;
+  padding: 4px;
+  box-shadow : 7px 7px 7px black;
+}
+
+/*** ADAPTATION DE LA MISE EN FORME A DES REOLUTIONS D'ECRAN DIFFERENTES ***/
+@media all and (max-width : 1024px) {	
+	
+  /*** REMISE EN FORME DE LA TAILLE DE LA POLICE DANS LE CORPS PRINCIPAL ***/
+  body { font-size : 0.8em; }
+    
+  /*** REMISE EN FORME DU MENU DE NAVIGATION ***/
+  #nav { width : 100%; }
+  #nav ul li { 
+    padding : 2%; 
+    text-align : center; 
+  }
+  #nav ul li a:hover { padding : 1%; }
+  #nav li ul li { margin-top : 1%; }
+  .fermer { 
+    padding : 2%; 
+    text-align : center;
+  }
+  .logo img { width : 30%; }
+
+  footer { display: none; }
+} 
