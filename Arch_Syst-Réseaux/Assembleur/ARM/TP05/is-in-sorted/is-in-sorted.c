@@ -23,9 +23,9 @@ int memb(int *tab, int taille, int x){
 }
 
 int main (void){ 
-	int *tab; 
+  int *tab; 
   int taille, i, x;
-	/* Saisie des données */
+  /* Saisie des données */
   printf("Dimension du tableau : ");
   scanf("%d", &taille);
   tab = (int*)calloc(taille, sizeof(int));
