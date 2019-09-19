@@ -1,6 +1,6 @@
 REM NAS-Vérification
 REM Programme d'administration Réseau professionnel,
-REM Pour l'entreprise de pharmaco-vigilence BBAC,
+REM Pour l'entreprise de pharmaco-vigilance BBAC,
 REM Consistant à vérifier le nombre de fichiers et sous-dossiers d'un répertoire.
 
 CHCP 1252

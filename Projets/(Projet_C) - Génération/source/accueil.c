@@ -60,7 +60,7 @@ int selection(void){
 void MenuTouches(void){
   couleur noir = CouleurParComposante(0,0,0);
   couleur c_blanc = CouleurParComposante(255,255,255);
-	
+  /* Affichage graphiques des différentes options */
   ChoisirCouleurDessin(c_blanc);
   EcrireTexte(250,470,"'M'",1);
   ChoisirCouleurDessin(noir);

@@ -10,7 +10,6 @@ int gid(void){
   gid_t *table_gid = NULL;
   // typedef d'un tableau d'argument argv[] pointé initialisé à NULL. 
   printf("\n===> PROCESSUS GID <===\n\n");
-    
   /* getgroups() identifie le groupe de processus.
   /!\ NOTE /!\ Cette partie de code est intéressante en localhost, 
   mais marche aussi en partie en connexion avec résultat constant. */  
