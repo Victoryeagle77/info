@@ -1,185 +1,177 @@
 body {
-	font-family : "Open sans", Georgia, serif;
-	color : #EEEEEE;
-	margin : 0 auto;
-	font-size : 1.1em;
-}
-#logo {
-	height : 185px;
-	width : 479px;
-	margin-right : auto;
-	margin-left : auto;
+  font-family : "Open sans", Georgia, serif;
+  color : #EEEEEE;
+  margin : 0 auto;
+  font-size : 1.1em;
 }
 html {
-	background : url("https://images7.alphacoders.com/352/352773.jpg") center center no-repeat fixed;
-	background-size : cover;
-}
-.music {
-	width : 550px;
-	padding : 30px;
-	margin : auto;
-	background : url("../img/music.jpg");
-	border : silver solid 5px;
-	box-shadow : 8px 8px 8px red;
+  background : url("../img/background.jpg") center center no-repeat fixed;
+  background-size : cover;
 }
 .rule {
-	padding : 5px;
-	border : gray solid 5px;
-	box-shadow : 10px 10px 10px black;
-	background : url("../img/rule.jpg");
+  padding : 5px;
+  border : gray solid 5px;
+  box-shadow : 10px 10px 10px black;
+  background : url("../img/rule.jpg");
 }
 .no-js {
-	display : table-cell;
-	font-size : 1.5em;
-	padding : 100px;
+  display : table-cell;
+  font-size : 1.5em;
+  padding : 100px;
 }
 button {
-	font-size : 1.2em;
-	color : #EEEEEE;
-	background-color : #303030;
-	margin : 1em 0 0.5em 0;
-	padding : 8px;
-	border : silver solid 3px;
+  font-size : 1.2em;
+  color : #EEEEEE;
+  background-color : #303030;
+  margin : 1em 0 0.5em 0;
+  padding : 8px;
+  border : silver solid 3px;
 }
 button:hover {
-	cursor : pointer;
-	background-color : brown;
+  cursor : pointer;
+  background-color : brown;
 }
 button:active {
-	background-color : #800000;
+  background-color : #800000;
 }
 #start-game, #restart-game {
-	position : relative;
-	color : #FFFFFF;
-	background-color : #303030;
+  position : relative;
+  color : #FFFFFF;
+  background-color : #303030;
 }
 #start-game:hover, #restart-game:hover {
-	background-color : orange;
+  background-color : orange;
 }
 #start-game:active, #restart-game:active {
-	background-color : #800000;
+  background-color : #800000;
 }
 .container {
-	width : 80%;
-	text-align : center;
-	margin : auto;
+  width : 80%;
+  text-align : center;
+  margin : auto;
 }
 .game-container {
-	position : relative;
-	top : -2em;
-	height : 10px; 
+  position : relative;
+  top : -2em;
 }
 .grid-container-title {
-	width : 250px;
-	height : 80px;
-	margin : auto;
-	top: 4em;
-	position : relative;
-	background : url("../img/title.jpg");
-	border : brown solid 3px;
-	box-shadow : 5px 5px 5px #6495ED;
+  width : 50%;
+  margin : auto;
+  top: 4em;
+  position : relative;
+  background : url("../img/title.jpg");
+  border : brown solid 3px;
+  box-shadow : 5px 5px 5px #6495ED;
 }
 #roster-sidebar, #restart-sidebar {
-	width : 200px;
-	padding : 8px;
-	margin : auto;
-	background : url("../img/iron.jpg");
-	position : relative;
-	top : 4em;
-	border : gray solid 4px;
-	box-shadow : 10px 10px 10px black;
+  width : 200px;
+  padding : 8px;
+  margin : auto;
+  background : url("../img/iron.jpg");
+  position : relative;
+  top : 4em;
+  border : gray solid 4px;
+  box-shadow : 10px 10px 10px black;
 }
 #roster-sidebar h2, #restart-sidebar h2 {
-	padding : 2px;
-	margin : 0.2em 0 1em 0;
-	text-align : center;
-	border : brown solid 4px;
-	background : url("../img/title.jpg");
-	box-shadow : 5px 5px 5px black;
+  padding : 2px;
+  margin : 0.2em 0 1em 0;
+  text-align : center;
+  border : brown solid 4px;
+  background : url("../img/title.jpg");
+  box-shadow : 5px 5px 5px black;
 }
 .fleet-roster {
-	position : relative;
-	margin : 0;
-	padding : 0;
-	list-style : none;
-	color : silver;
-	font-size : 20px;
+  position : relative;
+  margin : 0;
+  padding : 0;
+  list-style : none;
+  color : silver;
+  font-size : 20px;
 }
 .fleet-roster, button {
-	opacity : 1;
-	transition : opacity 0.5s ease-out;
+  opacity : 1;
+  transition : opacity 0.5s ease-out;
 }
-.fleet-roster li {
-	margin : 0.5em 0;
-}
+.fleet-roster li { margin : 0.5em 0; }
 .fleet-roster li:hover {
-	color : white;
-	cursor : pointer;
+  color : white;
+  cursor : pointer;
 }
 .fleet-roster li:active {
-	color : #800000;
+  color : #800000;
 }
 .fleet-roster .placed {
-	visibility : hidden;
-	opacity : 0;
-	transition : all 0.4s ease-in;
+  visibility : hidden;
+  opacity : 0;
+  transition : all 0.4s ease-in;
 }
 .invisible {
-	opacity : 0;
-	transition : opacity 0.4s ease-in;
-	z-index : -20;
+  opacity : 0;
+  transition : opacity 0.4s ease-in;
+  z-index : -20;
 }
 .hidden { display : none; }
 .grid-container {
-	display : inline-block;
-	margin : 50px;
-	height : 10px;
+  display : inline-block;
+  margin : 50px;
+  height : 10px;
 }
 .grid {
-	top: 4em;
-	position: relative;
-	width : 420px;
-	background-color : #4169E1;
-	border : gray solid 4px;
-	box-shadow : 10px 10px 10px black;
+  top: 4em;
+  position: relative;
+  width : 420px;
+  background-color : #4169E1;
+  border : gray solid 4px;
+  box-shadow : 10px 10px 10px black;
 }
 .grid-cell {
-	vertical-align : top;
-	height : 40px;
-	width : 40px;
-	display : inline-block;
-	background : url("../img/waterBackground.gif") fixed;
-	margin : 1px;
+  vertical-align : top;
+  height : 40px;
+  width : 40px;
+  display : inline-block;
+  background : url("../img/waterBackground.gif") fixed;
+  margin : 1px;
 }
 .grid-cell:hover {
-	background-color : orange;
-	background-repeat : no-repeat;
+  background-color : orange;
+  background-repeat : no-repeat;
 }
 .human-player .grid-cell:hover {
-	background-color : #303030;
+  background-color : #303030;
 }
 .computer-player .grid-cell:hover, .computer-player:hover {
-	cursor : crosshair;
+  cursor : crosshair;
 }
 .grid-ship, .human-player .grid-ship:hover {
-	background-color : grey;
-	background-repeat : no-repeat;
+  background-color : grey;
+  background-repeat : no-repeat;
 }
 .grid-miss, .grid-miss:hover, .human-player .grid-miss:hover {
-	background : url("../img/ploof.gif") center;
-	background-repeat : no-repeat;
+  background : url("../img/ploof.gif") center;
+  background-repeat : no-repeat;
 }
 .grid-hit, .grid-hit:hover, .human-player .grid-hit:hover {
-	background : url("../img/explosion.gif") center;
-	background-repeat : no-repeat;
+  background : url("../img/explosion.gif") center;
+  background-repeat : no-repeat;
 }
 .grid-sunk, .grid-sunk:hover, .human-player .grid-sunk:hover {
-	background : url("../img/Fire.gif") center;
-	background-repeat : no-repeat;
+  background : url("../img/Fire.gif") center;
+  background-repeat : no-repeat;
 }
-footer{
-	position: relative;
-	color: silver;
-	font-size: 18px;
-	margin-top: 120px;
+/* Pied de page */
+footer {
+  position: fixed;
+  width : 100%;
+  text-align : center;
+  background-color : #202020;
+  padding : 3px;
+  bottom: 0px;
+}
+footer a{ 
+  color : white;
+  text-decoration : none; 
+}
+footer a:hover{ 
+  color : #00BFFF; 
 }
