@@ -1,0 +1,82 @@
+/*** CHARGEMENT D'UNE IMAGE DANS L'INTEGRALITE DU FICHIER ***/
+html { background-color: black; }
+
+/*** MISE EN FORME DE L'ECRITURE DANS LE CORPS PRINCIPALE ***/
+body {
+  font-family: "Open sans", Georgia, serif;
+  color : #EEEEEE;
+  margin : auto;
+  font-size : 1em;
+}
+
+p { text-align: center; }
+
+/*** CONTAINER DE LA MAQUETTE ***/
+.container {
+  background : url("../img/jardin.jpg") center center no-repeat fixed;
+  background-size : cover;
+  text-align: center;
+  border : gray solid 2px;
+}
+
+button {
+  cursor: pointer;
+  background-color: #101010;
+  width: auto;
+  padding: 8px;
+  color: white;
+  font-weight: bold;
+  font-size: 15px;
+  transition: 0.6s ease;
+}
+input { 
+  border: 2px solid gray;
+  border-radius: 3px; 
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type=number] {
+    -moz-appearance:textfield;
+}
+
+/*** ELEMENTS CONCERNANT LE DEFILEMENT DES PAGES DANS UNE BALISE DIV ***/
+* { box-sizing: border-box; }
+.page { display: none; }
+.default { display:block; }
+:target { display:block; }
+:target ~ .default { display:none; }
+
+/*** DEFINITION DE TEXTES PARTICULIERS ***/
+/* Gros titres */
+h1, h2, h3, h4, .trier { text-align: center; }
+/* Liens à séléctionner */
+a {
+  text-decoration: none;
+  color : #d36420;
+}
+/* Pied de page */
+footer {
+  position: fixed;
+  bottom: 0px;
+  width : 100%;
+  text-align : center;
+  padding : 3px;
+  background-color : #151719;
+}
+footer a {
+  color : white;
+  font-size : 0.9em;
+}
+a:hover { color : #e63c0e; }
+
+/*** ADAPTATION DE LA MISE EN FORME A DES REOLUTIONS D'ECRAN DIFFERENTES ***/
+@media all and (max-width : 1024px) {	
+	
+  /*** REMISE EN FORME DE LA TAILLE DE LA POLICE DANS LE CORPS PRINCIPAL ***/
+  body { font-size : 0.8em; }
+
+  footer { display: none; }
+} 
