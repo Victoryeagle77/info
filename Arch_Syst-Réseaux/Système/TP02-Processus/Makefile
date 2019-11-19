@@ -27,8 +27,6 @@ main.o : ressource.h gid.o uid.o sid_pgid.o pid_ppid.o
 
 show_process : $(OFILES)
 	$(CC) -g -o show_process $(OFILES)
-# Reviens à écrire ceci : 
-# gcc -g -o <exécutable> <fichiers d'extension ".o"> -lgraph
 
 ### 5] Nettoyage des fichiers d'extension ".o" générés ###
 
