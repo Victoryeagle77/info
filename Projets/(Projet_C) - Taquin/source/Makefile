@@ -1,45 +1,34 @@
 ### 1] But final du fichier Makefile ###
 
-compilation : taquin
+compilation : drone
 
 ### 2] Variables des fichiers d'extension ".o" à créer ###
 
-OFILES =  main.o\
-          menu.o \
-          jeu.o
+OFILES = src/main.o \
+         src/communication.o \
+         src/controle.o
 
-CC = gcc
-# Compilation
-
-CFLAGS = -ansi -Wall -Ofast -flto
-# Option de vérification de compiltaion
-
-CCOPT = -g -o
-# Option de compilation
+# Argument de compilation
+CFLAGS = -Ofast -flto
 
 ### 3] Dépedences à règles implicites des fichiers d'extension ".o" ###
 
-jeu.o : jeu.h 
-menu.o : menu.h jeu.h 
-main.o : menu.h 
+communication.o : ../header/communication.h
+controle.o : ../header/controle.h
+main.o : communication.o controle.o
 
 ### 4] Dépedences précédentes appliquées par commandes ###
 
-taquin : $(OFILES)
-	$(CC) $(CFLAGS) $(CCOPT) taquin $(OFILES) -lgraph
-# Reviens à écrire ceci : 
-# gcc -g -o <exécutable> <fichiers d'extension ".o"> -lgraph
+drone : $(OFILES)
+	gcc $(CFLAGS) -o drone $(OFILES) -lpthread
 
-### 5] Nettoyage des fichiers d'extension ".o" générés et appel de l'argument 'clean' avec make ###
+### 5] Nettoyage des fichiers d'extension ".o" générés ###
 
 clean :
-	-rm -f $(OFILES) taquin
-
+	-rm -f $(OFILES) drone
 .PHONY : compilation clean
 
-### 6] Exécution du programme principale avec pour argument de make 'run' ###
-
-run:
-	./taquin
-
-.PHONY: run
+### 6] Exécution du programme par l'exécutable ###
+run :
+	./drone
+.PHONY : run
