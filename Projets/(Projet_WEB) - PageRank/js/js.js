@@ -2,9 +2,6 @@
 * Programme permettant de calculer le pageRank d'un élève dans une ou plusieurs matières,
 * selon le nombre de fois que l'on a voté pour lui, 
 * et d'en déterminer un classement, du plus voté au moins voté.
-* @author Ganaël Chabraison
-* @author Arthur Chenu
-* @version finale
 */
 
 /** 
