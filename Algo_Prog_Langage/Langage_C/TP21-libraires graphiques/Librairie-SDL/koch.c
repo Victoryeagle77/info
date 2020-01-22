@@ -33,7 +33,7 @@ void modelisation_figure(int x1, int y1, int x2, int y2, Uint8 coloration){
   double i = x2 - x1, j = y2 - y1;
   int axe = MAX((((i)<0)?-(i):(i)), (((j)<0)?-(j):(j)));
   i /= axe; j /= axe;
-  /* Diminue */
+  /* Diminue le nombre de segments */
   for(; axe >= 0; axe--){
     figure((unsigned int)x, (unsigned int)y, coloration);
     x += i; y += j;
