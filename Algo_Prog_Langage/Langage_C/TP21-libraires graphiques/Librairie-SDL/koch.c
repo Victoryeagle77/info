@@ -21,7 +21,6 @@ Compilation : gcc koch.c -lSDL
 #define TRANSITION 1500.
 
 #define MAX(a, b) (((a)>(b))?(a):(b))
-#define ABS(a) (((a)<0)?-(a):(a))
  
 void figure(int x, int y, Uint8 coloration){
   /* Définition de la largeur des segments */
@@ -32,9 +31,10 @@ void figure(int x, int y, Uint8 coloration){
 void modelisation_figure(int x1, int y1, int x2, int y2, Uint8 coloration){
   double x = x1, y = y1;
   double i = x2 - x1, j = y2 - y1;
-  int m = MAX(ABS(i), ABS(j));
-  i /= m; j /= m;
-  for(; m >= 0; m--){
+  int axe = MAX((((i)<0)?-(i):(i)), (((j)<0)?-(j):(j)));
+  i /= axe; j /= axe;
+  /* Diminue */
+  for(; axe >= 0; axe--){
     figure((unsigned int)x, (unsigned int)y, coloration);
     x += i; y += j;
   }
