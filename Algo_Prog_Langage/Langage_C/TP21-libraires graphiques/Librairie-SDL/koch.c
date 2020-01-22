@@ -10,7 +10,7 @@ et qui renvoie un flocon d'ordre n+1.
 Servez-vous-en pour afficher un flocon d'ordre 10.
 
 ON UTILISE LA LIBRAIRE SDL COMME CECI
-Compilation : gcc koch.c -lSDL -lm 
+Compilation : gcc koch.c -lSDL
 */
 
 #include <SDL/SDL.h>
@@ -22,7 +22,6 @@ Compilation : gcc koch.c -lSDL -lm
 
 #define MAX(a, b) (((a)>(b))?(a):(b))
 #define ABS(a) (((a)<0)?-(a):(a))
-#define SQRT_3 1.732
  
 void figure(int x, int y, Uint8 coloration){
   /* Définition de la largeur des segments */
@@ -45,29 +44,34 @@ void modelisation_figure(int x1, int y1, int x2, int y2, Uint8 coloration){
 void fractale(int x1, int y1, int x2, int y2, 
               int niveau, int coloration, float deplacement){
   if(niveau > 0){
-    int x4 = (2*x1 + x2)/3 + ((x1 + 2*x2)/3 - (2*x1 + x2)/3)
-      /2 + ((y1 + 2*y2)/3 - (2*y1 + y2)/3)*SQRT_3/2;
-    int y4 = (2*y1 + y2)/3 - ((x1 + 2*x2)/3 - (2*x1 + x2)/3)
-      *SQRT_3/2 + ((y1 + 2*y2)/3 - (2*y1 + y2)/3)/2;
+    /* Relève les coordonnées et les divises */
+    int abscisse = (2*x1 + x2)/3 + ((x1 + 2*x2)/3 - (2*x1 + x2)/3)
+      /2 + ((y1 + 2*y2)/3 - (2*y1 + y2)/3)*1.732 /2;
+    int ordonnee = (2*y1 + y2)/3 - ((x1 + 2*x2)/3 - (2*x1 + x2)/3)
+      *1.732/2 + ((y1 + 2*y2)/3 - (2*y1 + y2)/3) /2;
     if(niveau == 1){
-      x4 = (x1 + x2)*(1 - deplacement)/2 + x4*deplacement;
-      y4 = (y1 + y2)*(1 - deplacement)/2 + y4*deplacement;
+      /* Récupère les coordonnées de chaque vecteurs de déplacement */
+      abscisse = (x1 + x2)*(1 - deplacement)/2 + abscisse*deplacement;
+      ordonnee = (y1 + y2)*(1 - deplacement)/2 + ordonnee*deplacement;
     }
+    /* Récursion permettant la transformation de chaque figure */
     fractale(x1, y1, (2*x1 + x2)/3, (2*y1 + y2)/3, 
              niveau-1, coloration, deplacement);
-    fractale((2*x1 + x2)/3, (2*y1 + y2)/3, x4, y4, 
+    fractale((2*x1 + x2)/3, (2*y1 + y2)/3, abscisse, ordonnee, 
              niveau-1, coloration+1, deplacement);
-    fractale(x4, y4, (x1 + 2*x2)/3, (y1 + 2*y2)/3, 
+    fractale(abscisse, ordonnee, (x1 + 2*x2)/3, (y1 + 2*y2)/3, 
              niveau-1, coloration+1, deplacement);
     fractale((x1 + 2*x2)/3, (y1 + 2*y2)/3, x2, y2,
              niveau-1, coloration, deplacement);
   } else
+    /* Configure le buffer vidéo avec les paramètres de la figure */
     modelisation_figure(x1, y1, x2, y2, SDL_MapRGB(SDL_GetVideoSurface()->format, 
-                       (255 * coloration/TRANSFORMATION), (255 * niveau/TRANSFORMATION), 
-                        255 - (255 * coloration/TRANSFORMATION)));
+        (255 * coloration/TRANSFORMATION), (255 * niveau/TRANSFORMATION), 
+        255 - (255 * coloration/TRANSFORMATION)));
 }
 
-int main(void){
+void main(void){
+  system("clear");
   SDL_Surface *video = NULL;
   SDL_Event evenement;
   SDL_Init(SDL_INIT_VIDEO);
@@ -79,7 +83,7 @@ int main(void){
       if(evenement.type == SDL_QUIT){
         /* sorite */
         SDL_Quit(); 
-        return 0;
+        exit(0);
       }
     /* Frames d'animation */
     int niveau = SDL_GetTicks()/TRANSITION;
