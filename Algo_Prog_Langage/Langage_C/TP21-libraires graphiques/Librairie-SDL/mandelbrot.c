@@ -24,7 +24,7 @@ void aire(SDL_Surface *surface, int x, int y, Uint16 pixel){
   }
 }
 
-int main(int argc, char *argv[]){
+void main(void){
   int rouge=250, vert=0, bleu=0;
   int i=0, couleur[150];
   double position = 200;
@@ -132,5 +132,5 @@ int main(int argc, char *argv[]){
   }
   /* Sortie */
   SDL_Quit();
-  return EXIT_SUCCESS;
+  exit(0);
 }
