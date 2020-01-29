@@ -8,9 +8,9 @@ avec un mode caméra pour visualiser sous différent angles la figures. */
 
 /* Mode de coloration 32 bit */
 void aire(SDL_Surface *surface, int x, int y, Uint16 pixel){
-  int octel = surface->format->BytesPerPixel;
-  Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * octel;
-  switch(octel){
+  int octet = surface->format->BytesPerPixel;
+  Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * octet;
+  switch(octet){
     case 1: *p = pixel; break;
     /* Décalage à droite par 16 en big endian */
     case 3: if(SDL_BYTEORDER == SDL_BIG_ENDIAN)
