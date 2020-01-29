@@ -190,9 +190,9 @@ int main(void){
     direction, CASE_X, CASE_Y);
   /* Commencement de l'animation */
   controle(disposition, fenetre,
-              /* Etat d'avancement des cellules (cases) du tableau de coordonnées */
-              canvas, etat_cellule,
-              X11_argent, X11_gris, X11_rouge, 
-              direction, CASE_X, CASE_Y);
+           /* Etat d'avancement des cellules (cases) du tableau de coordonnées */
+           canvas, etat_cellule,
+           X11_argent, X11_gris, X11_rouge, 
+           direction, CASE_X, CASE_Y);
   return 0;
 }
