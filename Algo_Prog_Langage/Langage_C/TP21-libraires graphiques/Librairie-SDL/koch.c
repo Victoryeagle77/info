@@ -21,7 +21,10 @@ Compilation : gcc koch.c -lSDL
 #define TRANSITION 1500.
 
 #define MAX(a, b) (((a)>(b))?(a):(b))
- 
+
+/* La formule de la suite de Koch pour la transformation des figures est la suivante
+A(n+1) = An + 3 * (sqrt(3)/4) * 4^n * (c/(3*3^n))^2
+*/
 void figure(int x, int y, Uint8 coloration){
   /* Définition de la largeur des segments */
   SDL_Rect forme = {x, y, 2, 2};
@@ -44,7 +47,7 @@ void modelisation_figure(int x1, int y1, int x2, int y2, Uint8 coloration){
 void fractale(int x1, int y1, int x2, int y2, 
               int niveau, int coloration, float deplacement){
   if(niveau > 0){
-    /* Relève les coordonnées et les divises */
+    /* Relève les coordonnées et les calcule selon la formule */
     int abscisse = (2*x1 + x2)/3 + ((x1 + 2*x2)/3 - (2*x1 + x2)/3)
       /2 + ((y1 + 2*y2)/3 - (2*y1 + y2)/3)*1.732 /2;
     int ordonnee = (2*y1 + y2)/3 - ((x1 + 2*x2)/3 - (2*x1 + x2)/3)
