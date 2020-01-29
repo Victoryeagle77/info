@@ -20,6 +20,7 @@ Compilation : gcc koch.c -lSDL
 /* Vitesse d'animation */
 #define TRANSITION 1500.
 
+/* Axe maximum d'une figure */
 #define MAX(a, b) (((a)>(b))?(a):(b))
 
 /* La formule de la suite de Koch pour la transformation des figures est la suivante
@@ -34,6 +35,7 @@ void figure(int x, int y, Uint8 coloration){
 void modelisation_figure(int x1, int y1, int x2, int y2, Uint8 coloration){
   double x = x1, y = y1;
   double i = x2 - x1, j = y2 - y1;
+  /* Détermine le maximum entre a et b*/
   int axe = MAX((((i)<0)?-(i):(i)), (((j)<0)?-(j):(j)));
   i /= axe; j /= axe;
   /* Diminue le nombre de segments */
@@ -97,6 +99,7 @@ void main(void){
       fractale(320, 60, 520, 340, (niveau+1), 0, deplacement);
       fractale(520, 340, 120, 340, (niveau+1), 0, deplacement);
       fractale(120, 340, 320, 60, (niveau+1), 0, deplacement);
+      /* Buffer vidéo */
       SDL_Flip(video);
     }
   }
