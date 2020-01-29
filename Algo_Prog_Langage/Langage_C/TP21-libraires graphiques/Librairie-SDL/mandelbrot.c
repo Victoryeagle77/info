@@ -24,56 +24,10 @@ void aire(SDL_Surface *surface, int x, int y, Uint16 pixel){
   }
 }
 
-void main(void){
-  int rouge=250, vert=0, bleu=0;
-  int i=0, couleur[150];
-  double position = 200;
-  double camera = position/200;
-  double x1 = -1.5/camera, x2 = 1.5/camera;
-  double y1 = -1.2/camera, y2 = 1.2/camera;
-  double x = 0, y = 0;
-
-  SDL_Surface *ecran = NULL;
-  SDL_Event evenement;
-    
-  int continuer = 1;
-  int precedent = 0, actuel = 0;
-  int max = 150;
-  int image_x = (x2 - x1) * position;
-  int image_y = (y2 - y1) * position;
-  /* Luminosité de la coloration du fond */
-  for (; i<25; i++){
-    couleur[i] = coloration(rouge,vert,bleu);
-    vert+=10;
-  }
-  for (; i<50; i++){
-    couleur[i] = coloration(rouge,vert,bleu);
-    bleu+=10;
-  }
-  for (; i<75; i++){
-    couleur[i] = coloration(rouge,vert,bleu);
-    rouge+=10;
-  }
-  SDL_Init(SDL_INIT_VIDEO);
-  ecran = SDL_SetVideoMode(600, 480, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
-  SDL_WM_SetCaption("Mandelbrot", NULL);
-  unsigned int tab[600][480];
-  for(int x=0; x < image_x; x++){
-    for(int y=0; y < image_y; y++){
-      double camera_x = x / position + x1;
-      double camera_y = y / position + y1;
-      double complexe_x = 0;
-      double complexe_y = 0;
-      int i = 0;
-      for(; complexe_x*complexe_x + complexe_y*complexe_y <4 && i < max; i++){
-        double tmp = complexe_x;
-        complexe_x = complexe_x*complexe_x - complexe_y*complexe_y + camera_x;
-        complexe_y = 2*complexe_y*tmp + camera_y;
-      }
-      if (i < max) { tab[x][y] = couleur[i%150]; }
-    }
-  }
-  SDL_EnableKeyRepeat(3, 3);
+/* Gestion de controle des touches sur la fractale */
+void controle(int continuer, double position, int couleur[150], double x, double y,
+SDL_Surface *ecran, int precedent, int actuel, unsigned int tab[600][480], int max){
+    SDL_Event evenement;
   while (continuer){
     /* Remplir la forme avec les paramètre evénementielle*/
     SDL_PollEvent(&evenement);
@@ -130,6 +84,59 @@ void main(void){
     /* Basculement sur l'écran */
     SDL_Flip(ecran);
   }
+}
+
+void main(void){
+  int rouge=250, vert=0, bleu=0;
+  int i=0, couleur[150];
+  double position = 200;
+  double camera = position/200;
+  double x1 = -1.5/camera, x2 = 1.5/camera;
+  double y1 = -1.2/camera, y2 = 1.2/camera;
+  double x = 0, y = 0;
+
+  SDL_Surface *ecran = NULL;
+  SDL_Event evenement;
+    
+  int continuer = 1;
+  int precedent = 0, actuel = 0;
+  int max = 150;
+  int image_x = (x2 - x1) * position;
+  int image_y = (y2 - y1) * position;
+  /* Luminosité de la coloration du fond */
+  for (; i<25; i++){
+    couleur[i] = coloration(rouge,vert,bleu);
+    vert+=10;
+  }
+  for (; i<50; i++){
+    couleur[i] = coloration(rouge,vert,bleu);
+    bleu+=10;
+  }
+  for (; i<75; i++){
+    couleur[i] = coloration(rouge,vert,bleu);
+    rouge+=10;
+  }
+  SDL_Init(SDL_INIT_VIDEO);
+  ecran = SDL_SetVideoMode(600, 480, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+  SDL_WM_SetCaption("Mandelbrot", NULL);
+  unsigned int tab[600][480];
+  for(int x=0; x < image_x; x++){
+    for(int y=0; y < image_y; y++){
+      double camera_x = x / position + x1;
+      double camera_y = y / position + y1;
+      double complexe_x = 0;
+      double complexe_y = 0;
+      int i = 0;
+      for(; complexe_x*complexe_x + complexe_y*complexe_y <4 && i < max; i++){
+        double tmp = complexe_x;
+        complexe_x = complexe_x*complexe_x - complexe_y*complexe_y + camera_x;
+        complexe_y = 2*complexe_y*tmp + camera_y;
+      }
+      if (i < max) { tab[x][y] = couleur[i%150]; }
+    }
+  }
+  SDL_EnableKeyRepeat(3, 3);
+  controle(continuer, position, couleur, x, y, ecran, precedent, actuel, tab, max);
   /* Sortie */
   SDL_Quit();
   exit(0);
