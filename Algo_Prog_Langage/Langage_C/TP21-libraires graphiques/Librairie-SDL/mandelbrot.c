@@ -15,7 +15,7 @@ void aire(SDL_Surface *surface, int x, int y, Uint16 pixel){
   Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * octel;
   switch(octel){
     case 1: *p = pixel; break;
-      /* Décalage à droite par 16 en big endian */
+    /* Décalage à droite par 16 en big endian */
     case 3: if(SDL_BYTEORDER == SDL_BIG_ENDIAN)
       p[0] = (pixel >> 16) & 0xff;
       else { p[0] = pixel & 0xff; }
