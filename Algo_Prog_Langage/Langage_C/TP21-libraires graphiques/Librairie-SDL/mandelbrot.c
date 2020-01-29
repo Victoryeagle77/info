@@ -124,6 +124,7 @@ void main(void){
   /* Coordonnées et dimensions de la figure sur l'écran */
   for(int x=0; x < image_x; x++){
     for(int y=0; y < image_y; y++){
+      /* Déplacement de l'image par rapport au déplacement de la caméra */
       double camera_x = x / position + x1;
       double camera_y = y / position + y1;
       double complexe_x = 0;
