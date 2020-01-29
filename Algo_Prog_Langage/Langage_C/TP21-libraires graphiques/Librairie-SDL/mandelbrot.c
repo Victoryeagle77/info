@@ -6,9 +6,6 @@ avec un mode caméra pour visualiser sous différent angles la figures. */
 #include <stdlib.h>
 #include <SDL/SDL.h>
 
-int coloration(int rouge, int bleu, int vert){
-  return rouge*256*256 + bleu*256 + vert;
-}
 /* Mode de coloration 32 bit */
 void aire(SDL_Surface *surface, int x, int y, Uint16 pixel){
   int octel = surface->format->BytesPerPixel;
@@ -106,15 +103,15 @@ void main(void){
   int image_y = (y2 - y1) * position;
   /* Luminosité de la coloration du fond */
   for (; i<25; i++){
-    couleur[i] = coloration(rouge, vert, bleu);
+    couleur[i] = rouge*256*256 + bleu*256 + vert;
     vert+=10;
   }
   for (; i<50; i++){
-    couleur[i] = coloration(rouge, vert, bleu);
+    couleur[i] = rouge*256*256 + bleu*256 + vert;
     bleu+=10;
   }
   for (; i<75; i++){
-    couleur[i] = coloration(rouge, vert, bleu);
+    couleur[i] = rouge*256*256 + bleu*256 + vert;
     rouge+=10;
   }
   SDL_Init(SDL_INIT_VIDEO);
