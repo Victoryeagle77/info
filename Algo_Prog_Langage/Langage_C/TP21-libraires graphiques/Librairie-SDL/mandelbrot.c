@@ -92,15 +92,13 @@ void main(void){
   double x1 = -1.5/camera, x2 = 1.5/camera;
   double y1 = -1.2/camera, y2 = 1.2/camera;
   double x = 0, y = 0;
-
+  /* Initialise les composants d'écran à placer dans la fen^tre */
   SDL_Surface *ecran = NULL;
   SDL_Event evenement;
     
   int continuer = 1;
-  int precedent = 0, actuel = 0;
-  int max = 150;
-  int image_x = (x2 - x1) * position;
-  int image_y = (y2 - y1) * position;
+  int precedent = 0, actuel = 0, max = 150;
+  int image_x = (x2 - x1) * position, image_y = (y2 - y1) * position;
   /* Luminosité de la coloration du fond */
   for (; i<25; i++){
     couleur[i] = rouge*256*256 + bleu*256 + vert;
