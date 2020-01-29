@@ -73,6 +73,7 @@ void controle(int continuer, double position, int couleur[150], double x, double
           }
         }
     }
+    /* Placement d'un curseur sur la position actuelle sur la figure */
     actuel = SDL_GetTicks();
     if (actuel - precedent > 30){
       precedent = actuel;
@@ -105,21 +106,22 @@ void main(void){
   int image_y = (y2 - y1) * position;
   /* Luminosité de la coloration du fond */
   for (; i<25; i++){
-    couleur[i] = coloration(rouge,vert,bleu);
+    couleur[i] = coloration(rouge, vert, bleu);
     vert+=10;
   }
   for (; i<50; i++){
-    couleur[i] = coloration(rouge,vert,bleu);
+    couleur[i] = coloration(rouge, vert, bleu);
     bleu+=10;
   }
   for (; i<75; i++){
-    couleur[i] = coloration(rouge,vert,bleu);
+    couleur[i] = coloration(rouge, vert, bleu);
     rouge+=10;
   }
   SDL_Init(SDL_INIT_VIDEO);
   ecran = SDL_SetVideoMode(600, 480, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
   SDL_WM_SetCaption("Mandelbrot", NULL);
   unsigned int tab[600][480];
+  /* Coordonnées et dimensions de la figure sur l'écran */
   for(int x=0; x < image_x; x++){
     for(int y=0; y < image_y; y++){
       double camera_x = x / position + x1;
@@ -132,7 +134,7 @@ void main(void){
         complexe_x = complexe_x*complexe_x - complexe_y*complexe_y + camera_x;
         complexe_y = 2*complexe_y*tmp + camera_y;
       }
-      if (i < max) { tab[x][y] = couleur[i%150]; }
+      if(i < max){ tab[x][y] = couleur[i%150]; }
     }
   }
   SDL_EnableKeyRepeat(3, 3);
