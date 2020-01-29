@@ -26,8 +26,8 @@ void aire(SDL_Surface *surface, int x, int y, Uint16 pixel){
 
 /* Gestion de controle des touches sur la fractale */
 void controle(int continuer, double position, int couleur[150], double x, double y,
-SDL_Surface *ecran, int precedent, int actuel, unsigned int tab[600][480], int max){
-    SDL_Event evenement;
+              SDL_Surface *ecran, int precedent, int actuel, unsigned int tab[600][480], int max){
+  SDL_Event evenement;
   while (continuer){
     /* Remplir la forme avec les paramètre evénementielle*/
     SDL_PollEvent(&evenement);
