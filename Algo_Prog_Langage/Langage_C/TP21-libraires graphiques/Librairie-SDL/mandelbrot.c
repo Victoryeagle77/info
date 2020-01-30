@@ -14,17 +14,18 @@ void aire(SDL_Surface *surface, int x, int y, Uint16 pixel){
     case 1: *p = pixel; break;
     /* Décalage à droite par 16 en big endian */
     case 3: if(SDL_BYTEORDER == SDL_BIG_ENDIAN)
-      p[0] = (pixel >> 16) & 0xff;
-      else { p[0] = pixel & 0xff; }
+      p[0] = (pixel >> 16);
+      else { p[0] = pixel; }
       break;
     case 4: *(Uint16 *)p = pixel; break;
   }
 }
 
 /* Gestion de controle des touches sur la fractale */
-void controle(int continuer, double position, int couleur[150], double x, double y,
+void controle(double position, int couleur[150], double x, double y,
               SDL_Surface *ecran, int precedent, int actuel, unsigned int tab[600][480], int max){
   SDL_Event evenement;
+  int continuer = 1;
   while (continuer){
     /* Remplir la forme avec les paramètre evénementielle*/
     SDL_PollEvent(&evenement);
@@ -96,7 +97,6 @@ void main(void){
   SDL_Surface *ecran = NULL;
   SDL_Event evenement;
     
-  int continuer = 1;
   int precedent = 0, actuel = 0, max = 150;
   int image_x = (x2 - x1) * position, image_y = (y2 - y1) * position;
   /* Luminosité de la coloration du fond */
@@ -134,7 +134,7 @@ void main(void){
     }
   }
   SDL_EnableKeyRepeat(3, 3);
-  controle(continuer, position, couleur, x, y, ecran, precedent, actuel, tab, max);
+  controle(position, couleur, x, y, ecran, precedent, actuel, tab, max);
   /* Sortie */
   SDL_Quit();
   exit(0);
