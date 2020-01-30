@@ -22,7 +22,7 @@ static void aire(SDL_Surface *surface, int x, int y, Uint16 pixel){
 }
 
 /* Gestion de controle des touches sur la fractale */
-static void controle(double position, int couleur[150], double x, double y,
+static void controle(double position, const unsigned short int *couleur, double x, double y,
               SDL_Surface *ecran, int precedent, int actuel, unsigned int tab[600][480], int max){
   static SDL_Event evenement;
   static volatile unsigned short int continuer = 1;
@@ -85,56 +85,27 @@ static void controle(double position, int couleur[150], double x, double y,
   }
 }
 
-void coloration(void){
-  unsigned short int rouge=0, vert=0, bleu=0;
-  int i=0, couleur[150];
-  double position = 200;
-  double camera = position/200;
-  double x1 = -1.5/camera, x2 = 1.5/camera;
-  double y1 = -1.2/camera, y2 = 1.2/camera;
-  double x = 0, y = 0;
-  /* Initialise les composants d'écran à placer dans la fenetre */
-  SDL_Surface *ecran = NULL;
-  SDL_Event evenement;
-    
-  int precedent = 0, actuel = 0, max = 150;
-  int image_x = (x2 - x1) * position, image_y = (y2 - y1) * position;
-  /* Luminosité de la coloration du fond */
-  for (; i<25; i++){
+static void coloration(unsigned short int *couleur){
+  unsigned short int rouge = 0, vert = 0, bleu = 0;
+  unsigned short int i = 0;
+  /* Luminosité et couleur de la coloration du fond, et de ses éléments */
+  for(; i<25; i++){
     couleur[i] = rouge*256*256 + bleu*256 + vert;
     vert+=10;
   }
-  for (; i<50; i++){
+  for(; i<50; i++){
     couleur[i] = rouge*256*256 + bleu*256  + vert;
     bleu+=10;
   }
-  for (; i<75; i++){
+  for(; i<75; i++){
     couleur[i] = rouge*256*256 + bleu*256 + vert;
     rouge+=10;
-  }
-  unsigned int tab[100][100];
-  /* Coordonnées et dimensions de la figure sur l'écran */
-  for(int x=0; x < image_x; x++){
-    for(int y=0; y < image_y; y++){
-      /* Déplacement de l'image par rapport au déplacement de la caméra */
-      double camera_x = x / position + x1;
-      double camera_y = y / position + y1;
-      double complexe_x = 0;
-      double complexe_y = 0;
-      unsigned short int i = 0;
-      for(; complexe_x*complexe_x + complexe_y*complexe_y <4 && i < max; i++){
-        double tmp = complexe_x;
-        complexe_x = complexe_x*complexe_x - complexe_y*complexe_y + camera_x;
-        complexe_y = 2*complexe_y*tmp + camera_y;
-      }
-      if(i < max){ tab[x][y] = couleur[i%150]; }
-    }
   }
 }
 
 void main(void){
   unsigned short int rouge=0, vert=0, bleu=0;
-  int i=0, couleur[150];
+  unsigned short int i=0, couleur[150];
   double position = 200;
   double camera = position/200;
   double x1 = -1.5/camera, x2 = 1.5/camera;
@@ -144,18 +115,7 @@ void main(void){
   int precedent = 0, actuel = 0, max = 150;
   int image_x = (x2 - x1) * position, image_y = (y2 - y1) * position;
   /* Luminosité de la coloration du fond */
-  for (; i<25; i++){
-    couleur[i] = rouge*256*256 + bleu*256 + vert;
-    vert+=10;
-  }
-  for (; i<50; i++){
-    couleur[i] = rouge*256*256 + bleu*256  + vert;
-    bleu+=10;
-  }
-  for (; i<75; i++){
-    couleur[i] = rouge*256*256 + bleu*256 + vert;
-    rouge+=10;
-  }
+ coloration(couleur);
   static unsigned int tab[600][480];
   /* Coordonnées et dimensions de la figure sur l'écran */
   for(int x=0; x < image_x; x++){
