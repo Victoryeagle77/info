@@ -15,29 +15,29 @@ et trace la figure d'ordre correspondant en mode graphique.
 #define HAUTEUR 500
  
 /* Dessine un pixel - mode 8 bits */
-void coloration(SDL_Surface* surface, int x, int y, Uint8 color){
+static void coloration(SDL_Surface* surface, int x, int y, Uint8 color){
   if (x >= 0 && x < surface->w && y >= 0 && y < surface->h){
     Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * surface->format->BytesPerPixel;
     *(Uint8 *)p = color;
   }
 }
-
-complex double F0 (complex double z){ return ((1+I)*z)/2; }
-complex double F1 (complex double z){ return 1-((1-I)*z)/2; }
-/* tableau des fonctions */
-complex double (*buffer[])(complex double) = { F0,F1 };
  
 /* Fonction de dessin */
-void courbe_draconique (SDL_Surface* surface, int entier){
-  unsigned i, j;
-  double x, y;
-  complex double z;
+static void courbe_draconique (SDL_Surface* surface, int entier){
+  static volatile unsigned short i, j;
+  static volatile double x, y;
+  /* Fonctions prenant en paramètres les complexes */
+  volatile complex double F0 (complex double z){ return ((1+I)*z)/2; }
+  volatile complex double F1 (complex double z){ return 1-((1-I)*z)/2; }
+  /* tableau des fonctions */
+  volatile complex double (*buffer[])(complex double) = { F0,F1 };
+  static volatile complex double z;
   /* tirage aleatoire d'un pixel de l'ecran */
-  for (i=0; i<surface->w*surface->h; i++){
+  for(i=0; i<surface->w*surface->h; i++){
     x = y = 0;
     z = x + y * I;
     /* nombre d'iterations */
-    for (j=0; j<=entier; j++)
+    for(j=0; j<=entier; j++)
       /* Choisit aleatoirement la fonction,
       avec le nombre de fonctions */
       z = buffer[rand() % 2](z);
@@ -47,20 +47,20 @@ void courbe_draconique (SDL_Surface* surface, int entier){
   }
 }
 
-int main (int argc, const char *argv[]){
+extern unsigned short int main(int argc, const char *argv[]){
   SDL_Init(SDL_INIT_VIDEO);
   SDL_WM_SetCaption("Courbe du dragon", NULL);
   if (argc != 2){
     printf("Usage : %s <int [1 - 20]>\n", argv[0]);
     exit(1);
   }
-  unsigned short int entier = (unsigned short int)strtol(argv[1],NULL,10);
-  if(entier < 1 || entier > 20) { 
+  volatile unsigned short int entier = (unsigned short int)strtol(argv[1],NULL,10);
+  if(entier < 1 || entier > 20){ 
     printf("Usage : %s <int [1 - 20]>\n", argv[0]);
     exit(1); 
   }
-  SDL_Event proto;
-  SDL_Surface* ecran;
+  static SDL_Event proto;
+  static SDL_Surface* ecran;
   /* Nettoyage avant sortie */
   SDL_WM_SetCaption("Courbe du Dragon", NULL);
   atexit(SDL_Quit);
@@ -72,7 +72,7 @@ int main (int argc, const char *argv[]){
   /* Actualise l'affichage */
   SDL_Flip(ecran);
  
-  unsigned continuation = 0;
+  static volatile unsigned short int continuation = 0;
   while (!continuation){
     /* Attente d'un evenement */
     SDL_WaitEvent(&proto);
