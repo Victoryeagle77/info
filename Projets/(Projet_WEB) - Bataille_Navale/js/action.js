@@ -1,6 +1,6 @@
 (function() {
 	/* Définition de constantes à l'individualisation des cases de jeu */	
-	var CONST = {};
+	let CONST = {};
 	CONST.FLOTTE = ['porte_avions', 'croiseur', 'destroyer', 'sous_marin', 'patrouilleur'];
 	/* Paramètre des différents joueurs */
 	CONST.JOUEUR = 0; CONST.IA = 1; CONST.ADVERSAIRE = 2;
@@ -25,50 +25,54 @@
 		this.total_tirs = parseInt(localStorage.getItem('total_tirs'), 10) || 0;
 		this.total_dommages = parseInt(localStorage.getItem('total_dommages'), 10) || 0;
 		this.lance_jeu = parseInt(localStorage.getItem('lance_jeu'), 10) || 0;
-		this.victoire = parseInt(localStorage.getItem('victoire'), 10) || 0;
-		if (DEBUG_MODE) { this.tmp = true; }
-	}
+        this.victoire = parseInt(localStorage.getItem('victoire'), 10) || 0;
+        /* Vérification de la compatibilté des variables */
+		if(DEBUG_MODE){ this.tmp = true; }
+    }
+    
 	/* Prototype de la fonction Stats qui gère la synchronisation des statistiques */
 	Stats.prototype.sync = function() {
 		if(!this.tmp) {
-			var total_tirs = parseInt(localStorage.getItem('total_tirs'), 10) || 0;
+			let total_tirs = parseInt(localStorage.getItem('total_tirs'), 10) || 0;
 			total_tirs += this.tir_subis;
-			var total_dommages = parseInt(localStorage.getItem('total_dommages'), 10) || 0;
+			let total_dommages = parseInt(localStorage.getItem('total_dommages'), 10) || 0;
 			total_dommages += this.tir_touche;
 			/* Charger les valeurs suivante dans les items stockés dans les coockies de la page */
 			localStorage.setItem('total_tirs', total_tirs);
 			localStorage.setItem('total_dommages', total_dommages);
 			localStorage.setItem('victoire', this.victoire);
 		} else { this.tmp = false; }
-		var grille_valeur = '';
+		let grille_valeur = '';
 		/* Mise en place des cases */
-		for (var x = 0; x < Game.dimension; x++) {
-			for (var y = 0; y < Game.dimension; y++)
-				grille_valeur += '(' + x + ',' + y + '):' + jeu.grille_joueur.cells[x][y] + ';\n';
+		for(let x = 0; x < Game.dimension; x++){
+            /* Dessin de la grille */
+			for(let y = 0; y < Game.dimension; y++)
+                grille_valeur += '(' + x + ',' + y + '):' + 
+                jeu.grille_joueur.cells[x][y] + ';\n';
 		}
-		if (!DEBUG_MODE)
+		if(!DEBUG_MODE)
 			ga('send', 'event', 'grille_joueur', grille_valeur);
-	};
+    };
+    
 	/* Prototype de la fonction Stats qui gère les points de vie de la flotte. */
-	Stats.prototype.pv = function() {
-		this.tir_subis++;
-	};
+	Stats.prototype.pv = function(){ this.tir_subis++; };
+    
 	/* Prototype de la fonction Stats qui gère les points de vie de la flotte ennemie. */
-	Stats.prototype.scoring = function() {
-		this.tir_touche++;
-	};
+	Stats.prototype.scoring = function(){ this.tir_touche++; };
+    
 	/* Prototype de la fonction Stats qui gère la victoire du jeu */
 	Stats.prototype.gagne = function() {
 		this.lance_jeu++; this.victoire++;
 		/* Vérification du debug mode avec Google Analytics */
-		if (!DEBUG_MODE)
+		if(!DEBUG_MODE)
 			ga('send', 'event', 'jeu_perdu', 'win');
-	};
+    };
+    
 	/* Prototype de la fonction Stats qui gère la défaite du jeu */
 	Stats.prototype.perd = function() {
 		this.lance_jeu++;
 		/* Vérification du debug mode avec Google Analytics */
-		if (!DEBUG_MODE)
+		if(!DEBUG_MODE)
 			ga('send', 'event', 'jeu_perdu', 'lose');
 	};
 
@@ -81,42 +85,44 @@
 	/* Dimension de la grille de jeu */
 	Game.dimension = 10; 
 	/* Booléen d'état de jeu perdu */
-	Game.jeu_perdu = false;
+    Game.jeu_perdu = false;
+    
 	/* Prototype de la fonction Game,
 	qui gère l'intégration de la perte ou de la victoire d'une partie. */
 	Game.prototype.etat = function() {
-		if (this.flotte_ia.flotte_detruite()) {
+		if(this.flotte_ia.flotte_detruite()) {
 			/* Message d'alerte javascript */
 			alert('Bravo, flotte ennemie détruite');
 			Game.jeu_perdu = true;
 			/* Synchronisation du statut de victoire */
 			Game.stats.gagne(); Game.stats.sync();
 			this.menu_rejouer();
-		} else if (this.flotte_joueur.flotte_detruite()) {
+		} else if(this.flotte_joueur.flotte_detruite()) {
 			alert('Perdu, votre flotte a été détruite');
 			Game.jeu_perdu = true;
 			/* Synchronisation du statut de défaite */
 			Game.stats.perd(); Game.stats.sync();
 			this.menu_rejouer();
 		}
-	};
+    };
+    
 	/* Prototype de la fonction Game, 
 	qui détermine la grille et la flotte cible,
 	dans le cas ou le joueur est l'IA ou le joueur.
 	On distingue ainsi la flotte allié à ne pas toucher. */
 	Game.prototype.tir = function(x, y, joueur_cible) {
-		var grille_cible, flotte_cible;
-		if (joueur_cible === CONST.JOUEUR) {
+		let grille_cible, flotte_cible;
+		if(joueur_cible === CONST.JOUEUR) {
 			grille_cible = this.grille_joueur;
 			flotte_cible = this.flotte_joueur;
-		} else if (joueur_cible === CONST.IA) {
+		} else if(joueur_cible === CONST.IA) {
 			grille_cible = this.grille_ia;
 			flotte_cible = this.flotte_ia;
 		}
 		/* Etat des bateaux selon leur coordonnées */
-		if (grille_cible.navire_endommage(x, y)) { return null; }
-		else if (grille_cible.navire_evite(x, y)) { return null; }
-		else if (grille_cible.navire_sauf(x, y)) {
+		if(grille_cible.navire_endommage(x, y)){ return null; }
+		else if(grille_cible.navire_evite(x, y)){ return null; }
+		else if(grille_cible.navire_sauf(x, y)){
 			grille_cible.change_case(x, y, 'hit', joueur_cible);
 			/* Détecter et localiser la présence d'un bateau par ses coordonnées */
 			flotte_cible.localisation(x, y).dommages_scoring(); 
@@ -127,35 +133,37 @@
 			this.etat();
 			return CONST.RATE;
 		}
-	};
+    };
+    
 	/* Prototype de la fonction Game, 
 	qui permet de lié le statut des tirs au score et point de vie */ 
 	Game.prototype.tir_param = function(e) {
-		var self = e.target.self;
+		let self = e.target.self;
 		/* Axe de rotation d'un élément attribué en abscisse et ordonnée,
 		converti en coordonnées entiére, (rotation d'un navire) */
-		var x = parseInt(e.target.getAttribute('data-x'), 10);
-		var y = parseInt(e.target.getAttribute('data-y'), 10);
-		var res = null;
-		if (self.operationnel)
+		let x = parseInt(e.target.getAttribute('data-x'), 10);
+		let y = parseInt(e.target.getAttribute('data-y'), 10);
+		let res = null;
+		if(self.operationnel)
 			res = self.tir(x, y, CONST.IA);
-		if (res !== null && !Game.jeu_perdu) {
+		if(res !== null && !Game.jeu_perdu){
 			/* Inventaire des points de vie des navires */
 			Game.stats.pv();
-			if (res === CONST.TOUCHE) { Game.stats.scoring(); }
+			if (res === CONST.TOUCHE){ Game.stats.scoring(); }
 			self.auto.tir();
 		} else { Game.jeu_perdu = false; }
-	};
+    };
+    
 	/* Prototype de la fonction Game, 
 	qui assure la lisaison entre les éléments graphiques de CSS et de JS.
 	Le design des sprits de bateaux sont liés par leur classes CSS aux JS. */
-	Game.prototype.flotte_param = function(e) {
-		var self = e.target.self;
+	Game.prototype.flotte_param = function(e){
+		let self = e.target.self;
 		/* Selectionner la classe CSS correspondante */
-		var flotte = document.querySelectorAll('.fleet-roster li');
-		for (var i = 0; i < flotte.length; i++) {
+		let flotte = document.querySelectorAll('.fleet-roster li');
+		for(let i = 0; i < flotte.length; i++) {
 			/* Obtenir les classes CSS */
-			var classes = flotte[i].getAttribute('class') || '';
+			let classes = flotte[i].getAttribute('class') || '';
 			classes = classes.replace('placing', '');
 			flotte[i].setAttribute('class', classes);
 		}
@@ -166,59 +174,61 @@
 		Game.place_direction = parseInt(document.getElementById('rotate-button')
 			.getAttribute('data-direction'), 10);
 		self.place_grille = true;
-	};
+    };
+    
 	/* Prototype de la fonction Game, 
 	qui gère l'affichage du menu commencer en fonction des navires placés sur la grille. */
-	Game.prototype.place_param = function(e) {
-		var self = e.target.self;
-		if (self.place_grille) {
-			var x = parseInt(e.target.getAttribute('data-x'), 10);
-			var y = parseInt(e.target.getAttribute('data-y'), 10);
-			var atteinte = self.flotte_joueur.pos_navire(x, y, 
+	Game.prototype.place_param = function(e){
+		let self = e.target.self;
+		if(self.place_grille) {
+			let x = parseInt(e.target.getAttribute('data-x'), 10);
+			let y = parseInt(e.target.getAttribute('data-y'), 10);
+			let atteinte = self.flotte_joueur.pos_navire(x, y, 
 				Game.place_direction, Game.place_navire);
-			if (atteinte) {
+			if(atteinte) {
 				self.place_final(Game.place_navire);
 				self.place_grille = false;
 				/* Pour tous les bateaux placés sur la grille */
-				if (self.grille_remplie()) {
-					var e = document.getElementById('rotate-button');
-					e.addEventListener(transitionEndEventName(),
-						(function(){
+				if(self.grille_remplie()) {
+					let e = document.getElementById('rotate-button');
+                    e.addEventListener(transitionEndEventName(),
+                        (function(){
 							e.setAttribute('class', 'hidden');
 							/* Caché l'élément de bouton commencer,
 							tant que tous les navvires ne sont pas placés. */
-							if (menu_jeu.defile)
+							if(menu_jeu.defile)
 								document.getElementById('start-game').setAttribute('class');
 							else
 								document.getElementById('start-game').removeAttribute('class');	
-						}),false);
+						}), false);
 					e.setAttribute('class', 'invisible');
 				}
 			}
 		}
-	};
+    };
+    
     /* Prototype de la fonction Game qui gère */
 	Game.prototype.mouse_ouver = function(e) {
-		var self = e.target.self;
-		if (self.place_grille) {
-			var x = parseInt(e.target.getAttribute('data-x'), 10);
-			var y = parseInt(e.target.getAttribute('data-y'), 10);
-			var classes;
-			var fleetRoster = self.flotte_joueur.fleetRoster;
+		let self = e.target.self;
+		if(self.place_grille) {
+			let x = parseInt(e.target.getAttribute('data-x'), 10);
+			let y = parseInt(e.target.getAttribute('data-y'), 10);
+			let classes;
+			let flotte = self.flotte_joueur.fleetRoster;
 
-			for (var i = 0; i < fleetRoster.length; i++) {
-				var type_navire = fleetRoster[i].type;
+			for(let i = 0; i < flotte.length; i++) {
+				let type_navire = flotte[i].type;
 
-				if (Game.place_navire === type_navire &&
-					fleetRoster[i].isLegal(x, y, Game.place_direction)) {
-					fleetRoster[i].create(x, y, Game.place_direction, true);
-					Game.navire_coords = fleetRoster[i].getAllShipCells();
+				if(Game.place_navire === type_navire &&
+					flotte[i].isLegal(x, y, Game.place_direction)) {
+                        flotte[i].create(x, y, Game.place_direction, true);
+					Game.navire_coords = flotte[i].getAllShipCells();
                     
-					for (var j = 0; j < Game.navire_coords.length; j++) {
-						var e = document.querySelector('.grid-cell-' + Game.navire_coords[j].x 
-							+ '-' + Game.navire_coords[j].y);
+					for(let j = 0; j < Game.navire_coords.length; j++) {
+                        let e = document.querySelector('.grid-cell-' + 
+                        Game.navire_coords[j].x + '-' + Game.navire_coords[j].y);
 						classes = e.getAttribute('class');
-						if (classes.indexOf(' grid-ship') < 0) {
+						if(classes.indexOf(' grid-ship') < 0) {
 							classes += ' grid-ship';
 							e.setAttribute('class', classes);
 						}
@@ -226,32 +236,34 @@
 				}
 			}
 		}
-	};
+    };
+    
     /* Prototype de la fonction Game qui gère le canvas de la souris,
     La souris ne peut interagir uniquement dans la grille. */
 	Game.prototype.mouse_out = function(e) {
-		var self = e.target.self;
-		if (self.place_grille) {
-			for (var j = 0; j < Game.navire_coords.length; j++) {
-				var e = document.querySelector('.grid-cell-' + Game.navire_coords[j].x 
+		let cible = e.target.self;
+		if(cible.place_grille) {
+			for(let j = 0; j < Game.navire_coords.length; j++) {
+				let e = document.querySelector('.grid-cell-' + Game.navire_coords[j].x 
 					+ '-' + Game.navire_coords[j].y);
 				classes = e.getAttribute('class');
-				if (classes.indexOf(' grid-ship') > -1) {
+				if(classes.indexOf(' grid-ship') > -1) {
 					classes = classes.replace(' grid-ship', '');
 					e.setAttribute('class', classes);
 				}
 			}
 		}
-	};
+    };
+    
 	/* Prototype de la fonction Game qui gère la rotation d'un navire */
 	Game.prototype.toggleRotation = function(e) {
-		var direction = parseInt(e.target.getAttribute('data-direction'), 10);
+		let direction = parseInt(e.target.getAttribute('data-direction'), 10);
 		/* Direcion horizontale initialisé à 1 */
-		if (direction === Ship.DIRECTION_VERTICAL) {
+		if(direction === Ship.DIRECTION_VERTICAL){
 			e.target.setAttribute('data-direction', '1');
 			Game.place_direction = Ship.DIRECTION_HORIZONTAL;
 		/* Direcion verticale initialisé à 0 */
-		} else if (direction === Ship.DIRECTION_HORIZONTAL) {
+		}else if(direction === Ship.DIRECTION_HORIZONTAL){
 			e.target.setAttribute('data-direction', '0');
 			Game.place_direction = Ship.DIRECTION_VERTICAL;
 		}
@@ -261,10 +273,10 @@
 		var self = e.target.self;
 		var e = document.getElementById('roster-sidebar');
 		var fn = function() {e.setAttribute('class', 'hidden');};
-		e.addEventListener(transitionEndEventName(),fn,false);
+		e.addEventListener(transitionEndEventName(), fn, false);
 		e.setAttribute('class', 'invisible');
 		self.operationnel = true;
-		e.removeEventListener(transitionEndEventName(),fn,false);
+		e.removeEventListener(transitionEndEventName(), fn, false);
 	};
 
 	Game.prototype.recommence_jeu = function(e) {
@@ -293,8 +305,8 @@
 
 	Game.prototype.grille_remplie = function() {
 		var playerRoster = document.querySelectorAll('.fleet-roster li');
-		for (var i = 0; i < playerRoster.length; i++) {
-			if (playerRoster[i].getAttribute('class') === 'placed')
+		for(var i = 0; i < playerRoster.length; i++) {
+			if(playerRoster[i].getAttribute('class') === 'placed')
 				continue;
 			else { return false; }
 		}
@@ -305,8 +317,8 @@
 	};
 
 	Game.prototype.resetFogOfWar = function() {
-		for (var i = 0; i < Game.dimension; i++) {
-			for (var j = 0; j < Game.dimension; j++) {
+		for(var i = 0; i < Game.dimension; i++) {
+			for(var j = 0; j < Game.dimension; j++) {
 				this.grille_joueur.change_case(i, j, 'empty', CONST.JOUEUR);
 				this.grille_ia.change_case(i, j, 'empty', CONST.IA);
 			}
@@ -316,9 +328,9 @@
 
 	Game.prototype.resetRosterSidebar = function() {
 		var els = document.querySelector('.fleet-roster').querySelectorAll('li');
-		for (var i = 0; i < els.length; i++) 
+		for(var i = 0; i < els.length; i++) 
 			els[i].removeAttribute('class');
-		if (menu_jeu.defile) { menu_jeu.nextStep(); } 
+		if(menu_jeu.defile) { menu_jeu.nextStep(); } 
 		else
 			document.getElementById('roster-sidebar').removeAttribute('class');
 		document.getElementById('rotate-button').removeAttribute('class');
@@ -331,11 +343,11 @@
 		var menu = document.getElementById('restart-sidebar');
 		menu.setAttribute('class', '');
 		var cases = document.querySelector('.computer-player').childNodes;
-		for (var j = 0; j < cases.length; j++)
+		for(var j = 0; j < cases.length; j++)
 			cases[j].removeEventListener('click', this.tir_param, false);
 		/* Créé une liste correspondant aux 5 types de bateaux pouvant être placés. */
 		var flotte_joueur = document.querySelector('.fleet-roster').querySelectorAll('li');
-		for (var i = 0; i < flotte_joueur.length; i++)
+		for(var i = 0; i < flotte_joueur.length; i++)
 			flotte_joueur[i].removeEventListener('click', this.flotte_param, false);
 		/* Bouton recommencer */
 		var recommencer = document.getElementById('restart-game');
@@ -346,10 +358,10 @@
 	/* Prototype de la fonction Game qui permet de gérer la grille de jeu */
 	Game.prototype.grille_jeu = function() {
 		var cases = document.querySelectorAll('.grid');
-		for (var grille = 0; grille < cases.length; grille++) {
+		for(var grille = 0; grille < cases.length; grille++) {
 			cases[grille].removeChild(cases[grille].querySelector('.error')); 
-			for (var i = 0; i < Game.dimension; i++) { /* Lignes */
-				for (var j = 0; j < Game.dimension; j++) { /* Colonnes */
+			for(var i = 0; i < Game.dimension; i++) { /* Lignes */
+				for(var j = 0; j < Game.dimension; j++) { /* Colonnes */
 					var e = document.createElement('div');
 					/* Attribuer les valeurs de rotations initiales en abscisse et ordonnée */
 					e.setAttribute('data-x', i); e.setAttribute('data-y', j);
@@ -409,19 +421,15 @@
 		for (var x = 0; x < this.dimension; x++) {
 			var colonne = [];
 			this.cells[x] = colonne;
-			for (var y = 0; y < this.dimension; y++) {
+			for (var y = 0; y < this.dimension; y++) 
 				colonne.push(CONST.VIDE);
-			}
 		}
 	};
 
 	Grid.prototype.change_case = function(x, y, type, joueur_cible) {
 		var player;
-		if (joueur_cible === CONST.JOUEUR) {
-			player = 'human-player';
-		} else if (joueur_cible === CONST.IA) {
-			player = 'computer-player';
-		}
+		if (joueur_cible === CONST.JOUEUR){ player = 'human-player'; }
+        else if (joueur_cible === CONST.IA){ player = 'computer-player'; }
 		switch (type) {
 			case CONST.STYLE_VIDE: this.cells[x][y] = CONST.VIDE; break;
 			case CONST.STYLE_NAVIRE: this.cells[x][y] = CONST.NAVIRE; break;
@@ -455,7 +463,7 @@
 	}
 
 	Fleet.prototype.populate = function() {
-		for (var i = 0; i < this.numShips; i++) {
+		for(var i = 0; i < this.numShips; i++) {
 			var j = i % CONST.FLOTTE.length;
 			this.fleetRoster.push(new Ship(CONST.FLOTTE[j], this.playerGrid, this.player));
 		}
@@ -463,7 +471,7 @@
 
 	Fleet.prototype.pos_navire = function(x, y, direction, type_navire) {
 		var shipCoords;
-		for (var i = 0; i < this.fleetRoster.length; i++) {
+		for(var i = 0; i < this.fleetRoster.length; i++) {
 			var type_navires = this.fleetRoster[i].type;
 
 			if (type_navire === type_navires &&
@@ -495,8 +503,8 @@
 					illegalPlacement = false;
 				} else { continue; }
 			}
-			if (this.player === CONST.JOUEUR && Game.flotte_valide[i] !== CONST.VALIDE) {
-				for (var j = 0; j < shipCoords.length; j++) {
+			if(this.player === CONST.JOUEUR && Game.flotte_valide[i] !== CONST.VALIDE) {
+				for(var j = 0; j < shipCoords.length; j++) {
 					this.playerGrid.change_case(shipCoords[j].x, shipCoords[j].y, 'ship', this.player);
 					Game.flotte_valide[i] = CONST.VALIDE;
 				}
@@ -505,39 +513,37 @@
 	};
 
 	Fleet.prototype.localisation = function(x, y) {
-		for (var i = 0; i < this.fleetRoster.length; i++) {
+		for(var i = 0; i < this.fleetRoster.length; i++) {
 			var currentShip = this.fleetRoster[i];
-			if (currentShip.direction === Ship.DIRECTION_VERTICAL) {
-				if (y === currentShip.yPosition &&
+			if(currentShip.direction === Ship.DIRECTION_VERTICAL) {
+				if(y === currentShip.yPosition &&
 					x >= currentShip.xPosition &&
-					x < currentShip.xPosition + currentShip.shipLength) {
+					x < currentShip.xPosition + currentShip.shipLength) 
 					return currentShip;
-				} else { continue; }
+				else { continue; }
 			} else {
-				if (x === currentShip.xPosition &&
+				if(x === currentShip.xPosition &&
 					y >= currentShip.yPosition &&
-					y < currentShip.yPosition + currentShip.shipLength) {
+					y < currentShip.yPosition + currentShip.shipLength) 
 					return currentShip;
-				} else { continue; }
+				else { continue; }
 			}
 		}
 		return null;
 	};
 
 	Fleet.prototype.findShipByType = function(type_navire) {
-		for (var i = 0; i < this.fleetRoster.length; i++) {
-			if (this.fleetRoster[i].type === type_navire) {
+		for(var i = 0; i < this.fleetRoster.length; i++){
+			if(this.fleetRoster[i].type === type_navire)
 				return this.fleetRoster[i];
-			}
 		}
 		return null;
 	};
 
 	Fleet.prototype.flotte_detruite = function() {
 		for (var i = 0; i < this.fleetRoster.length; i++) {
-			if (this.fleetRoster[i].sunk === false) {
+			if (this.fleetRoster[i].sunk === false)
 				return false;
-			}
 		}
 		return true;
 	};
@@ -560,21 +566,19 @@
 		this.sunk = false;
 	}
 
-	Ship.prototype.isLegal = function(x, y, direction) {
+	Ship.prototype.isLegal = function(x, y, direction){
 		if (this.withinBounds(x, y, direction)) {
-			for (var i = 0; i < this.shipLength; i++) {
-				if (direction === Ship.DIRECTION_VERTICAL) {
-					if (this.playerGrid.cells[x + i][y] === CONST.NAVIRE ||
+			for(var i = 0; i < this.shipLength; i++) {
+				if(direction === Ship.DIRECTION_VERTICAL) {
+					if(this.playerGrid.cells[x + i][y] === CONST.NAVIRE ||
 						this.playerGrid.cells[x + i][y] === CONST.RATE ||
-						this.playerGrid.cells[x + i][y] === CONST.COULE) {
+						this.playerGrid.cells[x + i][y] === CONST.COULE)
 						return false;
-					}
 				} else {
-					if (this.playerGrid.cells[x][y + i] === CONST.NAVIRE ||
+					if(this.playerGrid.cells[x][y + i] === CONST.NAVIRE ||
 						this.playerGrid.cells[x][y + i] === CONST.RATE ||
-						this.playerGrid.cells[x][y + i] === CONST.COULE) {
+						this.playerGrid.cells[x][y + i] === CONST.COULE) 
 						return false;
-					}
 				}
 			}
 			return true;
@@ -590,7 +594,7 @@
 
 	Ship.prototype.dommages_scoring = function() {
 		this.damage++;
-		if (this.isSunk()) { this.sinkShip(false); }
+		if(this.isSunk()){ this.sinkShip(false); }
 	};
 
 	Ship.prototype.isSunk = function() {
@@ -602,20 +606,19 @@
 		this.sunk = true;
 		if (!virtual) {
 			var allCells = this.getAllShipCells();
-			for (var i = 0; i < this.shipLength; i++) {
+			for (var i = 0; i < this.shipLength; i++) 
 				this.playerGrid.change_case(allCells[i].x, allCells[i].y, 'sunk', this.player);
-			}
 		}
 	};
 
 	Ship.prototype.getAllShipCells = function() {
 		var resObject = [];
 		for (var i = 0; i < this.shipLength; i++) {
-			if (this.direction === Ship.DIRECTION_VERTICAL) {
+			if (this.direction === Ship.DIRECTION_VERTICAL)
 				resObject[i] = {'x': this.xPosition + i, 'y': this.yPosition};
-			} else {
+			else 
 				resObject[i] = {'x': this.xPosition, 'y': this.yPosition + i};
-			}
+			
 		}
 		return resObject;
 	};
@@ -624,13 +627,13 @@
 		this.xPosition = x;
 		this.yPosition = y;
 		this.direction = direction;
-		if (!virtual) {
+		if(!virtual){
 			for (var i = 0; i < this.shipLength; i++) {
-				if (this.direction === Ship.DIRECTION_VERTICAL) {
+				if(this.direction === Ship.DIRECTION_VERTICAL)
 					this.playerGrid.cells[x + i][y] = CONST.NAVIRE;
-				} else {
+				else 
 					this.playerGrid.cells[x][y + i] = CONST.NAVIRE;
-				}
+				
 			}
 		}
 		
@@ -723,41 +726,36 @@
 	};
 
 	AI.prototype.updateProbs = function() {
-		var roster = this.virtualFleet.fleetRoster;
+		var unite = this.virtualFleet.fleetRoster;
 		var coords;
 		this.resetProbs();
-		for (var k = 0; k < roster.length; k++) {
-			for (var x = 0; x < Game.dimension; x++) {
-				for (var y = 0; y < Game.dimension; y++) {
-					if (roster[k].isLegal(x, y, Ship.DIRECTION_VERTICAL)) {
-						roster[k].create(x, y, Ship.DIRECTION_VERTICAL, true);
-						coords = roster[k].getAllShipCells();
-						if (this.passesThroughHitCell(coords)) {
-							for (var i = 0; i < coords.length; i++) {
+		for(var k = 0; k < unite.length; k++) {
+			for(var x = 0; x < Game.dimension; x++) {
+				for(var y = 0; y < Game.dimension; y++) {
+					if(unite[k].isLegal(x, y, Ship.DIRECTION_VERTICAL)){
+						unite[k].create(x, y, Ship.DIRECTION_VERTICAL, true);
+						coords = unite[k].getAllShipCells();
+						if(this.passesThroughHitCell(coords)){
+							for(var i = 0; i < coords.length; i++)
 								this.probGrid[coords[i].x][coords[i].y] += AI.PROB_WEIGHT * this.numHitCellsCovered(coords);
-							}
 						} else {
-							for (var _i = 0; _i < coords.length; _i++) {
-								this.probGrid[coords[_i].x][coords[_i].y]++;
-							}
+							for(var _i = 0; _i < coords.length; _i++)
+								this.probGrid[coords[_i].x][coords[_i].y]++;	
 						}
 					}
-					if (roster[k].isLegal(x, y, Ship.DIRECTION_HORIZONTAL)) {
-						roster[k].create(x, y, Ship.DIRECTION_HORIZONTAL, true);
-						coords = roster[k].getAllShipCells();
-						if (this.passesThroughHitCell(coords)) {
-							for (var j = 0; j < coords.length; j++) {
+					if(unite[k].isLegal(x, y, Ship.DIRECTION_HORIZONTAL)){
+						unite[k].create(x, y, Ship.DIRECTION_HORIZONTAL, true);
+						coords = unite[k].getAllShipCells();
+						if(this.passesThroughHitCell(coords)){
+							for (var j = 0; j < coords.length; j++)
 								this.probGrid[coords[j].x][coords[j].y] += AI.PROB_WEIGHT * this.numHitCellsCovered(coords);
-							}
 						} else {
-							for (var _j = 0; _j < coords.length; _j++) {
+							for(var _j = 0; _j < coords.length; _j++) 
 								this.probGrid[coords[_j].x][coords[_j].y]++;
-							}
 						}
 					}
-					if (this.virtualGrid.cells[x][y] === CONST.TOUCHE) {
+					if(this.virtualGrid.cells[x][y] === CONST.TOUCHE) 
 						this.probGrid[x][y] = 0;
-					}
 				}
 			}
 		}
