@@ -124,16 +124,3 @@ function Parcelage(){
         return couleur;
     }
 }
-
-function Capture(){
-    $(function() { 
-        $("#save").click(function() { 
-            html2canvas($("#capturable"), {
-                onrendered: function(canvas) {
-                    document.body.appendChild(canvas);
-                    Canvas2Image.saveAsPNG(canvas); 
-                }
-            });
-        })
-    }); 
-}
