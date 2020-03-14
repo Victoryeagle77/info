@@ -80,56 +80,11 @@ void dessiner(Display * disposition, Window fenetre,
   usleep(10000);
 }
 
-int main(void){
-  Display * disposition = XOpenDisplay(NULL);
-  int x11Screen = DefaultScreen(disposition);
-  /* Création de la fenêtre avec ses paramètre :
-  - D'éléments à disposer
-  - De dimension
-  - D'écran à remplir */
-  Window fenetre = XCreateSimpleWindow(disposition, 
-    RootWindow(disposition, x11Screen), 0, 0, 
-    LARGEUR_CASE * CASE_GRILLE_X, HAUTEUR_CASE * CASE_GRILLE_Y, 1,
-    BlackPixel(disposition, x11Screen), WhitePixel(disposition, x11Screen));
-  /* Ecriture du nom dans la fenetre */
-  XStoreName(disposition, fenetre, "Fourmis de Langton");
-  XSelectInput(disposition, fenetre, ExposureMask | KeyPressMask);
-  XMapWindow(disposition, fenetre);
-  
-  Colormap coloration = DefaultColormap(disposition, 0);
-  GC canvas = XCreateGC(disposition, fenetre, 0, 0);
-
-  XColor X11_argent;
-  XColor X11_gris;
-  XColor X11_rouge;
-  /* Coloration correpondant aux constantes.
-  Coloration par conversion d'entier hexadécimal. */
-  /* Gris Foncé */
-  XParseColor(disposition, coloration, "#555555", &X11_gris);
-  /* Gris clair */
-  XParseColor(disposition, coloration, "#999999", &X11_argent);
-  /* Rouge */
-  XParseColor(disposition, coloration, "#F00000", &X11_rouge);
-  /* Coloration par allocation dynamique */
-  XAllocColor(disposition, coloration, &X11_gris);
-  XAllocColor(disposition, coloration, &X11_argent);
-  XAllocColor(disposition, coloration, &X11_rouge);
-
-  int etat_cellule[CASE_GRILLE_X][CASE_GRILLE_Y];
-  for (int i = 0; i < CASE_GRILLE_X; i++) {
-    for (int j = 0; j < CASE_GRILLE_Y; j++) 
-      etat_cellule[i][j] = 1;
-  }
-  /* Centrer la fourmis */
-  int CASE_X = CASE_GRILLE_X / 2;
-  int CASE_Y = CASE_GRILLE_Y / 2;
-  /* Donne la direction à la fourmis  */
-  int direction = GAUCHE;
-  /* Dessiner et mettre en pause */
-  dessiner(disposition, fenetre, canvas, etat_cellule, 
-    X11_argent, X11_gris, X11_rouge, 
-    direction, CASE_X, CASE_Y);
-  /* Commencement de l'animation */
+void controle(Display * disposition, Window fenetre,
+              /* Etat d'avancement des cellules (cases) du tableau de coordonnées */
+              GC canvas, int etat_cellule[CASE_GRILLE_X][CASE_GRILLE_Y],
+              XColor X11_argent, XColor X11_gris, XColor X11_rouge, 
+              int direction, int CASE_X, int CASE_Y){
   int x = 0;
   while (1) {
     /* Avance seulement la simulation de HAUT vers le nombre
@@ -182,5 +137,62 @@ int main(void){
       x++;
     }
   } 
+}
+
+int main(void){
+  Display * disposition = XOpenDisplay(NULL);
+  int x11Screen = DefaultScreen(disposition);
+  /* Création de la fenêtre avec ses paramètre :
+  - D'éléments à disposer
+  - De dimension
+  - D'écran à remplir */
+  Window fenetre = XCreateSimpleWindow(disposition, 
+    RootWindow(disposition, x11Screen), 0, 0, 
+    LARGEUR_CASE * CASE_GRILLE_X, HAUTEUR_CASE * CASE_GRILLE_Y, 1,
+    BlackPixel(disposition, x11Screen), WhitePixel(disposition, x11Screen));
+  /* Ecriture du nom dans la fenetre */
+  XStoreName(disposition, fenetre, "Fourmis de Langton");
+  XSelectInput(disposition, fenetre, ExposureMask | KeyPressMask);
+  XMapWindow(disposition, fenetre);
+  
+  Colormap coloration = DefaultColormap(disposition, 0);
+  GC canvas = XCreateGC(disposition, fenetre, 0, 0);
+
+  XColor X11_argent;
+  XColor X11_gris;
+  XColor X11_rouge;
+  /* Coloration correpondant aux constantes.
+  Coloration par conversion d'entier hexadécimal. */
+  /* Gris Foncé */
+  XParseColor(disposition, coloration, "#555555", &X11_gris);
+  /* Gris clair */
+  XParseColor(disposition, coloration, "#999999", &X11_argent);
+  /* Rouge */
+  XParseColor(disposition, coloration, "#F00000", &X11_rouge);
+  /* Coloration par allocation dynamique */
+  XAllocColor(disposition, coloration, &X11_gris);
+  XAllocColor(disposition, coloration, &X11_argent);
+  XAllocColor(disposition, coloration, &X11_rouge);
+
+  int etat_cellule[CASE_GRILLE_X][CASE_GRILLE_Y];
+  for (int i = 0; i < CASE_GRILLE_X; i++) {
+    for (int j = 0; j < CASE_GRILLE_Y; j++) 
+      etat_cellule[i][j] = 1;
+  }
+  /* Centrer la fourmis */
+  int CASE_X = CASE_GRILLE_X / 2;
+  int CASE_Y = CASE_GRILLE_Y / 2;
+  /* Donne la direction à la fourmis  */
+  int direction = GAUCHE;
+  /* Dessiner et mettre en pause */
+  dessiner(disposition, fenetre, canvas, etat_cellule, 
+    X11_argent, X11_gris, X11_rouge, 
+    direction, CASE_X, CASE_Y);
+  /* Commencement de l'animation */
+  controle(disposition, fenetre,
+           /* Etat d'avancement des cellules (cases) du tableau de coordonnées */
+           canvas, etat_cellule,
+           X11_argent, X11_gris, X11_rouge, 
+           direction, CASE_X, CASE_Y);
   return 0;
 }

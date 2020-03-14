@@ -2,9 +2,6 @@
 * Programme permettant de calculer le pageRank d'un élève dans une ou plusieurs matières,
 * selon le nombre de fois que l'on a voté pour lui, 
 * et d'en déterminer un classement, du plus voté au moins voté.
-* @author Ganaël Chabraison
-* @author Arthur Chenu
-* @version finale
 */
 
 /** 
@@ -35,12 +32,12 @@ function main(){
     * sous forme d'un tableau html à plusieurs colonnes. 
     * @param {String} id : Identifie un étudiant.
     */
-	function afficher(id){
+    function afficher(id){
         /* En-tête du tableau */
         document.getElementById('classificateur').innerHTML = "<th>Classement</th>"
             + "<th>Logins</th>" + "<th>PageRank</th>";
         /* Création du tableau de récupération des valeurs */
-		for(let i in id){
+	for(let i in id){
             /* Colonnes du tableau */
             const colonne = [];
             const container =  document.createElement('tr');
@@ -61,7 +58,7 @@ function main(){
             }
             /* Placer les colonnes dans le tableau */
             document.getElementById('classificateur').appendChild(container);
-		}
+	}
     }
     
     /** 
@@ -71,7 +68,7 @@ function main(){
     * @param {number[]} pagerank : calcul du pageRank de chaque étudiant
     * @see afficher(id)
     */
-	function trier(pagerank){
+    function trier(pagerank){
         const classement = [];
         const id = {};
         let j = 0;
@@ -108,7 +105,7 @@ function main(){
             id[rang][2] = pagerank[j];	/* PageRank */
             j++; /* Nombre de fois qu'il faut afficher */
         }
-		afficher(id);
+	afficher(id);
     }
 
     /**
@@ -211,12 +208,12 @@ function main(){
             classement = res;
             tmp[i] = classement;
         }
-		
-		for(let i = 0; i < tmp.length; i++) {
-            /* Pour toutes les matières séléctionnées, 
-            on en fait la somme totale. */
-			let j = 0;
-			for(let k in tmp[i]){ pagerank[j] += tmp[i][k]; j++; }
+	
+	for(let i = 0; i < tmp.length; i++) {
+           /* Pour toutes les matières séléctionnées, 
+           on en fait la somme totale. */
+	   let j = 0;
+	   for(let k in tmp[i]){ pagerank[j] += tmp[i][k]; j++; }
         }
         trier(pagerank);
     }
