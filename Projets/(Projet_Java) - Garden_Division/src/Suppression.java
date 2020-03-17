@@ -2,12 +2,6 @@ package src;
 import java.sql.*;
 
 /**
-* @author Arthur Chenu
-* @author Julien Carcau
-* @version final
-*/
-
-/**
 * La classe <code>Suppression</code> permet la suppression d'un jardin,
 * de la liste d&eacute;roulante et de la base de donn&eacute;es.
 */

@@ -4,12 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
-* @author Arthur Chenu
-* @author Julien Carcau
-* @version final
-*/
-
-/**
 * La classe <code>Model</code> permet la r&eacute;cup&eacute;ration
 * de valeurs dans la base de donn&eactue;es.
 */

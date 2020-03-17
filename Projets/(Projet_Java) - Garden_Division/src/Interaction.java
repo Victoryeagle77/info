@@ -3,12 +3,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-/**
-* @author Arthur Chenu
-* @author Julien Carcau
-* @version final
-*/
-
 /** 
 * La classe <code>Interaction</code> permet de d&eacute;terminer les &eacute;venements,
 * et les li&eacute;s au fait de passer de panel en panel sur la meme fenetre.

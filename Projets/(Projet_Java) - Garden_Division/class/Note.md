@@ -1,1 +1,1 @@
-Vous trouverez ici les .class utilisables
+Vous trouverz ici l'essentiel des .class pour lancer le programme

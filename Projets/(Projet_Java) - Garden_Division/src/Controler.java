@@ -6,12 +6,6 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
-* @author Arthur Chenu
-* @author Julien Carcau
-* @version final
-*/
-
-/**
 * La classe <code>Controler</code> permet de d&eaucte;t&eaucte;rminer des &eaucte;v&eaucte;nements,
 * liant une action faite sur une parcelle &agrave; chaque bouton cliqu&eacute;.
 */

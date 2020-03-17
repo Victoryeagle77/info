@@ -8,12 +8,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDate;
 
-/**
-* @author Arthur Chenu
-* @author Julien Carcau
-* @version final
-*/
-
 /** 
 * La classe <code>View</code>
 * permet la gestion de toutes les fenetres, de leur succession et mise en forme.

@@ -11,12 +11,6 @@ import java.awt.*;
 import java.time.LocalDate;
 import java.time.Month;
 
-/**
-* @author Arthur Chenu
-* @author Julien Carcau
-* @version final
-*/
-
 /** 
 * La classe <code>Parcelage</code> permet d'effectuer,
 * tout type d'actions sur une parcelle.
