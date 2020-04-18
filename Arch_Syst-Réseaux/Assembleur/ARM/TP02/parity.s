@@ -11,7 +11,7 @@ Si le nombre est paire il sera affiché "Even !", sinon il sera affiché "Odd !"
 .arm
 .data
 
-entier: .word 8 /* Définition en mémoire*/
+entier: .word 8 /* Définition en mémoire */
 event_1: .asciz "Even !\n"
 len_event_1 = . - event_1
 event_2: .asciz "Odd !\n"
@@ -30,7 +30,7 @@ _start:
   On masque les bit de valeurs que l'on n'uitilise pas avec le valeur 1 */
   tst r1, #1
   mov r0, #1
-  /* Chargement de la valeur au registre r1 si équivalence  */
+  /* Chargement de la valeur au registre r1 si équivalence */
   ldreq r1, = event_1
   /* Chargement de la valeur au registre r1 s'il n'y a pas équivalence */
   ldrne r1, = event_2
