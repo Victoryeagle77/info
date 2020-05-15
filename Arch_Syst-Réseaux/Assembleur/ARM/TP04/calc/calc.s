@@ -21,7 +21,7 @@ qui calcule la même fonction et qui met les resultats dans le fichier 'res-s.da
 
 .arm
 /*
-  Il y a la fonction qui a besoin de deux arguments :
+  Fonction ayant besoin de deux arguments :
   * r4 -> x = i
   * r5 -> y = j
   * r3 -> variable de stockage v de la fonction
