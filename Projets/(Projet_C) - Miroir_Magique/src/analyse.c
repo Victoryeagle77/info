@@ -14,7 +14,7 @@ static void configuration(void){
   pinMode(GPIO, OUTPUT);
   /* Pin a l'etat logique bas pendant 20 milliseconds */
   digitalWrite(GPIO, 0);
-  usleep(18000);
+  usleep(20000);
   /* Pin a l'etat logique bas pendant 4 nanoseconde */
   digitalWrite(GPIO, 1);
   usleep(4); 
@@ -45,6 +45,7 @@ static void lire_donnee(void){
       delayMicroseconds(1);
       if(decalage == 255){ break; }
     }
+ 
     tmp = digitalRead(GPIO);
     if(decalage == 255){ break; }
 		
