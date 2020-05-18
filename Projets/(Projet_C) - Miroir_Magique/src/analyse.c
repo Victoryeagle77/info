@@ -34,21 +34,21 @@ static void lire_donnee(void){
   /* Initialiser les donnees a 0 */
   donnee[0] = donnee[1] = donnee[2] 
   = donnee[3] = donnee[4] = 0;
-	
+
   configuration();
 
   /* Lire les donnees lors de la detection d'un changement */
-  for(volatile unsigned short i=0; i< 85; i++){
+  for(volatile unsigned short i=0; i<85; i++){
     decalage = 0;
     while(digitalRead(GPIO) == tmp) {
       decalage++;
       delayMicroseconds(1);
       if(decalage == 255){ break; }
     }
- 
+
     tmp = digitalRead(GPIO);
     if(decalage == 255){ break; }
-		
+
     /* Ignore les 3 premieres transitions */
     if((i >= 4) && (i%2 == 0)){
       /* Insere chaque bit dans les octets de stockage */
@@ -64,16 +64,20 @@ static void lire_donnee(void){
 				 donnee[1] + donnee[2] + donnee[3])))
     /* Conversion en degre Fahrenheit */
     conversion = donnee[2] * 9.0 / 5.0 + 32;
-
 }
 
+/**
+* @function analyse
+* Permet la lecture des donnees toutes les secondes;
+* et la deploiement de la librairie wiringPi.
+*/
 extern void analyse(void){
   /* Deploiement de la librairie wiringPi */
   if(wiringPiSetup() == -1){
     puts("Erreur : configuration librairie wiringPi");
     exit(1);
   }
-  /* Emettre continuellement toutes les 1 secondes */
+  /* Emettre continuellement toutes les secondes */
   while(1){
     lire_donnee();
     sleep(1);
