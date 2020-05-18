@@ -50,15 +50,15 @@ static void lire_donnee(void){
 		
     /* Ignore les 3 premieres transitions */
     if((i >= 4) && (i%2 == 0)){
-      /* shove each bit into the storage bytes */
+      /* Insere chaque bit dans les octets de stockage */
       donnee[j/8] <<= 1;
       if(decalage > 50){ donnee[j/8] |= 1; }
       j++;
     }
   }
 
-  /* Verifier que la lecture est de 40 bits (1 octet x 5 donnees), 
-  et la somme du dernier octet */
+  /* Verifier que la lecture est de 40 bits (car on a 1 octet, de 8 bits,
+  pour les 5 cases du tableau de donnees), et la somme du dernier octet */
   if((j >= 40) && (donnee[4] == (donnee[0] + 
 				 donnee[1] + donnee[2] + donnee[3])))
     /* Conversion en degre Fahrenheit */
