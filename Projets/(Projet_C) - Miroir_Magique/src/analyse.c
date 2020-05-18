@@ -72,7 +72,7 @@ extern void analyse(void){
     puts("Erreur : configuration librairie wiringPi");
     exit(1);
   }
-  /* Emettre continuellement toutes les 1s */
+  /* Emettre continuellement toutes les 1 secondes */
   while(1){
     lire_donnee();
     sleep(1);
