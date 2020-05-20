@@ -18,8 +18,8 @@ static void configuration(void){
       A     V
       |  0  | (Etat bas du signal logique)
   ----|     |-----
-  Par default, l'etat du signal logique est bas, on l'a passer a haut. 
   */
+  digitalWrite(GPIO, 0);
   usleep(20000);
   digitalWrite(GPIO, 1);
   usleep(4);
