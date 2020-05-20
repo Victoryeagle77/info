@@ -51,6 +51,7 @@ static void lire_donnee(void){
       if(decalage == 255){ break; }
     }
 
+    /* Lecture de l'etat du signal logique du GPIO */
     tmp = digitalRead(GPIO);
     if(decalage == 255){ break; }
 
