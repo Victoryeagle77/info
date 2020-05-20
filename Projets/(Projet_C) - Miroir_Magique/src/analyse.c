@@ -5,13 +5,11 @@
 extern volatile uint8_t donnee[5];
 
 /**
-* @function configuration
-* Permet de configurer le capteur dht11,
-* en fonction des GPIO sur lesquels il est branche.
+* @function etalonnage
+* Permet d'effectuer une transitions sur les niveaux logiques,
+* pour définir le protocole (le temps d'attente entre l'ecriture et la lecture de donnees)
 */
-static void configuration(void){
-  /* Ecrire sur le pin en sortie */
-  pinMode(GPIO, OUTPUT);
+static void etalonnage(void){
   /* On effectue un front montant pour configurer les signaux logiques.
       |-----|
       |  1  | (Etat haut du signal logique)
@@ -23,6 +21,17 @@ static void configuration(void){
   usleep(20000);
   digitalWrite(GPIO, 1);
   usleep(4);
+}
+
+/**
+* @function configuration
+* Permet de configurer le capteur dht11,
+* en fonction des GPIO sur lesquels il est branche.
+*/
+static void configuration(void){
+  /* Ecrire sur le pin en sortie */
+  pinMode(GPIO, OUTPUT);
+  etalonnage();
   /* Lire le pin en entree */
   pinMode(GPIO, INPUT);
 }
