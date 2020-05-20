@@ -13,9 +13,16 @@ static void configuration(void){
   /* Ecrire sur le pin en sortie */
   pinMode(GPIO, OUTPUT);
   usleep(20000);
-  /* Pin a l'etat logique bas pendant 4 milliseconde */
+  /*       
+      |-----|
+      |  1  | (Etat haut du signal logique)
+      A     V
+      |  0  | (Etat bas du signal logique)
+  ----|     |-----
+  Par default, l'etat du signal logique est bas, on l'a passer a haut. 
+  */
   digitalWrite(GPIO, 1);
-  usleep(4); 
+  usleep(4);
   /* Lire le pin en entree */
   pinMode(GPIO, INPUT);
 }
