@@ -12,7 +12,7 @@ extern volatile uint8_t donnee[5];
 static void configuration(void){
   /* Ecrire sur le pin en sortie */
   pinMode(GPIO, OUTPUT);
-  /*       
+  /* On effectue un front montant pour configurer les signaux logiques.
       |-----|
       |  1  | (Etat haut du signal logique)
       A     V
