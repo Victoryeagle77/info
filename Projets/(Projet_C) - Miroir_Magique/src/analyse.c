@@ -12,8 +12,6 @@ extern volatile uint8_t donnee[5];
 static void configuration(void){
   /* Ecrire sur le pin en sortie */
   pinMode(GPIO, OUTPUT);
-  /* Pin a l'etat logique bas pendant 20 milliseconds */
-  digitalWrite(GPIO, 0);
   usleep(20000);
   /* Pin a l'etat logique bas pendant 4 nanoseconde */
   digitalWrite(GPIO, 1);
