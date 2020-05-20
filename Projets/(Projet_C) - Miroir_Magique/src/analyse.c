@@ -12,7 +12,6 @@ extern volatile uint8_t donnee[5];
 static void configuration(void){
   /* Ecrire sur le pin en sortie */
   pinMode(GPIO, OUTPUT);
-  usleep(20000);
   /*       
       |-----|
       |  1  | (Etat haut du signal logique)
@@ -21,6 +20,7 @@ static void configuration(void){
   ----|     |-----
   Par default, l'etat du signal logique est bas, on l'a passer a haut. 
   */
+  usleep(20000);
   digitalWrite(GPIO, 1);
   usleep(4);
   /* Lire le pin en entree */
