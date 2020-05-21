@@ -1,6 +1,5 @@
 #include "../header/interface.h"
 #include "../header/analyse.h"
-
 #define DefGC(dpy) DefaultGC(dpy, DefaultScreen(dpy))
 
 extern volatile uint8_t donnee[5];
@@ -140,11 +139,11 @@ static const XContext setup(Display * dpy){
   /* Detecte la resolution de l'ecran */
   for(volatile unsigned short int i = 0; i < ScreenCount(dpy); i++)
     ecran = ScreenOfDisplay(dpy, i);
-    /* Stocke les dimensions dans les variables */
-    x = ecran->width;
-    y = ecran->height;
-    /* Creation de la fenetre */
-    win = XCreateSimpleWindow(dpy, DefaultRootWindow(dpy),
+  /* Stocke les dimensions dans les variables */
+  x = ecran->width;
+  y = ecran->height;
+  /* Creation de la fenetre */
+  win = XCreateSimpleWindow(dpy, DefaultRootWindow(dpy),
                               0, 0, x, y, 0, racine->border, 
 			      racine->background);
     /* make the default pen what we want */
@@ -177,7 +176,7 @@ static const XContext setup(Display * dpy){
 }
 
 static void interface(const Button *b, const XEvent *e){
-  static unsigned char str[6];
+  static unsigned char str[255];
   if(b->text){
     XDrawString16(e->xany.display, e->xany.window, DefGC(e->xany.display), 
                   (b->width - b->text_width)/2, (b->height + b->font_ascent)/2,
@@ -186,15 +185,16 @@ static void interface(const Button *b, const XEvent *e){
     XDrawString(e->xany.display, e->xany.window, DefGC(e->xany.display), 
                 x/2 - 110, 50, "Temperature & Humidity Analyser", 
 		strlen("Temperature & Humidity Analyser"));
+    /* Humidite */
+    sprintf(str, "%s%d%%", "Humidity : ", donnee[0]);
     XDrawString(e->xany.display, e->xany.window, DefGC(e->xany.display), 
-                10, (y/2) - 70, "Humidity : ", strlen("Humidity :"));
+                  20, (y/2) - 70, str, strlen(str));
+    /* Temperature */
+    sprintf(str, "%s%d C or %.1f F", "Temperature : ", 
+            donnee[2], (donnee[2] * 9.0 / 5.0 + 32));
     XDrawString(e->xany.display, e->xany.window, DefGC(e->xany.display), 
-	        10, (y/2) + 70, "Temperature : ", strlen("Temperature :"));
-    for(int i=0; i<2; i++){
-      sprintf(str, "%d", donnee[i]);
-    XDrawString(e->xany.display, e->xany.window, DefGC(e->xany.display), x/12+i*10, y/2-70,
-         str, strlen(str));
-    }
+	        20, (y/2) + 70, str, strlen(str));
+    
     //XClearArea(e->xany.display, x/2, 40, 5, 50, 50, 1);
   }
 }
