@@ -1,9 +1,9 @@
 #include "../header/interface.h"
 #include "../header/analyse.h"
+
 #define DefGC(dpy) DefaultGC(dpy, DefaultScreen(dpy))
 
 extern volatile uint8_t donnee[5];
-
 static volatile unsigned short int x, y;
 
 typedef void (*Reception)(void *data);
@@ -228,7 +228,7 @@ static void survol_bouton(const Button *b, const XEvent *e){
               b->width, b->height, True);
 }
 
-static const short int affichage(Display *dpy, XContext context){
+static void affichage(Display *dpy, XContext context){
   static XEvent ev;
   /* as each event that we asked about occurs, we respond. */
   while(1){
@@ -259,11 +259,11 @@ static const short int affichage(Display *dpy, XContext context){
     }
 }
 
-extern const short int menu(void){
+extern void menu(void){
   static Display *d;
   /* Connexion au serveur*/
   if((d = XOpenDisplay(getenv("DISPLAY"))) == NULL)
     exit(1);
   /* Affichage de la fenetre et ses elements */
-  return affichage(d, setup(d));
+  affichage(d, setup(d));
 }
