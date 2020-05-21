@@ -1,5 +1,6 @@
 #include "../header/interface.h"
 #include "../header/analyse.h"
+
 #define DefGC(dpy) DefaultGC(dpy, DefaultScreen(dpy))
 
 extern volatile uint8_t donnee[5];
