@@ -9,6 +9,6 @@
 #include <X11/Xutil.h>
 #include <X11/Xresource.h>
 
-extern const short int menu(void);
+extern void menu(void);
 
 #endif
