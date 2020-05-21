@@ -4,34 +4,15 @@
 #define DefGC(dpy) DefaultGC(dpy, DefaultScreen(dpy))
 
 extern volatile uint8_t donnee[5];
+
 static volatile unsigned short int x, y;
-
-typedef void (*Reception)(void *data);
-
-/* Structure definissant un bouton */
-volatile typedef struct Button Button;
-struct Button{
-  XChar2b *text;
-  volatile unsigned short int text_width,
-    font_ascent, width, height;
-  unsigned long border, background, foreground;
-  void *data;
-  volatile Reception buttonRelease;
-};
-
-/* Structure definissant l'action de sortie */
-typedef struct sortie Sortie;
-struct sortie {
-  Display *dpy;
-  XFontStruct *font;
-};
 
 static void exitButton(void *data){
   Sortie *e = (Sortie*)data;
   /* Fermeture du flux generant la police */
-  XFreeFont(e->dpy, e->font);
+  XFreeFont(e->d, e->font);
   /* Fermeture des fenetres */
-  XCloseDisplay(e->dpy);
+  XCloseDisplay(e->d);
   exit(0);
 }
 
@@ -77,10 +58,11 @@ static inline XFontStruct *getFont(Display *d, char *def){
   return police;
 }
 
-static void creer_bouton(Display *d, Window parent, char *text, XFontStruct *font,
-		int x, int y, int width, int height, unsigned long foreground, 
-		unsigned long background, unsigned long border, XContext cx,
-		Reception reception, void *data){
+static void creer_bouton(Display *d, Window parent, const char *text, 
+                          XFontStruct *font, const short int x, const short int y, 
+			  const short int width, const short int height, unsigned long foreground, 
+			  const unsigned long background, unsigned long border, XContext cx,
+			  const Reception reception, void *data){
   static volatile Button *button;
   /* Creer une fenetre */
   const Window f = XCreateSimpleWindow(d, parent, x, y, width, height,
@@ -116,63 +98,60 @@ static void creer_bouton(Display *d, Window parent, char *text, XFontStruct *fon
   XMapWindow(d, f);
 }
 
-static const XContext setup(Display * dpy){
+static const XContext setup(Display * d){
   /* */
-  static volatile Window win;
+  static volatile Window f;
   /* Attribus la valeur des composant */
   static XGCValues v;
   
   static XFontStruct * font;
-  static volatile XrmDatabase db;
+  volatile XrmDatabase db = XrmGetDatabase(d);
   
   const XContext cx = XUniqueContext();
   volatile Button *racine = calloc(sizeof(*racine), 1);
   
-  db = XrmGetDatabase(dpy);
   /* Chargement de la police */
-  font = getFont(dpy, "-*-times-medium-r-normal-*-16-*-*-*-*-*-*-*");
-  racine->background = coloration(dpy, "#200000");
-  racine->border = coloration(dpy, "#303030");
-  racine->foreground = v.foreground = coloration(dpy, "#ffffff");
+  font = getFont(d, "-*-times-medium-r-normal-*-16-*-*-*-*-*-*-*");
+  racine->background = coloration(d, "#200010");
+  racine->border = coloration(d, "#303030");
+  racine->foreground = v.foreground = coloration(d, "#ffffff");
   
   static const Screen *ecran;
   /* Detecte la resolution de l'ecran */
-  for(volatile unsigned short int i = 0; i < ScreenCount(dpy); i++)
-    ecran = ScreenOfDisplay(dpy, i);
+  for(volatile unsigned short int i = 0; i < ScreenCount(d); i++)
+    ecran = ScreenOfDisplay(d, i);
   /* Stocke les dimensions dans les variables */
   x = ecran->width;
   y = ecran->height;
   /* Creation de la fenetre */
-  win = XCreateSimpleWindow(dpy, DefaultRootWindow(dpy),
+  f = XCreateSimpleWindow(d, DefaultRootWindow(d),
                               0, 0, x, y, 0, racine->border, 
 			      racine->background);
-    /* make the default pen what we want */
-    v.line_style = LineSolid;
-    v.font = font->fid;
+  /* make the default pen what we want */
+  v.line_style = LineSolid;
+  v.font = font->fid;
     
-    XChangeGC(dpy, DefGC(dpy), GCForeground | GCLineWidth | 
-              GCLineStyle | GCFont,&v);
+  XChangeGC(d, DefGC(d), GCForeground | GCLineWidth | 
+	    GCLineStyle | GCFont, &v);
 	
-	static Sortie *sortie;
-	sortie = malloc(sizeof(*sortie));
-	sortie->dpy = dpy;
-	sortie->font = font;
-  
-	creer_bouton(dpy, win, "Quitter", font,
-		(ecran->width/2)-40, (ecran->height)-130, 80, 
+  static Sortie *sortie;
+  sortie = malloc(sizeof(*sortie));
+  sortie->d = d;
+  sortie->font = font;
+
+  creer_bouton(d, f, "Quitter", font, (x/2)-40, y-130, 80, 
 		(font->ascent+font->descent)*2, racine->foreground, 
-		racine->background, racine->border, cx, exitButton, sortie);
-	
+		0x200050, racine->border, cx, exitButton, sortie);
+		
+  /* tell the display server what kind of events we would like to see */
+  XSelectInput(d, f, StructureNotifyMask | ExposureMask);
+  /* okay, put the window on the screen, please */
+  XMapWindow(d, f);
 
-	/* tell the display server what kind of events we would like to see */
-	XSelectInput(dpy, win, StructureNotifyMask|ExposureMask);
-	/* okay, put the window on the screen, please */
-	XMapWindow(dpy, win);
+  /* save the useful information about the window */
+  XSaveContext(d, f, cx, (XPointer)racine);
 
-	/* save the useful information about the window */
-	XSaveContext(dpy, win, cx, (XPointer)racine);
-
-	return cx;
+  return cx;
 }
 
 static void interface(const Button *b, const XEvent *e){
@@ -183,17 +162,17 @@ static void interface(const Button *b, const XEvent *e){
 		   b->text, legende(b->text));
   }else{
     XDrawString(e->xany.display, e->xany.window, DefGC(e->xany.display), 
-                x/2 - 110, 50, "Temperature & Humidity Analyser", 
+                x/2 - (short int)(5*x/100), 50, "Temperature & Humidity Analyser", 
 		strlen("Temperature & Humidity Analyser"));
     /* Humidite */
     sprintf(str, "%s%d%%", "Humidity : ", donnee[0]);
     XDrawString(e->xany.display, e->xany.window, DefGC(e->xany.display), 
-                  20, (y/2) - 70, str, strlen(str));
+                  20, (30*y/100), str, strlen(str));
     /* Temperature */
     sprintf(str, "%s%d C or %.1f F", "Temperature : ", 
             donnee[2], (donnee[2] * 9.0 / 5.0 + 32));
     XDrawString(e->xany.display, e->xany.window, DefGC(e->xany.display), 
-	        20, (y/2) + 70, str, strlen(str));
+	        20, (60*y/100), str, strlen(str));
     
     //XClearArea(e->xany.display, x/2, 40, 5, 50, 50, 1);
   }
@@ -209,7 +188,7 @@ static void configuration_bouton(volatile Button *b, volatile XEvent *e){
 }
 
 static void pression_bouton(const Button *b, const XEvent *e){
-  XSetWindowAttributes a;
+  static XSetWindowAttributes a;
   a.background_pixel = b->border;
   a.border_pixel = b->background;
   XChangeWindowAttributes(e->xany.display, e->xany.window,
@@ -219,7 +198,7 @@ static void pression_bouton(const Button *b, const XEvent *e){
 }
 
 static void survol_bouton(const Button *b, const XEvent *e){
-  XSetWindowAttributes a;
+  static XSetWindowAttributes a;
   a.background_pixel = b->background;
   a.border_pixel = b->border;
   XChangeWindowAttributes(e->xany.display, e->xany.window,
@@ -228,35 +207,36 @@ static void survol_bouton(const Button *b, const XEvent *e){
               b->width, b->height, True);
 }
 
-static void affichage(Display *dpy, XContext context){
-  static XEvent ev;
+static void affichage(Display *d, const XContext cx){
+  static XEvent e;
   /* as each event that we asked about occurs, we respond. */
   while(1){
     Button *button = NULL;
-    XNextEvent(dpy, &ev);
-    XFindContext(ev.xany.display, ev.xany.window, context, (XPointer*)&button);
-    switch(ev.type){
+    XNextEvent(d, &e);
+    XFindContext(e.xany.display, e.xany.window, 
+                  cx, (XPointer*)&button);
+    switch(e.type){
       /* configure notify will only be sent to the main window */
       case ConfigureNotify:
-        if(button){ configuration_bouton(button, &ev); }
+        if(button){ configuration_bouton(button, &e); }
       break;
-	    /* expose will be sent to both the button and the main window */
-	    case Expose:
-		  if(button){ interface(button, &ev); }
-	    break;
-	    /* these three events will only be sent to the button */
-	    case EnterNotify:
-	      if(button){ pression_bouton(button, &ev); }
-	    break;
-	    case LeaveNotify:
-		if(button){ survol_bouton(button, &ev); }
-	    break;
-	    case ButtonRelease:
-		if(button && button->buttonRelease)
-		    button->buttonRelease(button->data);
-	    break;
-	}
+      /* expose will be sent to both the button and the main window */
+      case Expose:
+        if(button){ interface(button, &e); }
+      break;
+      /* these three events will only be sent to the button */
+      case EnterNotify:
+	if(button){ pression_bouton(button, &e); }
+      break;
+      case LeaveNotify:
+        if(button){ survol_bouton(button, &e); }
+      break;
+      case ButtonRelease:
+        if(button && button->buttonRelease)
+	    button->buttonRelease(button->data);
+      break;
     }
+  }
 }
 
 extern void menu(void){
