@@ -7,7 +7,7 @@ extern volatile uint8_t donnee[5];
 
 static volatile unsigned short int x, y;
 
-static void exitButton(void *data){
+static void quitter(void *data){
   Sortie *e = (Sortie*)data;
   /* Fermeture du flux generant la police */
   XFreeFont(e->d, e->font);
@@ -16,16 +16,16 @@ static void exitButton(void *data){
   exit(0);
 }
 
-static const uint8_t legende(XChar2b *texte){
-  static volatile uint8_t i=0;
+static const uint_fast8_t legende(XChar2b *texte){
+  static volatile uint_fast8_t i=0;
   for(i=0; (texte[i].byte1) || (texte[i].byte2); i++);
   return i;
 }
 
-static const uint8_t encodage(volatile XChar2b *affiche, 
-			      const uint8_t debordement, const char *saisie, 
-			      const uint8_t chaine){
-  static volatile uint8_t i, j;
+static const uint_fast8_t encodage(volatile XChar2b *affiche, 
+                                    const uint_fast8_t debordement, 
+				    const char *saisie, const uint_fast8_t chaine){
+  static volatile uint_fast8_t i, j;
   for(i=0, j=0; (i<chaine) && (j<debordement); i++){
     if(saisie[i] < 128){
       affiche[j].byte1 = 0;
@@ -58,43 +58,44 @@ static inline XFontStruct *getFont(Display *d, char *def){
   return police;
 }
 
-static void creer_bouton(Display *d, Window parent, const char *text, 
-                          XFontStruct *font, const short int x, const short int y, 
-			  const short int width, const short int height, unsigned long foreground, 
-			  const unsigned long background, unsigned long border, XContext cx,
-			  const Reception reception, void *data){
-  static volatile Button *button;
+static void creer_bouton(Display *d, const Window parent, const char *text, 
+			  XFontStruct *font, const short int x, 
+			  const short int y, const short int width, 
+			  const short int height, const unsigned int foreground, 
+			  const unsigned int background, const unsigned int border, 
+			  const XContext cx, const Reception reception, void *data){
+  static volatile Button *bouton;
   /* Creer une fenetre */
-  const Window f = XCreateSimpleWindow(d, parent, x, y, width, height,
-                                        2, border, background);
+  const Window f = XCreateSimpleWindow(d, parent, x, y,
+                                        width, height, 2, border, background);
   if(!(f)){ exit(1); }
   
-  button = calloc(sizeof(*button), 1);
-  if(!(button)){ exit(2); }
+  bouton = calloc(sizeof(*bouton), 1);
+  if(!(bouton)){ exit(2); }
   
-  button->font_ascent = font->ascent;
+  bouton->font_ascent = font->ascent;
   
-  button->text = malloc(sizeof(*button->text) * (strlen(text)+1));
-  if(!button->text){ exit(2); }
+  bouton->text = malloc(sizeof(*bouton->text) * (strlen(text)+1));
+  if(!bouton->text){ exit(2); }
 	
-  button->text_width = XTextWidth16(font, button->text, 
-				    encodage(button->text, strlen(text), 
+  bouton->text_width = XTextWidth16(font, bouton->text, 
+				    encodage(bouton->text, strlen(text), 
 				    text, strlen(text)));
   /* Attribution du retour de clique sur bouton */
-  button->buttonRelease = reception;
-  button->data = data;
+  bouton->buttonRelease = reception;
+  bouton->data = data;
   /* Attribution de la longueur et largeur du bouton et son texte */
-  button->width = width;
-  button->height = height;
-  
-  button->background = background;
-  button->foreground = foreground;
-  button->border = border;
+  bouton->width = width;
+  bouton->height = height;
+  /* Attribut de decoration du bouton */
+  bouton->background = background;
+  bouton->foreground = foreground;
+  bouton->border = border;
   
   XSelectInput(d, f, ButtonPressMask | ButtonReleaseMask | 
 	        StructureNotifyMask | ExposureMask |
 		LeaveWindowMask | EnterWindowMask);
-  XSaveContext(d, f, cx, (XPointer)button);
+  XSaveContext(d, f, cx, (XPointer)bouton);
   XMapWindow(d, f);
 }
 
@@ -112,8 +113,8 @@ static const XContext setup(Display * d){
   
   /* Chargement de la police */
   font = getFont(d, "-*-times-medium-r-normal-*-16-*-*-*-*-*-*-*");
-  racine->background = coloration(d, "#200010");
-  racine->border = coloration(d, "#303030");
+  racine->background = coloration(d, "#101010");
+  racine->border = coloration(d, "#903030");
   racine->foreground = v.foreground = coloration(d, "#ffffff");
   
   static const Screen *ecran;
@@ -134,15 +135,14 @@ static const XContext setup(Display * d){
   XChangeGC(d, DefGC(d), GCForeground | GCLineWidth | 
 	    GCLineStyle | GCFont, &v);
 	
-  static Sortie *sortie;
-  sortie = malloc(sizeof(*sortie));
-  sortie->d = d;
-  sortie->font = font;
+  Sortie *data = malloc(sizeof(*data));
+  data->d = d;
+  data->font = font;
 
-  creer_bouton(d, f, "Quitter", font, (x/2)-40, y-130, 80, 
-		(font->ascent+font->descent)*2, racine->foreground, 
-		0x200050, racine->border, cx, exitButton, sortie);
-		
+  creer_bouton(d, f, "Exit", font, (x/2)-40, y-130, 80, 
+		(font->ascent + font->descent) * 2, racine->foreground, 
+		0x400000, racine->border, cx, quitter, data);
+
   /* tell the display server what kind of events we would like to see */
   XSelectInput(d, f, StructureNotifyMask | ExposureMask);
   /* okay, put the window on the screen, please */
@@ -157,12 +157,13 @@ static const XContext setup(Display * d){
 static void interface(const Button *b, const XEvent *e){
   static unsigned char str[255];
   if(b->text){
+    /* Texte du bouton */
     XDrawString16(e->xany.display, e->xany.window, DefGC(e->xany.display), 
                   (b->width - b->text_width)/2, (b->height + b->font_ascent)/2,
 		   b->text, legende(b->text));
   }else{
     XDrawString(e->xany.display, e->xany.window, DefGC(e->xany.display), 
-                x/2 - (short int)(5*x/100), 50, "Temperature & Humidity Analyser", 
+                x/2 - 110, 50, "Temperature & Humidity Analyser", 
 		strlen("Temperature & Humidity Analyser"));
     /* Humidite */
     sprintf(str, "%s%d%%", "Humidity : ", donnee[0]);
@@ -173,8 +174,8 @@ static void interface(const Button *b, const XEvent *e){
             donnee[2], (donnee[2] * 9.0 / 5.0 + 32));
     XDrawString(e->xany.display, e->xany.window, DefGC(e->xany.display), 
 	        20, (60*y/100), str, strlen(str));
-    
-    //XClearArea(e->xany.display, x/2, 40, 5, 50, 50, 1);
+   /* XClearArea(e->xany.display, e->xany.window, 0, 0, 
+              b->width, b->height, True); */
   }
 }
 
