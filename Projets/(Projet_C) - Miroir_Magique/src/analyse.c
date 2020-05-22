@@ -29,11 +29,11 @@ static void etalonnage(void){
 * en fonction des GPIO sur lesquels il est branche.
 */
 static void configuration(void){
-  /* Ecrire sur le pin en sortie */
-  pinMode(GPIO, OUTPUT);
-  etalonnage();
-  /* Lire le pin en entree */
-  pinMode(GPIO, INPUT);
+	/* Ecrire sur le pin en sortie */
+	pinMode(GPIO, OUTPUT);
+	etalonnage();
+	/* Lire le pin en entree */
+	pinMode(GPIO, INPUT);
 }
 
 /**
@@ -42,43 +42,45 @@ static void configuration(void){
 * par operations bianires.
 */
 static void lire_donnee(void){
-  volatile uint8_t tmp = 1, decalage = 0, j = 0;
-  static float conversion;
+	volatile uint_fast8_t tmp = 1, decalage = 0, j = 0;
+
+	configuration();
+
+	/* Lire les donnees lors de la detection d'un changement */
+	for(volatile unsigned short i=0; i<85; i++){
+		decalage = 0;
+		while(digitalRead(GPIO) == tmp) {
+			decalage++;
+			delayMicroseconds(1);
+			if(decalage == 255){ break; }
+		}
+		
+		/* Lecture de l'etat du signal logique du GPIO */
+		tmp = digitalRead(GPIO);
+		if(decalage == 255){ break; }
+		
+		/* Ignore les 3 premieres transitions */
+		if((i >= 4) && (i%2 == 0)){
+			/* Insere chaque bit dans les octets de stockage */
+			donnee[j/8] <<= 1;
+			if(decalage > 50){ donnee[j/8] |= 1; }
+			j++;
+		}
+	}
 	
-  /* Initialiser les donnees a 0 */
-  donnee[0] = donnee[1] = donnee[2] 
-  = donnee[3] = donnee[4] = 0;
-
-  configuration();
-
-  /* Lire les donnees lors de la detection d'un changement */
-  for(volatile unsigned short i=0; i<85; i++){
-    decalage = 0;
-    while(digitalRead(GPIO) == tmp) {
-      decalage++;
-      delayMicroseconds(1);
-      if(decalage == 255){ break; }
-    }
-
-    /* Lecture de l'etat du signal logique du GPIO */
-    tmp = digitalRead(GPIO);
-    if(decalage == 255){ break; }
-
-    /* Ignore les 3 premieres transitions */
-    if((i >= 4) && (i%2 == 0)){
-      /* Insere chaque bit dans les octets de stockage */
-      donnee[j/8] <<= 1;
-      if(decalage > 50){ donnee[j/8] |= 1; }
-      j++;
-    }
-  }
-
-  /* Verifier que la lecture est de 40 bits (car on a 1 octet, de 8 bits,
-  pour les 5 cases du tableau de donnees), et la somme du dernier octet */
-  if((j >= 40) && (donnee[4] == (donnee[0] + 
-				 donnee[1] + donnee[2] + donnee[3])))
-    /* Conversion en degre Fahrenheit */
-    conversion = donnee[2] * 9.0 / 5.0 + 32;
+	/* Variable tampont recueprant les valeurs correctes */
+	static volatile uint8_t valeur[5] = {0};
+	/* Verifier que la lecture est de 40 bits (car on a 1 octet, de 8 bits,
+	pour les 5 cases du tableau de donnees), et la somme du dernier octet. */
+	if((j >= 40) && (donnee[4] == (donnee[0] + 
+			donnee[1] + donnee[2] + donnee[3]))){
+		for(volatile unsigned short i=0; i<5; i++)
+			valeur[i] = donnee[i];
+	}else{
+		/* Si la valeur est incorrecte, on prend la precedente. */
+		for(volatile unsigned short i=0; i<5; i++)
+			donnee[i] = valeur[i];
+	}
 }
 
 /**
@@ -87,14 +89,14 @@ static void lire_donnee(void){
 * et la deploiement de la librairie wiringPi.
 */
 extern void analyse(void){
-  /* Deploiement de la librairie wiringPi */
-  if(wiringPiSetup() == -1){
-    puts("Erreur : configuration librairie wiringPi");
-    exit(1);
-  }
-  /* Emettre continuellement toutes les secondes */
-  while(1){
-    lire_donnee();
-    sleep(1);
-  }
+	/* Deploiement de la librairie wiringPi */
+	if(wiringPiSetup() == -1){
+		puts("Erreur : configuration librairie wiringPi");
+		exit(1);
+	}
+	/* Emettre continuellement toutes les secondes */
+	while(1){
+		lire_donnee();
+		sleep(1);
+	}
 }
