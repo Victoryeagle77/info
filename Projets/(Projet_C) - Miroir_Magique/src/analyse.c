@@ -1,7 +1,5 @@
 #include "../header/analyse.h"
 
-#define GPIO 7
-
 extern volatile uint8_t donnee[5];
 
 /**
