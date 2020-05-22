@@ -9,6 +9,9 @@
 #include <X11/Xutil.h>
 #include <X11/Xresource.h>
 
+#define DefGC(dpy) DefaultGC(dpy, DefaultScreen(dpy))
+
+/* Type definissant les valeurs de retour lors du clique */
 volatile typedef void (*Reception)(void *data);
 
 /* Structure definissant un bouton */
