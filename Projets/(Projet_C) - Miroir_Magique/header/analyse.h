@@ -9,6 +9,8 @@
 /* Librairie de communication serie sur Raspberry */
 #include <wiringPi.h>
 
+#define GPIO 7
+
 volatile uint8_t donnee[5];
 
 extern void analyse(void);
