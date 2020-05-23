@@ -9,23 +9,23 @@
 #include <X11/Xutil.h>
 #include <X11/Xresource.h>
 
-#define DefGC(dpy) DefaultGC(dpy, DefaultScreen(dpy))
+#define DefGC(d) DefaultGC(d, DefaultScreen(d))
 
 /* Type definissant les valeurs de retour lors du clique */
 volatile typedef void (*Reception)(void *data);
 
-/* Structure definissant un bouton */
+/* Structure et type definissant un bouton */
 typedef struct Button Button;
 struct Button{
   XChar2b *text;
   volatile unsigned short int text_width,
-    font_ascent, width, height;
+    font_ascent, largeur, hauteur;
   volatile unsigned long border, background, foreground;
   void *data;
-  volatile Reception buttonRelease;
+  volatile Reception relachement;
 };
 
-/* Structure definissant les actions de sortie */
+/* Structure et type definissant les actions de sortie */
 typedef struct sortie Sortie;
 struct sortie {
   Display *d;
