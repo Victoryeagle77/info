@@ -1,6 +1,5 @@
 #include "../header/interface.h"
 #include "../header/analyse.h"
-#include "time.h"
 
 extern volatile uint8_t donnee[5];
 
