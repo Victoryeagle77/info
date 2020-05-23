@@ -13,6 +13,7 @@
 
 volatile uint8_t donnee[5];
 
+extern volatile unsigned char *date(char *);
 extern void analyse(void);
 
 #endif
