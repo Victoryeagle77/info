@@ -127,14 +127,17 @@ static const XContext configuration(Display * d){
    v.line_style = LineSolid;
    v.font = font->fid;
    
-   XChangeGC(d, DefGC(d), GCForeground | GCLineWidth | 
+   /* Titre de la fenetre et de son onglet */
+   Xutf8SetWMProperties(d, f, "T.H.A", "T.H.A", NULL, 0, NULL, NULL, NULL);
+
+   XChangeGC(d, GC(d), GCForeground | GCLineWidth | 
                GCLineStyle | GCFont, &v);
 
    Sortie *data = malloc(sizeof(*data));
    data->d = d;
    data->font = font;
 
-   creer_bouton(d, f, "Exit", font, (x/2)-40, y-130, 80, 
+   creer_bouton(d, f, "Exit", font, (x/2)-40, (short int)(y*85/100), 80, 
                   (font->ascent + font->descent) * 2, racine->foreground, 
                   0x400000, racine->border, cx, quitter, data);
 
@@ -181,29 +184,27 @@ static void interface(const Button *b, const XEvent *e){
    static char str[255];
    if(b->text){
       /* Texte du bouton */
-      XDrawString16(e->xany.display, e->xany.window, DefGC(e->xany.display), 
+      XDrawString16(e->xany.display, e->xany.window, GC(e->xany.display), 
                      (b->largeur - b->text_width)/2, (b->hauteur + b->font_ascent)/2,
                      b->text, legende(b->text));
    }else{
-      XDrawString(e->xany.display, e->xany.window, DefGC(e->xany.display), 
+      XDrawString(e->xany.display, e->xany.window, GC(e->xany.display), 
                   (x/2)-120, 50, "Temperature & Humidity Analyser", 
                   strlen("Temperature & Humidity Analyser"));
 
       /* Date */
       date(str);
-      XDrawString(e->xany.display, e->xany.window, DefGC(e->xany.display), 
+      XDrawString(e->xany.display, e->xany.window, GC(e->xany.display), 
                   (x/2)-60, 150, str, strlen(str));
       /* Humidite */
       sprintf(str, "%s%d%%", "Humidity : ", donnee[0]);
-      XDrawString(e->xany.display, e->xany.window, DefGC(e->xany.display), 
-               20, (y/2)-100, str, strlen(str));
+      XDrawString(e->xany.display, e->xany.window, GC(e->xany.display), 
+               20, (y*40/100), str, strlen(str));
       /* Temperature */
-      sprintf(str, "%s%d *C or %.1f *F", "Temperature : ", 
+      sprintf(str, "%s%d *C or %.1f *F", "Temperature : ",
                donnee[2], (donnee[2] * 9.0 / 5.0 + 32));
-      XDrawString(e->xany.display, e->xany.window, DefGC(e->xany.display), 
-                  20, (y/2)+100, str, strlen(str));
-      XClearArea(e->xany.display, e->xany.window, 0, 0, 
-                  120, (y/2)+110, True);
+      XDrawString(e->xany.display, e->xany.window, GC(e->xany.display), 
+                  20, (y*60/100), str, strlen(str));
    }
 }
 
@@ -213,8 +214,9 @@ static void affichage(Display *d, const XContext cx){
    while(1){
       static Button *b = NULL;
       XNextEvent(d, &e);
-      XFindContext(e.xany.display, e.xany.window, 
-                  cx, (XPointer*)&b);
+      XFindContext(e.xany.display, e.xany.window, cx, (XPointer*)&b);
+      usleep(10000);
+      XClearArea(e.xany.display, e.xany.window, 0, 0, 300, b->largeur, True);
       switch(e.type){
          /* Afficher les composants graphiques dans la fenetre. */
          case Expose:
