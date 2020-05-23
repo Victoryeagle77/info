@@ -2,6 +2,15 @@
 
 extern volatile uint8_t donnee[5];
 
+extern volatile unsigned char *date(char *chaine){
+    time_t temps = time(NULL);
+    volatile struct tm tm = *localtime(&temps);
+    sprintf(chaine, "%s%02d/%02d/%d - %02d:%02d",
+            "", tm.tm_mday, tm.tm_mon + 1, tm.tm_year + 1900, 
+            tm.tm_hour, tm.tm_min);
+    return chaine;
+}
+
 /**
 * @function etalonnage
 * Permet d'effectuer une transitions sur les niveaux logiques,
