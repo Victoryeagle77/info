@@ -4,6 +4,8 @@ compilation : exe
 ### 2] Variables des fichiers d'extension ".o" a creer ###
 OFILES = src/main.o \
          src/interface.o \
+	 src/composant.o \
+	 src/utilitaire.o \
          src/analyse.o
 
 # Compilation et arguments de compilation
@@ -11,8 +13,10 @@ CC = gcc -Ofast -flto
 
 ### 3] Depedences a regles implicites des fichiers d'extension ".o" ###
 analyse.o : ../header/analyse.h
+utilitaire.o : ../header/interface.h
+composant.o : ../header/interface.h
 interface.o : ../header/interface.h
-main.o : data.o interface.o
+main.o : data.o utilitaire.o composant.o interface.o
 
 ### 4] Depedences precedentes appliquees par commandes ###
 exe : $(OFILES)
