@@ -71,12 +71,12 @@ static const XContext config(Display * d){
                   (font->ascent + font->descent) * 2, racine->foreground, 
                   0x400000, racine->border, cx, quitter, data);
 
-   /* tell the display server what kind of events we would like to see */
+   /* Dire au serveur d'affichage quel type d'événements nous voulons avoir */
    XSelectInput(d, f, StructureNotifyMask | ExposureMask);
-   /* okay, put the window on the screen, please */
+   /* Afficher la fenetre sur l'ecran */
    XMapWindow(d, f);
 
-   /* save the useful information about the window */
+   /* Sauvegarder les informations du contexte graphique de la fenetre */
    XSaveContext(d, f, cx, (XPointer)racine);
 
    return cx;
