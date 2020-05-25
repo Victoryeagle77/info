@@ -3,7 +3,7 @@
 #include "../header/interface.h"
 
 extern void main(void){
-    static pthread_t th[2];affichage
+    static pthread_t th[2];
     pthread_create(&th[0], NULL, (void *)analyse, NULL);
     pthread_create(&th[1], NULL, (void *)menu, NULL);
     
