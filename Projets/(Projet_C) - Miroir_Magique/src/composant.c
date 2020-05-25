@@ -40,8 +40,7 @@ extern void creer_bouton(Display *d, const Window parent, const char *text,
    XMapWindow(d, f);
 }
 
-extern void survol_bouton(const Button *b, 
-                           const XEvent *e){
+extern void survol_bouton(const Button *b, const XEvent *e){
    /* Attribu du bouton dans la fenetre */
    static XSetWindowAttributes a;
    /* Couleur de Fond remplacer par les bordures */
@@ -54,8 +53,7 @@ extern void survol_bouton(const Button *b,
               b->largeur, b->hauteur, True);
 }
 
-extern void pression_bouton(const Button *b, 
-                             const XEvent *e){
+extern void pression_bouton(const Button *b, const XEvent *e){
    /* Attribu du bouton dans la fenetre */
    static XSetWindowAttributes a;
    /* Couleur de Fond */
