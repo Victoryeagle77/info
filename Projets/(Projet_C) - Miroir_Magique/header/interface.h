@@ -17,7 +17,7 @@ volatile typedef void (*Reception)(void *data);
 /* Structure et type definissant un bouton */
 typedef struct Button Button;
 struct Button{
-  XChar2b *text;
+  XChar2b *texte;
   volatile unsigned short int longueur,
     font_ascent, largeur, hauteur;
   volatile unsigned long border, background, foreground;
