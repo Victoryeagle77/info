@@ -1,72 +1,164 @@
 #include "../header/interface.h"
 #include "../header/analyse.h"
 
-static volatile unsigned short int x = 300, y = 300;
-static Display *disposition;
-static Window fenetre;
-static GC canvas;
-static XFontStruct *fd;
-
 extern volatile uint8_t donnee[5];
 
-static void configuration(void){
-   /* Connexion au serveur*/
-   if((disposition = XOpenDisplay(getenv("DISPLAY"))) == NULL){
-      puts("Erreur : Connexion serveur");
-      exit(1);
+static inline XImage *config_fond(unsigned char *map, Display *d, Visual *vue, 
+                                    const unsigned char *image, volatile unsigned short int x, 
+                                    volatile unsigned short int y){
+   map = (unsigned char *)malloc(x*y*100);
+   volatile unsigned char *tmp = map;
+   for(volatile uint16_t i=0; i<x; i++){
+      for(volatile uint16_t j=0; j<y; j++){
+         for(volatile uint16_t k=0; k<50; k++){
+            *tmp ++= i%256;
+            *tmp ++= k%1;
+         }
+      }
    }
-   /* Creer une fenetre */
-   fenetre = XCreateSimpleWindow(
-      disposition, RootWindow(disposition, DefaultScreen(disposition)),
-      0, 0, x, y, 0, 
-      BlackPixel(disposition, DefaultScreen(disposition)), 20);
-
-   /* Chargement d'une police de caracteres*/
-   if((fd = XLoadQueryFont(disposition, "-*-helvetica-medium-r-normal-*-13-*-*-*-*-*-*-*")) == NULL){
-      puts("Erreur : Chargement police");
-      exit(1);
-   }
+   return XCreateImage(d, vue, DefaultDepth(d, DefaultScreen(d)), 
+                        ZPixmap, 0, map, x, y, 32, 0);
 }
 
-static void initialiser(void){
+static inline XFontStruct *config_police(Display *d, char *nom){
+   static const XrmValue v;
+   static char *type;
+   static XFontStruct *police = NULL;
+
+   if(v.addr)
+      police = XLoadQueryFont(d, v.addr);
+
+   /* Si la police de texte ne charge pas */
+   if(!(police))
+      police = XLoadQueryFont(d, nom);
+
+   return police;
+}
+
+static const XContext config_generale(Display * d, volatile unsigned short int x, 
+                                       volatile unsigned short int y){
+   static volatile Window f;
+   /* Attribus la valeur des composant */
    static XGCValues gcv;
+   /* Structure de la police de texte */
+   static XFontStruct * font;
+   /* contexte graphique */
+   const XContext cx = XUniqueContext();
+
+   volatile Button *src = calloc(sizeof(*src), 1);
+   Sortie *data = malloc(sizeof(*data));
+
+   /* Chargement de la police */
+   font = config_police(d, "-*-courier-medium-r-normal-*-16-*-*-*-*-*-iso8859-1");
+   gcv.foreground = 0xffffff;
+   gcv.font = font->fid;
+   /* Parametre bouton */
+   data->d = d;
+   data->font = font;
+
+   /* Creation de la fenetre */
+   f = XCreateSimpleWindow(d, DefaultRootWindow(d), 0, 0, x, y, 0, 
+                              src->border, src->background);
+
+   /* Titre de la fenetre et de son onglet */
+   Xutf8SetWMProperties(d, f, "T.H.A", "T.H.A", NULL, 0, NULL, NULL, NULL);
+
+   XChangeGC(d, GC(d), GCForeground | GCLineWidth | 
+               GCLineStyle | GCFont, &gcv);
+
+   creer_bouton(d, f, "Exit", font, (x/2)-40, (y-150), 80, 
+                  (font->ascent + font->descent) * 2 + 5, 0,
+                  0x803030, 0x404040, cx, quitter, data);
+
+   /* Dire au serveur d'affichage quel type d'evenements que nous voulons avoir */
+   XSelectInput(d, f, ExposureMask | KeyPressMask);
+   /* Afficher la fenetre sur l'ecran. */
+   XMapWindow(d, f);
+   /* Conserver les informations du contexte graphique. */
+   XSaveContext(d, f, cx, (XPointer)src);
    
-   configuration();
-   
-   /* Mise en place de la structure de la police */
-   gcv.font = fd->fid;
-   /* Couleur de fond de la police */
-   gcv.foreground = WhitePixel(disposition, DefaultScreen(disposition));
-   /* Container des éléments graphiques */
-   canvas = XCreateGC(disposition, fenetre, GCFont | GCForeground, &gcv);
-   /* Afficher la fenetre */
-   XMapWindow(disposition, fenetre);
-   /* Titre de la fenetre */
-   XStoreName(disposition, fenetre, "Sonde");
-   /* Afficher les composants graphiques au lancement */
-   XSelectInput(disposition, fenetre, ExposureMask);
+   return cx;
 }
 
-static void modeliser(void){
-   static unsigned char str[6];
-   static volatile unsigned short int i=0;
-   static uint8_t temperature;
-   
-   while(1){
-      sprintf(str, "%d", donnee[0]);
-      XDrawString(disposition, fenetre, canvas, x/2, 40,
-         str, strlen(str));
+static void afficher(const Button *b, const XEvent *e, 
+                        volatile unsigned short int x, volatile unsigned short int y){
+   static char str[2];
+   if(b->texte){
+      /* Texte du bouton */
+      XDrawString16(e->xany.display, e->xany.window, GC(e->xany.display), 
+                     (b->largeur - b->longueur)/2, (b->hauteur + b->font_ascent)/2,
+                     b->texte, encodage(b->texte));
+   }else{
+      tracer_fonction(e->xany.display, e->xany.window, x/2, y/2);
+      XDrawString(e->xany.display, e->xany.window, GC(e->xany.display), 
+                  (x/2)-150, 70, "Temperature & Humidity Analyser", 
+                  strlen("Temperature & Humidity Analyser"));
 
-      XDrawString(disposition, fenetre, canvas, 10, 20,
-         "Analayse de Temperature", strlen("Analayse de Temperature"));
-      XDrawString(disposition, fenetre, canvas, 10, (y/2) - 30,
-         "Humidity : ", strlen("Humidity :"));
-      XDrawString(disposition, fenetre, canvas, 10, (y/2) + 30,
-         "Temperature : ", strlen("Temperature :"));
+      /* Date */
+      date(str);
+      XDrawString(e->xany.display, e->xany.window, GC(e->xany.display), 
+                  (x/2)-80, 150, str, strlen(str));
+
+      tracer_fonction(e->xany.display, e->xany.window, x/2, y/2);
    }
 }
 
-extern void affichage(void){
-   initialiser();
-   modeliser();
+static void interaction(Display *d, const XContext cx, XImage *ximage, 
+                        volatile unsigned short int x, volatile unsigned short int y){
+   static XEvent e;
+   /* A chaque envoie d'evenement, on envoie la reponse correspondante. */
+   while(1){
+      static Button *b = NULL;
+      XNextEvent(d, &e);
+      XFindContext(e.xany.display, e.xany.window, cx, (XPointer*)&b);
+      switch(e.type){
+         /* Afficher les composants graphiques dans la fenetre. */
+         case Expose:
+            XPutImage(e.xany.display, e.xany.window, GC(e.xany.display),
+                        ximage, 0, 0, 0, 0, x, y);
+            if(b){ afficher(b, &e, x, y); }
+         break;
+         /* Active la surbrillance, inversion des couleurs du fond et des bordures,
+         lorsque l'on entre dans la zone definissant le bouton. */
+         case EnterNotify:
+            if(b){ pression_bouton(b, &e); }
+         break;
+         /* La surbrillance, inversion des couleurs du fond et des bordures,
+         s'enleve lorsque l'on quitte la zone definissant le bouton. */
+         case LeaveNotify:
+            if(b){ survol_bouton(b, &e); }
+         break;
+         /* Lors du relachement du bouton, on effectue les actions voulues. */
+         case ButtonRelease:
+            if((b) && (b->relachement))
+               b->relachement(b->data);
+         break;
+      }
+   }
+}
+
+extern void menu(void){
+   static Display *d;
+   static const Screen *ecran;
+   static unsigned char *map;
+
+   /* Connexion au serveur*/
+   if((d = XOpenDisplay(getenv("DISPLAY"))) == NULL)
+      exit(1);
+   
+   /* Type de disposition de l'image de fond */
+   Visual *vue = DefaultVisual(d, 0);
+   if(vue->class != TrueColor){ exit(1); }
+   
+   /* Detecte la resolution de l'ecran */
+   for(volatile unsigned short int i=0; i<ScreenCount(d); i++)
+      ecran = ScreenOfDisplay(d, i);
+   /* Stocke les dimensions dans les variables */
+   volatile unsigned short int x = ecran->width;
+   volatile unsigned short int y = ecran->height;
+
+   /* Affichage de la fenetre et ses elements */
+   interaction(d, config_generale(d, x, y), 
+               config_fond(map, d, vue, 0, x, y), x, y);
+   free(map);
 }
