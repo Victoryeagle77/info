@@ -36,6 +36,11 @@ extern const uint_fast8_t decodage(volatile XChar2b *affiche,
    return j;
 }
 
+/**
+* @function quitter
+* Permet de liberer les elements alloues dans l'espace memoire
+* @param data : type de pointeur vers elements
+*/
 extern void quitter(void *data){
    Sortie *e = (Sortie*)data;
    /* Fermeture du flux generant la police */
