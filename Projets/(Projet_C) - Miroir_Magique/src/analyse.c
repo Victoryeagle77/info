@@ -59,7 +59,7 @@ static void lire_donnee(void){
 
         if((i >= 4) && (i%2 == 0)){
             /* On stocke chaque bit dans un octet de recuperation,
-            par decalage bit a bit. */
+            par decalage bit a bit vers la gauche. */
             donnee[j/8] <<= 1;
             if(decalage > 50){ donnee[j/8] |= 1; }
             j++;
