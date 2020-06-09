@@ -73,8 +73,8 @@ static void lire_donnee(void){
     /* Verifier que la somme du dernier octet et que la lecture est de 40 bits.
     (car on a 8 bits (1 octet) * 5 cases du tableau de donnees = 40),
     On s'assure ainsi que cela respecte les bornes de mesure de la sonde. */
-    if((j >= 40) && (donnee[4] == (donnee[0] + 
-        donnee[1] + donnee[2] + donnee[3]))){
+    if((j >= 40) && (donnee[4] == (donnee[0] + donnee[1] + 
+                                   donnee[2] + donnee[3]))){
         for(volatile unsigned short i=0; i<5; i++)
             valeur[i] = donnee[i];
     }else{
