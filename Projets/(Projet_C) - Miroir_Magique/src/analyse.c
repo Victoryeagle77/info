@@ -36,7 +36,8 @@ static void configuration(void){
 * par operations bianires.
 */
 static void lire_donnee(void){
-    volatile uint_fast8_t tmp = 1, decalage = 0, j = 0;
+    volatile uint_fast8_t tmp = 1, plage = 0, j = 0;
+
     /* protocole */
     configuration();
 
@@ -46,16 +47,16 @@ static void lire_donnee(void){
         while(digitalRead(GPIO) == tmp) {
             decalage++;
             delayMicroseconds(1);
-            /* En cas d'atteinte la limite de 2^8 valeurs, soit 255 valeurs,
-            L'incrementation du decalage est remise a 0. */
-            if(decalage == 255){ break; }
+            /* En cas d'atteinte la limite de 2^8 valeurs, 
+            soit 255 valeurs, on sort de la plage de valeur. */
+            if(plage == 255){ break; }
         }
 
         /* Lecture de l'etat du signal logique du GPIO */
         tmp = digitalRead(GPIO);
-        /* En cas d'atteinte la limite de 2^8 valeurs, soit 255 valeurs,
-        L'incrementation du decalage est remise a 0. */
-        if(decalage == 255){ break; }
+        /* En cas d'atteinte la limite de 2^8 valeurs, 
+        soit 255 valeurs, on sort de la plage de valeur. */
+        if(plage == 255){ break; }
 
         if((i >= 4) && (i%2 == 0)){
             /* On stocke chaque bit dans un octet de recuperation,
@@ -63,7 +64,7 @@ static void lire_donnee(void){
             donnee[j/8] <<= 1;
             /* 50 est la valeur maximale que peut relever la sonde en temperature,
             si on la depasse, alors on fait un "ou" bit a bit. */
-            if(decalage > 50){ donnee[j/8] |= 1; }
+            if(plage > 50){ donnee[j/8] |= 1; }
             j++;
         }
     }
