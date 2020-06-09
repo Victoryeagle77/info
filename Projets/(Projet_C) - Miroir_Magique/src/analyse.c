@@ -43,9 +43,9 @@ static void lire_donnee(void){
 
     /* Lire les donnees lors de la detection d'un changement */
     for(volatile unsigned short i=0; i<85; i++){
-        decalage = 0;
+        plage = 0;
         while(digitalRead(GPIO) == tmp) {
-            decalage++;
+            plage++;
             delayMicroseconds(1);
             /* En cas d'atteinte la limite de 2^8 valeurs, 
             soit 255 valeurs, on sort de la plage de valeur. */
