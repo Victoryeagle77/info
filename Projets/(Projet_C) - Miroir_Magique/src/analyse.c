@@ -61,6 +61,7 @@ static void lire_donnee(void){
             /* On stocke chaque bit dans un octet de recuperation,
             par decalage bit a bit vers la gauche. */
             donnee[j/8] <<= 1;
+            /* 50 est la valeur maximale que peut relever la sonde en temperature */
             if(decalage > 50){ donnee[j/8] |= 1; }
             j++;
         }
