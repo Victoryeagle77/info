@@ -57,6 +57,7 @@ static void lire_donnee(void){
 
         /* Lecture de l'etat du signal logique du GPIO */
         tmp = digitalRead(GPIO);
+
         /* En cas d'atteinte de la limite de 2^8 valeurs, 
         soit 255 valeurs, on sort de la plage de valeur. */
         if(plage == 255){ break; }
