@@ -5,7 +5,6 @@ volatile uint_fast8_t continuation = 0;
 extern volatile uint8_t donnee[5];
 
 static void *ecriture(void *flux){
-    const char* const numbers[] = { "one", "two", "three", "four", "five" };
 
     for(volatile uint_fast8_t i=0; i<5; i++){
         /*  Verouillage consultatif exclusif */
@@ -13,7 +12,7 @@ static void *ecriture(void *flux){
         /* Ecrire toutes les 10 seconcdes */
         sleep(1);
         lseek(fd, 0, SEEK_END);
-        write(fd, numbers[i], strlen(numbers[i]));
+        write(fd,  donnee[i], sizeof(donnee[i]));
         /* Deverrouillage du verrou tenu par le processus */
         flock(fd, LOCK_UN);
     }
