@@ -1,8 +1,5 @@
 #include "../header/interface.h"
 
-/* Definit la courbe maximum du differentiel pression-temperature. */
-extern volatile unsigned short int parametre[2];
-
 /**
 * @function *date
 * Permet de relever la date actuelle :
@@ -12,13 +9,14 @@ extern volatile unsigned short int parametre[2];
 * @param *e : Evenement d'affichage
 * @param x : Taille de l'ecran en largeur
 */
-extern void date(unsigned char *str, const XEvent *e, volatile unsigned short int x){
+extern uint_fast8_t *date(void){
+    static uint_fast8_t str[2];
     time_t temps = time(NULL);
     volatile struct tm tm = *localtime(&temps);
-    sprintf(str, "%02d/%02d/%d - %02d:%02d", tm.tm_mday, 
-                tm.tm_mon + 1, tm.tm_year + 1900, tm.tm_hour, tm.tm_min);
-    XDrawString(e->xany.display, e->xany.window, GC(e->xany.display), 
-                (x/2)-90, 130, str, 18);
+    sprintf(str, "%02d/%02d/%d - %02d:%02d:%02d", tm.tm_mday, 
+            tm.tm_mon + 1, tm.tm_year + 1900, tm.tm_hour, 
+            tm.tm_min, tm.tm_sec);
+    return str;
 }
 
 extern const uint_fast8_t encodage(const XChar2b *texte){
@@ -78,8 +76,8 @@ extern void saisie(XEvent *e, const uint_fast8_t id){
     }else if(touche == 0xff0d){
         static volatile uint_fast8_t tmp[2];
         /* On converti la chaine en nombre selon la zone */
-        tmp[0] = (const unsigned short int)strtol(temperature, NULL, 10);
-        tmp[1] = (const unsigned short int)strtol(humidite, NULL, 10);
+        tmp[0] = (const uint8_t)strtol(temperature, NULL, 10);
+        tmp[1] = (const uint8_t)strtol(humidite, NULL, 10);
         /* On verifie les valeurs converties */
         if((tmp[0] <= 50) && (tmp[1] >= 20) && (tmp[1] <= 80)){
             for(volatile uint_fast8_t i=0; i<2; i++)

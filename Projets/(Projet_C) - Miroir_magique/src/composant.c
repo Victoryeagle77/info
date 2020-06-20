@@ -44,8 +44,8 @@ extern void creer_bouton(Display *d, const Window racine, const char *texte,
 
    /* Principaux elements du canvas */
    creer_canvas(d, racine, f, canvas, x, y, largeur, hauteur, background, border,
-                  StructureNotifyMask | ExposureMask | EnterWindowMask | LeaveWindowMask | 
-                  ButtonPressMask | ButtonReleaseMask, cx, 0);
+                  StructureNotifyMask | ExposureMask | EnterWindowMask | 
+                  LeaveWindowMask | ButtonReleaseMask, cx, 0);
 }
 
 extern void creer_graph(Display *d, const Window racine, const unsigned short int x,
@@ -105,25 +105,13 @@ extern void config_canvas(Zone *canvas, const XEvent *e){
 	}
 }
 
-extern void active_bouton(const Zone *canvas, const XEvent *e){
+extern void survol_bouton(const Zone *canvas, const XEvent *e, const unsigned int nuance){
    /* Attribu du canvas dans la fenetre */
    static XSetWindowAttributes a;
    /* Couleur de fond */
-   a.background_pixel = canvas->border;
-   a.border_pixel = canvas->background;
-   /* Changement d'attribus par remplacement du jeu de couleur */
-   XChangeWindowAttributes(e->xany.display, e->xany.window,
-                           CWBackPixel | CWBorderPixel, &a);
-   XClearArea(e->xany.display, e->xany.window, 0, 0,
-              canvas->largeur, canvas->hauteur, 1);
-}
-
-extern void desactive_bouton(const Zone *canvas, const XEvent *e){
-   /* Attribu du canvas dans la fenetre */
-   static XSetWindowAttributes a;
-   /* Couleur des bordures */
-   a.background_pixel = canvas->background;
-	a.border_pixel = canvas->border;
+   a.background_pixel = canvas->background + nuance;
+   /* Bordures */
+   a.border_pixel = canvas->border;
    /* Changement d'attribus par remplacement du jeu de couleur */
    XChangeWindowAttributes(e->xany.display, e->xany.window,
                            CWBackPixel | CWBorderPixel, &a);

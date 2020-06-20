@@ -3,11 +3,6 @@
 #define MAX_X 90.0
 #define MAX_Y 110.0
 
-/* Tableau de donnee de temperature et humidite */
-extern volatile uint8_t donnee[5];
-/* Definit la courbe maximum du differentiel pression-temperature. */
-extern volatile unsigned short int parametre[2];
-
 /**
 * @function e
 * Permet de calculer la fonction exponentielle selon :
@@ -18,7 +13,7 @@ static const float e(volatile float x){
     /* Initialisation de la serie de Taylor */
     static volatile float somme = 1.0;
     /* Calcul de la somme des n termes */
-    for(volatile unsigned short int i=10; i>0; i--)
+    for(volatile uint_fast8_t i=MAX_Y; i>0; i--)
         somme = 1 + x*somme/i;
     return somme;
 }
@@ -37,12 +32,14 @@ static const float e(volatile float x){
 static void tracer_repere(Display *d, const Window f, unsigned int abscisse, 
                             unsigned int ordonnee, volatile short int i, volatile short int j){
     static char str[30];
+    /* Tableau de donnee de temperature et humidite */
+    extern volatile uint8_t donnee[5];
 
     /* Axe des abscisses */
     XDrawLine(d, f, GC(d), 0, ordonnee/2, abscisse, ordonnee/2.0);
     /* Legende de l'axe de temperature */
     sprintf(str, "%s%d C (%.1f F)", "Temperature : ", donnee[2], (donnee[2] * 9.0 / 5.0 + 32));
-    XDrawString(d, f, style(d, 0xffaaaa), 15, ((1 - (10.0/MAX_Y))*ordonnee/2.0), str, strlen(str));
+    XDrawString(d, f, style(d, 0xffaaaa), 20, ((1 - (10.0/MAX_Y))*ordonnee/2.0)+100, str, strlen(str));
 
     for(volatile short int x=-MAX_X+10.0; x<MAX_X; x+=10){
         /* Segmentation de l'axe des abscisses */
@@ -62,7 +59,7 @@ static void tracer_repere(Display *d, const Window f, unsigned int abscisse,
     sprintf(str, "%s%d%%", "Humidity : ", donnee[0]);
     XDrawString(d, f, style(d, 0xaaccff), abscisse/2+30, 30, str, strlen(str));
 
-    for(volatile unsigned short int y=10; y<MAX_Y; y+=10){
+    for(volatile uint_fast8_t y=10; y<MAX_Y; y+=10){
         j = (1 - (y/MAX_Y))*ordonnee/2.0;
         /* Quadrillage en abscisse */
         XDrawLine(d, f, style(d, 0x102010), 0, j, abscisse, j);
@@ -89,20 +86,20 @@ static void tracer_repere(Display *d, const Window f, unsigned int abscisse,
 */
 static void tracer_fonction(Display *d, const Window f, volatile unsigned short int x,
                             unsigned int abscisse, unsigned int ordonnee){
+    /* Tableau de donnee de temperature et humidite */
+    extern volatile uint8_t donnee[5];
+
     for(x=0; x<abscisse; x++){
         volatile float a = (x*2.0/abscisse - 1.0)*2.0;
-        /* Verification de la coherence des donnees */
-        if(((donnee[0]>=0) || (donnee[0]<MAX_Y)) && ((donnee[2]>=0) || (donnee[2]<MAX_X))){
-            /* Curseur de differentiel temperature - humidite */
-            XDrawPoint(d, f, style(d, 0x808080), ((1.0 + (donnee[2]/MAX_X))*(abscisse/2.0)), x*2);
-            XDrawPoint(d, f, style(d, 0x808080), x*2, ((1.0 - (donnee[0]/MAX_Y))*(ordonnee/2.0)));
-            /* Courbe de differentiel temperature - humidite */
-            XDrawPoint(d, f, style(d, 0x00ff00), ((1.0 + ((e(-a) * donnee[2])/MAX_X))*(abscisse/2.0)), 
-                        ((1.0 - ((e(a) * donnee[0])/MAX_Y))*(ordonnee/2.0)));
-        }
+        /* Curseur de differentiel temperature - humidite */
+        XDrawPoint(d, f, style(d, 0x808080), ((1.0 + (donnee[2]/MAX_X))*(abscisse/2.0)), x*2);
+        XDrawPoint(d, f, style(d, 0x808080), x*2, ((1.0 - (donnee[0]/MAX_Y))*(ordonnee/2.0)));
+        /* Courbe de differentiel temperature - humidite */
+        XDrawPoint(d, f, style(d, 0x00ff00), ((1.0 + ((e(-a) * donnee[2])/MAX_X))*(abscisse/2.0)), 
+                    ((1.0 - ((e(a) * donnee[0])/MAX_Y))*(ordonnee/2.0)));
         /* Courbe maximale du differentiel humidite-temperature */
         XDrawPoint(d, f, style(d, 0xff0000), ((1.0 + ((e(-a) * parametre[0])/MAX_X))*(abscisse/2.0)), 
-                        ((1.0 - ((e(a) * parametre[1])/MAX_Y))*(ordonnee/2.0)));
+                    ((1.0 - ((e(a) * parametre[1])/MAX_Y))*(ordonnee/2.0)));
     }
 }
 
@@ -124,9 +121,16 @@ extern void tracer_graph(Display *d, const Window f){
     XGetGeometry(d, f, &racine, &hauteur, &largeur, &abscisse, &ordonnee,
                     &bordure, &profondeur);
     ordonnee *= 1.5;
+    
+    /*XClearArea(d, f, 0, 0, x/2, y/2, 1); 
+    XFlush(d);
+    usleep(10000);*/
 
     /* On trace le repere du graphique */
     tracer_repere(d, f, abscisse, ordonnee, x, y);
     /* On trace la fonction du graphqiue */
     tracer_fonction(d, f, x, abscisse, ordonnee);
+
+    /*XFlush(d);
+    sleep(1);*/
 }

@@ -2,9 +2,6 @@
 
 #define GPIO 7
 
-/* Tableau de donnee de temperature et humidite */
-extern volatile uint8_t donnee[5];
-
 /**
 * @function configuration
 * Permet d'effectuer une transitions sur les niveaux logiques,
@@ -39,7 +36,7 @@ static void configuration(void){
 static void lire_donnee(void){
     volatile uint_fast8_t tmp = 1, j = 0;
     /* Variable tampont recueprant les valeurs correctes */
-    static volatile uint8_t valeur[5] = {0};
+    static uint8_t valeur[5] = {0};
 
     /* Protocole */
     configuration();
@@ -81,11 +78,11 @@ static void lire_donnee(void){
     On s'assure ainsi que cela respecte les bornes de mesure de la sonde. */
     if((j >= 40) && (donnee[4] == (donnee[0] + donnee[1] + 
                                    donnee[2] + donnee[3]))){
-        for(volatile unsigned short i=0; i<5; i++)
+        for(volatile uint_fast8_t i=0; i<5; i++)
             valeur[i] = donnee[i];
     }else{
         /* Si la valeur est incorrecte, on prend la precedente. */
-        for(volatile unsigned short i=0; i<5; i++)
+        for(volatile uint_fast8_t i=0; i<5; i++)
             donnee[i] = valeur[i];
     }
 }
@@ -100,7 +97,7 @@ extern void analyse(void){
     if(wiringPiSetup() == -1){ exit(1); }
     /* Emettre continuellement toutes les secondes */
     while(1){
-        lire_donnee();
+		lire_donnee();
         sleep(1);
-    }
+	}
 }

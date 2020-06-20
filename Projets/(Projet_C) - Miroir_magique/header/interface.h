@@ -7,6 +7,7 @@
 #include <stdint.h>
 #include <time.h>
 #include <unistd.h>
+#include <pthread.h>
 /* Header de la librairie graphique Xlib */
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
@@ -17,7 +18,7 @@
 #define GC(d) DefaultGC(d, DefaultScreen(d))
 
 /* Definit la courbe maximum du differentiel pression-temperature. */
-volatile unsigned short int parametre[2];
+volatile uint8_t parametre[2];
 
 /* Type definissant les valeurs de retour lors du clique */
 volatile typedef void (*Reception)(void *data);
@@ -41,13 +42,13 @@ typedef struct{
 /**** FONCTIONS UTILITAIRES ****/
 
 /* Fonction retournant la date actuelle et l'affichage. */
-extern void date(unsigned char *str, const XEvent *e, volatile unsigned short int x);
-/* Fonction formatant la saisie et l'affichant dans des zones. */
-extern void saisie(XEvent *e, const uint_fast8_t id);
+extern uint_fast8_t *date(void);
 /* Fonctions d'encodage et decodage des caracteres de la police. */
 extern const uint_fast8_t encodage(const XChar2b *);
 extern const uint_fast8_t decodage(volatile XChar2b *, const uint_fast8_t, 
                                     const char *, const uint_fast8_t);
+/* Fonction formatant la saisie et l'affichant dans des zones. */
+extern void saisie(XEvent *e, const uint_fast8_t id);
 /* Determine les actions de sortie du bouton "Exit". */
 extern void quitter(void *);
 
@@ -67,8 +68,7 @@ extern void creer_bouton(Display *, const Window, const char *,
                           const Reception, void *);
 /* Fonctions determinant les actions sur un canvas. */
 extern void config_canvas(Zone *, const XEvent *);
-extern void active_bouton(const Zone *, const XEvent *);
-extern void desactive_bouton(const Zone *, const XEvent *);
+extern void survol_bouton(const Zone *, const XEvent *, const unsigned int nuance);
 
 /**** GRAPHIQUE ****/
 

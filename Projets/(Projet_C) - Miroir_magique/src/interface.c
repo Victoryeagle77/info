@@ -95,10 +95,10 @@ static const XContext config_generale(Display * d, volatile unsigned short int x
 
    /* Fenetre contenant le bouton de sortie */
    creer_bouton(d, f, "Exit", police, (x/2)-40, (y-120), 80, (police->ascent + police->descent) * 2 + 5, 
-                  0x202020, 0x303030, cx, quitter, data);
+                  0x400000, 0x303030, cx, quitter, data);
 
    /* Dire au serveur d'affichage quel type d'evenements que nous voulons avoir */
-   XSelectInput(d, f, StructureNotifyMask | ExposureMask | KeyPressMask);
+   XSelectInput(d, f, StructureNotifyMask | ExposureMask);
    /* Afficher la fenetre sur l'ecran. */
    XMapWindow(d, f);
    /* Conserver les informations du contexte graphique. */
@@ -119,7 +119,6 @@ static const XContext config_generale(Display * d, volatile unsigned short int x
 static void affichage(const Zone *canvas, const XEvent *e, XImage *ximage, Window *zone,
                         volatile unsigned short int x, volatile unsigned short int y){
    static unsigned char str[2];
-
    /* Bouton de sortie */
    if((canvas->texte) && (canvas->id == 0)){
       /* Texte du bouton */
@@ -127,17 +126,10 @@ static void affichage(const Zone *canvas, const XEvent *e, XImage *ximage, Windo
                      (canvas->largeur - canvas->longueur)/2, (canvas->hauteur + canvas->police)/2,
                      canvas->texte, encodage(canvas->texte));
    /* Graphique */
-   }else if(canvas->id == 1){
-      /* Rafraichissement rapide */
-      XClearArea(e->xany.display, e->xany.window, 0, 0, x/2, y/2, 1);
-      XFlush(e->xany.display);
-      usleep(10000);
-      /* Changer de frame toutes les secondes */
+   }else if(canvas->id == 1)
       tracer_graph(e->xany.display, e->xany.window);
-      XFlush(e->xany.display);
-      usleep(100000);
    /* Fond */
-   }else{
+   else{
       /* Fenetre racine (principale) */
       static Window racine;
       /* Parametres dimensionnels et de coordonnees */
@@ -154,7 +146,8 @@ static void affichage(const Zone *canvas, const XEvent *e, XImage *ximage, Windo
       XDrawString(e->xany.display, e->xany.window, GC(e->xany.display), 
                   (abscisse/2)-150, 50, "Temperature & Humidity Analyser", 31);
       /* Affichage de la date */
-      date(str, e, abscisse);
+      XDrawString(e->xany.display, e->xany.window, GC(e->xany.display), 
+                     (x/2)-90, 130, date(), 18);
 
       /* Menu de saisie des valeurs */
       menu_saisie(e, zone, y);
@@ -168,7 +161,7 @@ static void interaction(Display *d, const XContext cx, XImage *ximage,
       static XEvent e;
       static Window zone[2];
       static Zone *canvas = NULL;
-      /* Definir un evenement */
+      /* Definir un evenement de maniere bloquante */
       XNextEvent(d, &e);
       XFindContext(e.xany.display, e.xany.window, cx, (XPointer*)&canvas);
       switch(e.type){
@@ -177,22 +170,20 @@ static void interaction(Display *d, const XContext cx, XImage *ximage,
          break;
          /* Afficher les composants graphiques dans la fenetre. */
          case Expose:
-            affichage(canvas, &e, ximage, zone, x, y);
+               affichage(canvas, &e, ximage, zone, x, y);
          break;
-         /* Lors de la pression d'une touche */
+         /* Lors de la pression d'une touche. */
          case KeyPress :
             if(e.xkey.window == zone[0]){ saisie(&e, 0); }
             else if(e.xkey.window == zone[1]){ saisie(&e, 1); }
          break;
-         /* Active la surbrillance, inversion des couleurs du fond et des bordures,
-         lorsque l'on entre dans la zone definissant le bouton. */
+         /* Active la surbrillance, en additionnant par 0x101010 la couleur de fond actuelle. */
          case EnterNotify:
-            active_bouton(canvas, &e);
+            survol_bouton(canvas, &e, 0x101010);
          break;
-         /* La surbrillance, inversion des couleurs du fond et des bordures,
-         s'enleve lorsque l'on quitte la zone definissant le bouton. */
+         /* Retablit la couleur de fond de bas en l'additionnant par 0. */
          case LeaveNotify:
-            desactive_bouton(canvas, &e);
+            survol_bouton(canvas, &e, 0);
          break;
          /* Lors du relachement du bouton, on effectue les actions voulues. */
          case ButtonRelease:
@@ -204,7 +195,7 @@ static void interaction(Display *d, const XContext cx, XImage *ximage,
 }
 
 /**
-* @function interface
+* @function rendu
 * Fonction principale de l'interface graphique,
 * permettant d'ouvrir la connexion au serveur,
 * de disposer certaine mavcros principales,
@@ -214,8 +205,6 @@ extern void interface(void){
    static Display *d;
    static const Screen *ecran;
    static unsigned char *map;
-
-   XInitThreads();
 
    /* Connexion au serveur*/
    if((d = XOpenDisplay(getenv("DISPLAY"))) == NULL)
@@ -242,13 +231,9 @@ extern void interface(void){
       y = 1080;
    }
 
-   XAllocID(d);
-   
-   XLockDisplay(d);
    /* Affichage de la fenetre et ses elements */
    interaction(d, config_generale(d, x, y), 
                   config_fond(map, d, vue, 0, x, y), x, y);
-   XUnlockDisplay(d);
 
    free(map);
    /* Destruction de tous les elements */
