@@ -47,7 +47,7 @@ static void *ecriture(void *flux){
     /* Ecrire une premiere fois la date */
     write(d->fd, strcat(date(), "\n"), 22);
 
-    for(volatile uint_fast8_t sec=5; !(d->val); sec++){
+    for(volatile uint_fast8_t sec=0; !(d->val); sec++){
         /* Securisation de l'execution multitache */
         pthread_mutex_lock(&securisation);
         /*  Verouillage consultatif exclusif */
