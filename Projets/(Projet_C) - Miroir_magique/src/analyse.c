@@ -82,7 +82,7 @@ extern void analyse(void){
     if(wiringPiSetup() == -1){ exit(1); }
     /* Emettre continuellement toutes les secondes */
     while(1){
-		lire_donnee();
+	lire_donnee();
         sleep(1);
-	}
+    }
 }
