@@ -47,7 +47,7 @@ static void *ecriture(void *flux){
     /* Ecrire une premiere fois la date */
     write(d->fd, strcat(date(), "\n"), 22);
 
-    for(volatile uint_fast8_t sec=0; !(d->val); sec++){
+    for(volatile uint_fast8_t sec=5; !(d->val); sec++){
         /* Securisation de l'execution multitache */
         pthread_mutex_lock(&securisation);
         /*  Verouillage consultatif exclusif */
@@ -57,7 +57,7 @@ static void *ecriture(void *flux){
         lseek(d->fd, 0, SEEK_END);
 
         /* Ecrire pendant 1 minute (12*5s = 60s) */
-        if(sec < 12){
+        if(sec <= 12){
             sprintf(str,"%.2d %.2d %.2d\n", donnee[0], donnee[2], sec*5);
             write(d->fd, str, sizeof(str));
         }else{ 
