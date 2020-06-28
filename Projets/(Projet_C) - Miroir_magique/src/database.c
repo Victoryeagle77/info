@@ -100,14 +100,6 @@ static void* lecture(void *flux){
             filtrage(buffer);
         }
     }
-    
-    lseek(d->fd, offset, SEEK_SET);
-    tmp = read(d->fd, buffer, 32);
-
-    if((tmp > 0) && (d->fd != -1)){
-        buffer[tmp] = 0;
-        filtrage(buffer);
-    }
 }
 
 extern void database(void){
