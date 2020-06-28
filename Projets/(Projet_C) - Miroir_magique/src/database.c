@@ -114,7 +114,7 @@ extern void database(void){
     static pthread_t th[2];
 
     d = (struct data *)malloc(sizeof(struct data));
-    d->fd = open(FLUX, O_RDWR | O_CREAT | O_TRUNC);
+    d->fd = open(FLUX, O_RDWR | O_CREAT);
 
     pthread_create(&th[1], NULL, (void *)ecriture, (void*)d);
     pthread_create(&th[0], NULL, (void *)lecture, (void*)d);
