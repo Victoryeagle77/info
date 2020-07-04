@@ -57,7 +57,7 @@ static void *ecriture(void *flux){
         lseek(d->fd, 0, SEEK_END);
 
         /* Ecrire pendant 1 minute (12*5s = 60s) */
-        if(sec < 12){
+        if(sec <= 12){
             sprintf(str,"%.2d %.2d %.2d\n", donnee[0], donnee[2], sec*5);
             write(d->fd, str, sizeof(str));
         }else{ 
@@ -100,21 +100,13 @@ static void* lecture(void *flux){
             filtrage(buffer);
         }
     }
-    
-    lseek(d->fd, offset, SEEK_SET);
-    tmp = read(d->fd, buffer, 32);
-
-    if((tmp > 0) && (d->fd != -1)){
-        buffer[tmp] = 0;
-        filtrage(buffer);
-    }
 }
 
 extern void database(void){
     static pthread_t th[2];
 
     d = (struct data *)malloc(sizeof(struct data));
-    d->fd = open(FLUX, O_RDWR | O_CREAT | O_TRUNC);
+    d->fd = open(FLUX, O_RDWR | O_CREAT);
 
     pthread_create(&th[1], NULL, (void *)ecriture, (void*)d);
     pthread_create(&th[0], NULL, (void *)lecture, (void*)d);
