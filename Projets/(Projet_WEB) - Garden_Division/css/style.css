@@ -74,8 +74,6 @@ a:hover { color : #e63c0e; }
 
 /*** ADAPTATION DE LA MISE EN FORME A DES REOLUTIONS D'ECRAN DIFFERENTES ***/
 @media all and (max-width : 1024px) {	
-	
-  /*** REMISE EN FORME DE LA TAILLE DE LA POLICE DANS LE CORPS PRINCIPAL ***/
   body { font-size : 0.8em; }
 
   footer { display: none; }
