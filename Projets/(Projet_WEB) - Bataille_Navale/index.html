@@ -21,7 +21,7 @@
 	<audio autoplay="autoplay" controls="controls">
 	  <source src="./sound/Find-Sunk.mp3"/>
 	</audio>
-        <!-- El�ment contenant les grilles de jeu !-->
+        <!-- El�ment contenant les grilles de jeu !-->
 	<div id="haut" class="game-container">
           <div id="restart-sidebar" class="hidden">
             <h2>Nouvelle partie</h2>
@@ -67,20 +67,27 @@
         Avec l'analyseur d'objet google. !-->
         <script>
         var DEBUG_MODE = localStorage.getItem('DEBUG_MODE') === 'true';
-        if (!DEBUG_MODE) {
-	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;
-	    i[r]=i[r]||function(){
-	    (i[r].q=i[r].q||[]).push(arguments)}, 
-	    a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];
-	    a.async=1; a.src=g;
-	    m.parentNode.insertBefore(a,m)
+        if(!DEBUG_MODE) {
+          (function(i,s,o,g,r,a,m){
+            i['GoogleAnalyticsObject']=r;
+            i[r]=i[r] || function(){ ((i[r].q = i[r].q) || ([])).push(arguments) }, 
+              a = s.createElement(o),
+              m = s.getElementsByTagName(o)[0];
+              a.async = 1; 
+              a.src = g;
+              m.parentNode.insertBefore(a,m)
           })
          (window,document,'script','//www.google-analytics.com/analytics.js','ga');
          /* On envoie la page pour être analysé par Google Analytics */
          ga('send', 'pageview');
        }
     </script>
-    <script src="./js/action.js"></script>
+    <script src="./js/Stats.js"></script>
+    <script src="./js/Grid.js"></script>
+    <script src="./js/Fleet.js"></script>
+    <script src="./js/Ship.js"></script>
+    <script src="./js/AI.js"></script>
+    <script src="./js/Game.js"></script>
+    <script src="./js/Main.js"></script>
   </body>
 </html>

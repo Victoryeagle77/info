@@ -159,7 +159,7 @@ button:active {
   background : url("../img/Fire.gif") center;
   background-repeat : no-repeat;
 }
-/* Pied de page */
+
 footer {
   position: fixed;
   width : 100%;
