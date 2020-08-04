@@ -2,7 +2,8 @@
 let CONST = {};
 CONST.FLOTTE = ['porte_avions', 'croiseur', 'destroyer', 'sous_marin', 'patrouilleur'];
 /* Paramètre des différents joueurs */
-CONST.JOUEUR = 0; CONST.IA = 1; CONST.ADVERSAIRE = 2;
+CONST.JOUEUR = 0; 
+CONST.IA = 1;
 /* Définition de CSS lié à l'état d'une case de la grille */
 CONST.STYLE_VIDE = 'empty';
 CONST.STYLE_NAVIRE = 'ship';
@@ -16,36 +17,34 @@ CONST.RATE = 2;
 CONST.TOUCHE = 3;
 CONST.COULE = 4;
 
-/*** Fonction déterminant le jeu, actions joueurs et initialisations grille ***/
 function Game() {
-	Game.flotte_valide = [0, 0, 0, 0, 0];
 	this.tir_subis = 0;
 	this.grille_jeu();
-	this.jeu_perdu = false; 
 	this.init();
+	this.jeu_perdu = false;
 }
 
-/* Prototype de la fonction Game,
-qui gère l'intégration de la perte ou de la victoire d'une partie. */
+/* Gère l'intégration de la perte ou de la victoire d'une partie. */
 Game.prototype.etat = function() {
 	if(this.flotte_ia.flotte_detruite()){
 		/* Message d'alerte javascript */
 		alert('Bravo, destruction de la flotte ennemie !');
 		Game.jeu_perdu = true;
 		/* Synchronisation du statut de victoire */
-		Game.stats.gagne(); Game.stats.sync();
+		Game.stats.gagne(); 
+		Game.stats.sync();
 		this.menu_rejouer();
 	}else if(this.flotte_joueur.flotte_detruite()){
 		alert('Perdu, destruction de votre flotte');
 		Game.jeu_perdu = true;
 		/* Synchronisation du statut de défaite */
-		Game.stats.perd(); Game.stats.sync();
+		Game.stats.perd(); 
+		Game.stats.sync();
 		this.menu_rejouer();
 	}
 };
     
-/* Prototype de la fonction Game, qui détermine la grille et la flotte cible,
-dans le cas ou le joueur est l'IA ou le joueur.
+/* Détermine la grille et la flotte cible dans le cas ou le joueur est l'IA ou le joueur.
 On distingue ainsi la flotte allié à ne pas toucher. */
 Game.prototype.tir = function(x, y, joueur_cible) {
 	let grille_cible, flotte_cible;
@@ -72,8 +71,7 @@ Game.prototype.tir = function(x, y, joueur_cible) {
 	}
 };
     
-/* Prototype de la fonction Game, 
-qui permet de lié le statut des tirs au score et point de vie */ 
+/* Permet de lier le statut des tirs au score et point de vie */ 
 Game.prototype.tir_param = function(e) {
 	let self = e.target.self;
 	/* Axe de rotation d'un élément attribué en abscisse et ordonnée,
@@ -90,8 +88,7 @@ Game.prototype.tir_param = function(e) {
 	}else{ Game.jeu_perdu = false; }
 };
     
-/* Prototype de la fonction Game, 
-qui assure la lisaison entre les éléments graphiques de CSS et de JS.
+/* Assure la lisaison entre les éléments graphiques de CSS et de JS.
 Le design des sprits de bateaux sont liés par leur classes CSS aux JS. */
 Game.prototype.flotte_param = function(e){
 	let self = e.target.self;
@@ -111,8 +108,7 @@ Game.prototype.flotte_param = function(e){
 	self.place_grille = true;
 };
     
-/* Prototype de la fonction Game, 
-qui gère l'affichage du menu commencer en fonction des navires placés sur la grille. */
+/* Gère l'affichage du menu commencer en fonction des navires placés sur la grille. */
 Game.prototype.place_param = function(e){
 	let self = e.target.self;
 	if(self.place_grille){
@@ -138,8 +134,8 @@ Game.prototype.place_param = function(e){
 	}
 };
 	
-/* Prototype de la fonction Game qui gère */
-Game.prototype.mouse_over = function(e) {
+
+Game.prototype.mouseover = function(e) {
 	let self = e.target.self;
 	if(self.place_grille){
 		let x = parseInt(e.target.getAttribute('data-x'), 10);
@@ -168,9 +164,8 @@ Game.prototype.mouse_over = function(e) {
 	}
 };
     
-    /* Prototype de la fonction Game qui gère le canvas de la souris,
-    La souris ne peut interagir uniquement dans la grille. */
-	Game.prototype.mouse_out = function(e){
+/* Gère le canvas de la souris qui ne peut interagir uniquement dans la grille. */
+Game.prototype.mouseout = function(e){
 		let cible = e.target.self;
 		if(cible.place_grille) {
 			for(let j = 0; j < Game.navire_coords.length; j++){
@@ -183,171 +178,158 @@ Game.prototype.mouse_over = function(e) {
 				}
 			}
 		}
-    };
-    
-	/* Prototype de la fonction Game qui gère la rotation d'un navire */
-	Game.prototype.toggleRotation = function(e){
-		let direction = parseInt(e.target.getAttribute('data-direction'), 10);
-		/* Direcion horizontale initialisé à 1 */
-		if(direction == Ship.DIRECTION_VERTICAL){
-			e.target.setAttribute('data-direction', '1');
-			Game.place_direction = Ship.DIRECTION_HORIZONTAL;
-		/* Direcion verticale initialisé à 0 */
-		}else if(direction == Ship.DIRECTION_HORIZONTAL){
-			e.target.setAttribute('data-direction', '0');
-			Game.place_direction = Ship.DIRECTION_VERTICAL;
+};
+
+/* Gère la rotation d'un navire */
+Game.prototype.toggleRotation = function(e){
+	let direction = parseInt(e.target.getAttribute('data-direction'), 10);
+	/* Direcion horizontale initialisé à 1 */
+	if(direction == Ship.DIRECTION_VERTICAL){
+		e.target.setAttribute('data-direction', '1');
+		Game.place_direction = Ship.DIRECTION_HORIZONTAL;
+	/* Direcion verticale initialisé à 0 */
+	}else if(direction == Ship.DIRECTION_HORIZONTAL){
+		e.target.setAttribute('data-direction', '0');
+		Game.place_direction = Ship.DIRECTION_VERTICAL;
+	}
+};
+
+Game.prototype.commence_jeu = function(e) {
+	var self = e.target.self;
+	var e = document.getElementById('roster-sidebar');
+
+	e.addEventListener(animation(), e.setAttribute('class', 'hidden'), false);
+	e.setAttribute('class', 'invisible');
+	self.operationnel = true;
+	e.removeEventListener(animation(), e.setAttribute('class', 'hidden'), false);
+};
+
+Game.prototype.recommence_jeu = function(e) {
+	e.target.removeEventListener(e.type, arguments.callee);
+	var self = e.target.self;
+
+	document.getElementById('restart-sidebar').setAttribute('class', 'hidden');
+	self.chargement();
+	self.init();
+};
+
+Game.prototype.place_final = function(type_navire) {
+	document.getElementById(type_navire).setAttribute('class', 'placed');
+	Game.flotte_valide[CONST.FLOTTE.indexOf(type_navire)] = CONST.VALIDE;
+	Game.place_direction = null;
+	Game.place_navire = '';
+	Game.navire_coords = [];
+};
+
+Game.prototype.grille_remplie = function() {
+	let navires = document.querySelectorAll('.fleet-roster li');
+	for(let i = 0; i < navires.length; i++) {
+		if(navires[i].getAttribute('class') == 'placed'){ continue; }
+		else{ return false; }
+	}
+	Game.place_direction = 0;
+	Game.place_navire = '';
+	Game.navire_coords = [];
+	return true;
+};
+
+Game.prototype.chargement = function() {
+	for(let i = 0; i < 10; i++) {
+		for(let j = 0; j < 10; j++) {
+			this.grille_joueur.curseur(i, j, 'empty', CONST.JOUEUR);
+			this.grille_ia.curseur(i, j, 'empty', CONST.IA);
 		}
-	};
+	}
+	Game.flotte_valide = Game.flotte_valide.map(function(){ return CONST.INVALIDE; });
+};
 
-	Game.prototype.commence_jeu = function(e) {
-		var self = e.target.self;
-		var e = document.getElementById('roster-sidebar');
-		var fn = function() {e.setAttribute('class', 'hidden');};
-		e.addEventListener(animation(), fn, false);
-		e.setAttribute('class', 'invisible');
-		self.operationnel = true;
-		e.removeEventListener(animation(), fn, false);
-	};
+/* Permet de gérer le menu pour rejouer.
+lorsque tous les navires ennemis ou de alliés sont détruits. */
+Game.prototype.menu_rejouer = function() {
+	document.getElementById('restart-sidebar').setAttribute('class', '');
 
-	Game.prototype.recommence_jeu = function(e) {
-		e.target.removeEventListener(e.type, arguments.callee);
-		var self = e.target.self;
-		document.getElementById('restart-sidebar').setAttribute('class', 'hidden');
-		self.chargement();
-		self.init();
-	};
+	let cases = document.querySelector('.computer-player').childNodes;
+	for(let j = 0; j < cases.length; j++)
+	    cases[j].removeEventListener('click', this.tir_param, false);
 
-	Game.prototype.placeRandomly = function(e){
-		e.target.removeEventListener(e.type, arguments.callee);
-		e.target.self.flotte_joueur.gen_pos();
-		e.target.self.operationnel = true;
-		document.getElementById('roster-sidebar').setAttribute('class', 'hidden');
-		this.setAttribute('class', 'hidden');
-	};
+	/* Créé une liste correspondant aux 5 types de bateaux pouvant être placés. */
+	let flotte_joueur = document.querySelector('.fleet-roster').querySelectorAll('li');
+	for(let i = 0; i < flotte_joueur.length; i++)
+	    flotte_joueur[i].removeEventListener('click', this.flotte_param, false);
 
-	Game.prototype.place_final = function(type_navire) {
-		document.getElementById(type_navire).setAttribute('class', 'placed');
-		Game.flotte_valide[CONST.FLOTTE.indexOf(type_navire)] = CONST.VALIDE;
-		Game.place_direction = null;
-		Game.place_navire = '';
-		Game.navire_coords = [];
-	};
+	/* Bouton recommencer */
+	document.getElementById('restart-game').addEventListener('click', this.recommence_jeu, false);
+	document.getElementById('restart-game').self = this;
+};
 
-	Game.prototype.grille_remplie = function() {
-		let navires = document.querySelectorAll('.fleet-roster li');
-		for(let i = 0; i < navires.length; i++) {
-			if(navires[i].getAttribute('class') == 'placed'){ continue; }
-			else{ return false; }
-		}
-		Game.place_direction = 0;
-		Game.place_navire = '';
-		Game.navire_coords = [];
-		return true;
-	};
-
-	Game.prototype.chargement = function() {
-		for(let i = 0; i < 10; i++) {
-			for(let j = 0; j < 10; j++) {
-				this.grille_joueur.curseur(i, j, 'empty', CONST.JOUEUR);
-				this.grille_ia.curseur(i, j, 'empty', CONST.IA);
+/* Prototype de la fonction Game qui permet de gérer la grille de jeu */
+Game.prototype.grille_jeu = function() {
+	let cases = document.querySelectorAll('.grid');
+	for(let grille = 0; grille < cases.length; grille++) {
+		cases[grille].removeChild(cases[grille].querySelector('.error')); 
+		for(let i = 0; i < 10; i++) { /* Lignes */
+			for(let j = 0; j < 10; j++) { /* Colonnes */
+				let e = document.createElement('div');
+				/* Attribuer les valeurs de rotations initiales en abscisse et ordonnée */
+				e.setAttribute('data-x', i); e.setAttribute('data-y', j);
+				e.setAttribute('class', 'grid-cell grid-cell-' + i + '-' + j);
+				cases[grille].appendChild(e);
 			}
 		}
-		Game.flotte_valide = Game.flotte_valide.map(function(){ return CONST.INVALIDE; });
-	};
+	}
+};
 
-	Game.prototype.resetRosterSidebar = function() {
-		let e = document.querySelector('.fleet-roster').querySelectorAll('li');
-		for(let i = 0; i < e.length; i++) 
-			e[i].removeAttribute('class');
-		/* Transition par suppression des éléments */
-		document.getElementById('roster-sidebar').removeAttribute('class');
-		document.getElementById('rotate-button').removeAttribute('class');
-		document.getElementById('start-game').setAttribute('class', 'hidden');
-	};
-
-	/* Prototype de la fonction Game qui permet de gérer le menu pour rejouer, 
-	lorsque tous les navires ennemis ou de alliés sont détruits. */
-	Game.prototype.menu_rejouer = function() {
-		let menu = document.getElementById('restart-sidebar');
-		menu.setAttribute('class', '');
-
-		let cases = document.querySelector('.computer-player').childNodes;
-		for(let j = 0; j < cases.length; j++)
-			cases[j].removeEventListener('click', this.tir_param, false);
-
-        /* Créé une liste correspondant aux 5 types de bateaux pouvant être placés. */
-        let flotte_joueur = document.querySelector('.fleet-roster').querySelectorAll('li');
-        for(let i = 0; i < flotte_joueur.length; i++)
-            flotte_joueur[i].removeEventListener('click', this.flotte_param, false);
-
-        /* Bouton recommencer */
-        let recommencer = document.getElementById('restart-game');
-        recommencer.addEventListener('click', this.recommence_jeu, false);
-        recommencer.self = this;
-	};
-
-	/* Prototype de la fonction Game qui permet de gérer la grille de jeu */
-	Game.prototype.grille_jeu = function() {
-		var cases = document.querySelectorAll('.grid');
-		for(var grille = 0; grille < cases.length; grille++) {
-			cases[grille].removeChild(cases[grille].querySelector('.error')); 
-			for(var i = 0; i < 10; i++) { /* Lignes */
-				for(var j = 0; j < 10; j++) { /* Colonnes */
-					var e = document.createElement('div');
-					/* Attribuer les valeurs de rotations initiales en abscisse et ordonnée */
-					e.setAttribute('data-x', i); e.setAttribute('data-y', j);
-					e.setAttribute('class', 'grid-cell grid-cell-' + i + '-' + j);
-					cases[grille].appendChild(e);
-				}
-			}
-		}
-	};
-
-	Game.prototype.init = function() {
-		this.grille_joueur = new Grid(10);
-		this.grille_ia = new Grid(10);
-		this.flotte_joueur = new Fleet(this.grille_joueur, CONST.JOUEUR);
-		this.flotte_ia = new Fleet(this.grille_ia, CONST.IA);
-		this.auto = new AI(this);
-
-		Game.stats = new Stats();
-		
-		this.tir_subis = 0;
-		this.operationnel = false;
-		this.place_grille = false;
-		
-		Game.place_direction = 0;
-		Game.place_navire = '';
-		Game.navire_coords = [];
-		this.resetRosterSidebar();
+Game.prototype.init = function() {
+	this.grille_joueur = new Grid(10);
+	this.grille_ia = new Grid(10);
+	this.flotte_joueur = new Fleet(this.grille_joueur, CONST.JOUEUR);
+	this.flotte_ia = new Fleet(this.grille_ia, CONST.IA);
+	this.auto = new AI(this);
 	
-		let cases_ia = document.querySelector('.computer-player').childNodes;
-		for(let i = 0; i < cases_ia.length; i++){
-			cases_ia[i].self = this;
-			cases_ia[i].addEventListener('click', this.tir_param, false);
-		}
-
-		let cases_joueur = document.querySelector('.human-player').childNodes;
-		for(let i = 0; i < cases_joueur.length; i++){
-			cases_joueur[i].self = this;
-			cases_joueur[i].addEventListener('click', this.place_param, false);
-			cases_joueur[i].addEventListener('mouseover', this.mouse_over, false);
-			cases_joueur[i].addEventListener('mouseout', this.mouse_out, false);
-		}
-
-		let playerRoster = document.querySelector('.fleet-roster').querySelectorAll('li');
-		for(let i = 0; i < playerRoster.length; i++){
-			playerRoster[i].self = this;
-			playerRoster[i].addEventListener('click', this.flotte_param, false);
-		}
+	Game.stats = new Stats();
 	
-		let rotateButton = document.getElementById('rotate-button');
-		rotateButton.addEventListener('click', this.toggleRotation, false);
+	this.tir_subis = 0;
+	this.operationnel = false;
+	this.place_grille = false;
+	
+	Game.place_direction = 0;
+	Game.place_navire = '';
+	Game.navire_coords = [];
+	
+	/* Réinitialiser la bar de placement de la flotte */
+	let e = document.querySelector('.fleet-roster').querySelectorAll('li');
+	for(let i = 0; i < e.length; i++){ e[i].removeAttribute('class'); }
+	/* Transition par suppression des éléments */
+	document.getElementById('roster-sidebar').removeAttribute('class');
+	document.getElementById('rotate-button').removeAttribute('class');
+	document.getElementById('start-game').setAttribute('class', 'hidden');
 
-		let startButton = document.getElementById('start-game');
-		startButton.self = this;
-		startButton.addEventListener('click', this.commence_jeu, false);
-		this.flotte_ia.gen_pos();
-	};
+	let cases_ia = document.querySelector('.computer-player').childNodes;
+	for(let i = 0; i < cases_ia.length; i++){
+		cases_ia[i].self = this;
+		cases_ia[i].addEventListener('click', this.tir_param, false);
+	}
+
+	let cases_joueur = document.querySelector('.human-player').childNodes;
+	for(let i = 0; i < cases_joueur.length; i++){
+		cases_joueur[i].self = this;
+		cases_joueur[i].addEventListener('click', this.place_param, false);
+		cases_joueur[i].addEventListener('mouseover', this.mouseover, false);
+		cases_joueur[i].addEventListener('mouseout', this.mouseout, false);
+	}
+
+	let playerRoster = document.querySelector('.fleet-roster').querySelectorAll('li');
+	for(let i = 0; i < playerRoster.length; i++){
+		playerRoster[i].self = this;
+		playerRoster[i].addEventListener('click', this.flotte_param, false);
+	}
+	
+	document.getElementById('rotate-button').addEventListener('click', this.toggleRotation, false);
+
+	document.getElementById('start-game').self = this;
+	document.getElementById('start-game').addEventListener('click', 
+	                                                        this.commence_jeu, false);
+	this.flotte_ia.gen_pos();
+};
 
 let jeu = new Game();

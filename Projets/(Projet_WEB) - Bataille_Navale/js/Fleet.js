@@ -1,7 +1,7 @@
 class Fleet{
-	constructor(grille_joueur, player){
+	constructor(grille_joueur, joueur){
 		this.grille_joueur = grille_joueur;
-		this.player = player;
+		this.joueur = joueur;
 		this.artillerie = [];
 		this.densite();
 	}
@@ -10,10 +10,10 @@ class Fleet{
 	densite(){
 		for(let i = 0; i < CONST.FLOTTE.length; i++){
 			this.artillerie.push(new Ship(CONST.FLOTTE[i % CONST.FLOTTE.length],
-				this.grille_joueur, this.player));
+				this.grille_joueur, this.joueur));
 		}
 	}
-	
+
 	/* Emplacement d'un navire selon sa direction */
 	pos_navire(x, y, direction, type_navire){
 		let position;
@@ -25,7 +25,7 @@ class Fleet{
 				position = this.artillerie[i].taille_navire();
 
 				for(let j = 0; j < position.length; j++)
-					this.grille_joueur.curseur(position[j].x, position[j].y, 'ship', this.player);
+					this.grille_joueur.curseur(position[j].x, position[j].y, 'ship', this.joueur);
 				return true;
 			}
 		}
@@ -35,9 +35,10 @@ class Fleet{
 	/* Generation aleatoire des navires de la flotte adverse */
 	gen_pos(){
 		let cords;
+		Game.flotte_valide = [];
 		for(let i = 0; i < this.artillerie.length; i++) {
 			let position = true;
-			if((this.player == CONST.JOUEUR) && (Game.flotte_valide[i] == CONST.VALIDE))
+			if((this.joueur == CONST.JOUEUR) && (Game.flotte_valide[i] == CONST.VALIDE))
 				continue;
 
 			while(position) {
@@ -51,15 +52,16 @@ class Fleet{
 					position = false;
 				}else{ continue; }
 			}
-			if((this.player == CONST.JOUEUR) && (Game.flotte_valide[i] != CONST.VALIDE)){
+			if((this.joueur == CONST.JOUEUR) && (Game.flotte_valide[i] != CONST.VALIDE)){
 				for(let j = 0; j < cords.length; j++){
-					this.grille_joueur.curseur(cords[j].x, cords[j].y, 'ship', this.player);
+					this.grille_joueur.curseur(cords[j].x, cords[j].y, 'ship', this.joueur);
 					Game.flotte_valide[i] = CONST.VALIDE;
 				}
 			}
 		}
 	}
-
+	
+	/* Coordonnées d'un bateau d'une flotte */
 	localisation(x, y){
 		for(let i = 0; i < this.artillerie.length; i++){
 			let navire = this.artillerie[i];

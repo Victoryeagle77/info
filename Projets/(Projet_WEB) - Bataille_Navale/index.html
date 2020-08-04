@@ -11,9 +11,11 @@
   </head>
   <body>
     <div class="container">
-      <img src="./img/game_logo.png" width="230px" height="100px" alt="logo"/>
+      <div id="logo">
+        <img src="./img/game_logo.png" alt="logo"/>
+      </div>
         <!-- Règle du jeu !-->
-        <br><div class="rule">
+        <br><div id="rule">
           <p>Le but de la bataille navale consiste à couler les 5 bateaux de votre adversaire. 
             <br><br>Les bateaux sont positionnés verticalement ou horizontalement, sur une grille de 100 cases et occupent un espace de 2 à 5 cases. La flotte ennemie est composée des mêmes 5 bateaux occupants des espaces différents :
             <br>1 porte-avions (occupant 5 cases), 1 croiseur (occupant 4 cases), 1 Destroyer (occupant 3 cases), 1 sous-marin (occupant 3 cases) et 1 patrouilleur (occupant 2 cases). 
@@ -30,12 +32,12 @@
 
           <!-- Menu de lancement et de placement de la flotte !-->
           <div id="restart-sidebar" class="hidden">
-            <h2>Nouvelle partie</h2>
+            <h3>Nouvelle partie</h3>
             <button id="restart-game">Réessayer</button>
           </div>
           <!-- Menu de placement des bateaux !-->
           <div id="roster-sidebar">
-            <h2>Placement de votre flotte</h2>
+            <h3>Placement de la flotte</h3>
             <ul class="fleet-roster">
               <li id="patrouilleur">Patrouilleur</li> 
               <li id="sous_marin">Sous-marin</li>
@@ -49,7 +51,7 @@
  
           <!-- Grille de placement des navires pour le joueur !-->
           <div class="grid-container">
-            <div class="grid-container-title"><h2>Votre Flotte</h2></div>
+            <div class="grid-container-title"><h3>Votre Flotte</h3></div>
             <br><div class="grid human-player">
               <!-- Message d'erreur en cas de non-chargement des éléments en js sur la grille !-->
               <span class="error">Pas de pluging JavaScript. Installez en un, activez le ou changez de navigateur</span>
@@ -57,7 +59,7 @@
           </div>
           <!-- Grille de placement des navires pour l'ordinateur !-->
           <div class="grid-container">
-            <div class="grid-container-title"><h2>Flotte ennemie</h2></div>
+            <div class="grid-container-title"><h3>Flotte adverse</h3></div>
             <br><div class="grid computer-player">
               <!-- Message d'erreur en cas de non-chargement des éléments en js sur la grille !-->
               <span class="error">Pas de pluging JavaScript. Installez en un, activez le ou changez de navigateur</span>

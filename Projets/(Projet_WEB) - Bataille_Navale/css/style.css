@@ -1,6 +1,6 @@
 body {
   font-family : "Open sans", Georgia, serif;
-  color : #EEEEEE;
+  color : #fff;
   margin : 0 auto;
   font-size : 1.1em;
 }
@@ -10,12 +10,14 @@ html {
   background-size : cover;
 }
 
-.rule {
+#logo, #rule { margin: auto; }
+
+#rule {
   padding-left: 20px;
   padding-right: 20px;
   border : gray solid 2px;
   box-shadow : 10px 10px 10px black;
-  background : url("../img/rule.jpg");
+  background-color: #111;
 }
 
 .no-js {
@@ -24,38 +26,35 @@ html {
   padding : 100px;
 }
 
-h2 { 
-  font-weight: normal;
-  font-style: italic;
-}
+h3 { font-weight: normal; }
 
 button {
   font-size : 1.2em;
-  color : #EEEEEE;
-  background-color : #303030;
+  color : #fff;
+  background-color : #333;
   margin : 0.5em 0 0.5em 0;
   padding : 8px;
-  border : silver solid 2px;
+  border : #888 solid 2px;
   border-radius: 2px;
 }
 button:hover {
   cursor : pointer;
-  background-color : brown;
+  background-color : #500;
 }
 button:active {
-  background-color : #800000;
+  background-color : #500;
 }
 
 #start-game, #restart-game {
   position : relative;
-  color : #FFFFFF;
+  color : #fff;
   background-color : #303030;
 }
 #start-game:hover, #restart-game:hover {
   background-color : orange;
 }
 #start-game:active, #restart-game:active {
-  background-color : #800000;
+  background-color : #400000;
 }
 .container {
   width : 90%;
@@ -71,8 +70,8 @@ button:active {
   margin : auto;
   top: 4em;
   position : relative;
-  background : url("../img/title.jpg");
-  border : brown solid 3px;
+  background-color: #111;
+  border : #500 solid 3px;
   border-radius: 5px;
   box-shadow : 5px 5px 5px #6495ED;
 }
@@ -83,17 +82,17 @@ button:active {
   background : url("../img/iron.jpg");
   position : relative;
   top : 4em;
-  border : gray solid 3px;
+  border : #888 solid 3px;
   border-radius: 3px;
   box-shadow : 10px 10px 10px black;
 }
-#roster-sidebar h2, #restart-sidebar h2 {
+#roster-sidebar h3, #restart-sidebar h3 {
   padding : 5px;
   margin : 0.2em 0 1em 0;
   text-align : center;
-  border : brown solid 2px;
+  border : #800 solid 2px;
   border-radius: 3px;
-  background : url("../img/title.jpg");
+  background-color: #111;
   box-shadow : 5px 5px 5px black;
 }
 .fleet-roster {
@@ -110,11 +109,11 @@ button:active {
 }
 .fleet-roster li { margin : 0.5em 0; }
 .fleet-roster li:hover {
-  color : white;
+  color : #fff;
   cursor : pointer;
 }
 .fleet-roster li:active {
-  color : #800000;
+  color : #800;
 }
 .fleet-roster .placed {
   visibility : hidden;
@@ -137,15 +136,16 @@ button:active {
   position: relative;
   width : 420px;
   background-color : #4169E1;
-  border : gray solid 4px;
-  box-shadow : 10px 10px 10px black;
+  border : #7089d4 solid 3px;
+  border-radius: 3px;
+  box-shadow : 10px 10px 10px #000;
 }
 .grid-cell {
   vertical-align : top;
   height : 40px;
   width : 40px;
   display : inline-block;
-  background : url("../img/waterBackground.gif") fixed;
+  background : url("../img/water.gif") fixed;
   margin : 1px;
 }
 .grid-cell:hover {
@@ -159,7 +159,7 @@ button:active {
   cursor : crosshair;
 }
 .grid-ship, .human-player .grid-ship:hover {
-  background-color : grey;
+  background-color : #888;
   background-repeat : no-repeat;
 }
 .grid-miss, .grid-miss:hover, .human-player .grid-miss:hover {
@@ -179,7 +179,7 @@ footer {
   position: fixed;
   width : 100%;
   text-align : center;
-  background-color : #202020;
+  background-color : #222;
   padding : 3px;
   bottom: 0px;
 }

@@ -1,9 +1,9 @@
 class Ship {
-    constructor(type, grille_joueur, player) {
+    constructor(type, grille_joueur, joueur) {
         this.degats = 0;
         this.type = type;
         this.grille_joueur = grille_joueur;
-        this.player = player;
+        this.joueur = joueur;
         /* Taille des différents type de navire */
         switch(this.type){
             /* Porte-avions */
@@ -48,22 +48,17 @@ class Ship {
         }else{ return false; }
     }
 
-    /* Etat détruit d'un bateau */
-    navire_detruit(){ return this.degats >= this.max; }
-
     /* Score des navires détruits */
     score_degats(){
         this.degats++;
-        if(this.navire_detruit()){ this.navire_coule(false); }
-    }
-
-    navire_coule(unite){
-        this.degats = this.max;
-        this.sunk = true;
-        if(!(unite)){
-            let cases = this.taille_navire();
-            for(let i = 0; i < this.longueur; i++)
-                this.grille_joueur.curseur(cases[i].x, cases[i].y, 'sunk', this.player);
+        if(this.degats >= this.max){
+            this.degats = this.max;
+            this.sunk = true;
+            if(!(false)){
+                let cases = this.taille_navire();
+                for(let i = 0; i < this.longueur; i++)
+                    this.grille_joueur.curseur(cases[i].x, cases[i].y, 'sunk', this.joueur);
+            }
         }
     }
 

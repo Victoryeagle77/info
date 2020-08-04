@@ -2,7 +2,7 @@ class AI{
     constructor(object){
         this.object = object;
         this.grille = new Grid(10);
-        this.flotte = new Fleet(this.grille, CONST.ADVERSAIRE);
+        this.flotte = new Fleet(this.grille, 2);
         this.proba = [];
         this.init();
         this.update();
@@ -47,7 +47,7 @@ class AI{
         if(res == CONST.TOUCHE){
             let flotte_joueur = this.object.flotte_joueur.localisation(
                 max_coords.x, max_coords.y);
-            if(flotte_joueur.navire_detruit()) {
+            if(flotte_joueur.degats >= flotte_joueur.max){
                 let type_navires = [];
                 for(let i = 0; i < this.flotte.artillerie.length; i++)
                     type_navires.push(this.flotte.artillerie[i].type);
