@@ -1,28 +1,30 @@
-class Fleet {
-	constructor(grille_joueur, player) {
+class Fleet{
+	constructor(grille_joueur, player){
 		this.grille_joueur = grille_joueur;
 		this.player = player;
-		this.fleetRoster = [];
+		this.artillerie = [];
 		this.densite();
 	}
-
-	densite() {
-		for (let i = 0; i < CONST.FLOTTE.length; i++) {
-			this.fleetRoster.push(new Ship(CONST.FLOTTE[i % CONST.FLOTTE.length],
+	
+	/* Total des bateaux positionnés */
+	densite(){
+		for(let i = 0; i < CONST.FLOTTE.length; i++){
+			this.artillerie.push(new Ship(CONST.FLOTTE[i % CONST.FLOTTE.length],
 				this.grille_joueur, this.player));
 		}
 	}
-
-	pos_navire(x, y, direction, type_navire) {
+	
+	/* Emplacement d'un navire selon sa direction */
+	pos_navire(x, y, direction, type_navire){
 		let position;
-		for (let i = 0; i < this.fleetRoster.length; i++) {
-			let type_navires = this.fleetRoster[i].type;
+		for(let i = 0; i < this.artillerie.length; i++){
+			let type_navires = this.artillerie[i].type;
 			/* Si un bateau est touché dans la grille */
-			if ((type_navire === type_navires) && (this.fleetRoster[i].isLegal(x, y, direction))) {
-				this.fleetRoster[i].create(x, y, direction, false);
-				position = this.fleetRoster[i].getAllShipCells();
+			if((type_navire == type_navires) && (this.artillerie[i].borne(x, y, direction))){
+				this.artillerie[i].positionner(x, y, direction, false);
+				position = this.artillerie[i].taille_navire();
 
-				for (let j = 0; j < position.length; j++)
+				for(let j = 0; j < position.length; j++)
 					this.grille_joueur.curseur(position[j].x, position[j].y, 'ship', this.player);
 				return true;
 			}
@@ -30,69 +32,57 @@ class Fleet {
 		return false;
 	}
 
-	pos_naviresRandomly() {
-		let coordonnees;
-		for (let i = 0; i < this.fleetRoster.length; i++) {
+	/* Generation aleatoire des navires de la flotte adverse */
+	gen_pos(){
+		let cords;
+		for(let i = 0; i < this.artillerie.length; i++) {
 			let position = true;
-			if ((this.player === CONST.JOUEUR) && (Game.flotte_valide[i] === CONST.VALIDE))
+			if((this.player == CONST.JOUEUR) && (Game.flotte_valide[i] == CONST.VALIDE))
 				continue;
 
-			while (position) {
+			while(position) {
 				let x = Math.floor(10 * Math.random());
 				let y = Math.floor(10 * Math.random());
+				/* Générer un sens de placement aléatoire entre horizontal et vertical */
 				let direction = Math.floor(2 * Math.random());
-				if (this.fleetRoster[i].isLegal(x, y, direction)) {
-					this.fleetRoster[i].create(x, y, direction, false);
-					coordonnees = this.fleetRoster[i].getAllShipCells();
+				if(this.artillerie[i].borne(x, y, direction)){
+					this.artillerie[i].positionner(x, y, direction, false);
+					cords = this.artillerie[i].taille_navire();
 					position = false;
-				}
-				else { continue; }
+				}else{ continue; }
 			}
-			if (this.player === CONST.JOUEUR && Game.flotte_valide[i] !== CONST.VALIDE) {
-				for (let j = 0; j < coordonnees.length; j++) {
-					this.grille_joueur.curseur(coordonnees[j].x, coordonnees[j].y, 'ship', this.player);
+			if((this.player == CONST.JOUEUR) && (Game.flotte_valide[i] != CONST.VALIDE)){
+				for(let j = 0; j < cords.length; j++){
+					this.grille_joueur.curseur(cords[j].x, cords[j].y, 'ship', this.player);
 					Game.flotte_valide[i] = CONST.VALIDE;
 				}
 			}
 		}
 	}
 
-	localisation(x, y) {
-		for (let i = 0; i < this.fleetRoster.length; i++) {
-			let navire = this.fleetRoster[i];
-			if (navire.direction === Ship.DIRECTION_VERTICAL) {
-				if ((y === navire.yPosition) && (x >= navire.xPosition) &&
-					(x < navire.xPosition + navire.shipLength))
+	localisation(x, y){
+		for(let i = 0; i < this.artillerie.length; i++){
+			let navire = this.artillerie[i];
+			if(navire.direction == Ship.DIRECTION_VERTICAL){
+				if((y == navire.ordonnee) && (x >= navire.abscisse) &&
+					(x < navire.abscisse + navire.longueur))
 					return navire;
-				else { continue; }
-			}
-			else {
-				if ((x === navire.xPosition) && (y >= navire.yPosition) &&
-					(y < navire.yPosition + navire.shipLength))
+				else{ continue; }
+			}else{
+				if((x == navire.abscisse) && (y >= navire.ordonnee) &&
+					(y < navire.ordonnee + navire.longueur))
 					return navire;
-				else { continue; }
+				else{ continue; }
 			}
 		}
 		return null;
 	}
 
-	findShipByType(type_navire) {
-		for (let i = 0; i < this.fleetRoster.length; i++) {
-			if (this.fleetRoster[i].type === type_navire) { return this.fleetRoster[i]; }
-		}
-		return null;
-	}
-
-	flotte_detruite() {
-		for (let i = 0; i < this.fleetRoster.length; i++) {
-			if (this.fleetRoster[i].sunk === false) { return false; }
+    /* Destruction de tous les navires adverses */
+	flotte_detruite(){
+		for(let i = 0; i < this.artillerie.length; i++){
+			if(this.artillerie[i].sunk == false){ return false; }
 		}
 		return true;
 	}
 }
-
-
-
-
-
-

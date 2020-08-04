@@ -4,28 +4,39 @@ body {
   margin : 0 auto;
   font-size : 1.1em;
 }
+
 html {
   background : url("../img/background.jpg") center center no-repeat fixed;
   background-size : cover;
 }
+
 .rule {
-  padding : 5px;
-  border : gray solid 5px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border : gray solid 2px;
   box-shadow : 10px 10px 10px black;
   background : url("../img/rule.jpg");
 }
+
 .no-js {
   display : table-cell;
   font-size : 1.5em;
   padding : 100px;
 }
+
+h2 { 
+  font-weight: normal;
+  font-style: italic;
+}
+
 button {
   font-size : 1.2em;
   color : #EEEEEE;
   background-color : #303030;
-  margin : 1em 0 0.5em 0;
+  margin : 0.5em 0 0.5em 0;
   padding : 8px;
-  border : silver solid 3px;
+  border : silver solid 2px;
+  border-radius: 2px;
 }
 button:hover {
   cursor : pointer;
@@ -34,6 +45,7 @@ button:hover {
 button:active {
   background-color : #800000;
 }
+
 #start-game, #restart-game {
   position : relative;
   color : #FFFFFF;
@@ -46,9 +58,9 @@ button:active {
   background-color : #800000;
 }
 .container {
-  width : 80%;
+  width : 90%;
   text-align : center;
-  margin : auto;
+  margin : 0 auto;
 }
 .game-container {
   position : relative;
@@ -61,6 +73,7 @@ button:active {
   position : relative;
   background : url("../img/title.jpg");
   border : brown solid 3px;
+  border-radius: 5px;
   box-shadow : 5px 5px 5px #6495ED;
 }
 #roster-sidebar, #restart-sidebar {
@@ -70,14 +83,16 @@ button:active {
   background : url("../img/iron.jpg");
   position : relative;
   top : 4em;
-  border : gray solid 4px;
+  border : gray solid 3px;
+  border-radius: 3px;
   box-shadow : 10px 10px 10px black;
 }
 #roster-sidebar h2, #restart-sidebar h2 {
-  padding : 2px;
+  padding : 5px;
   margin : 0.2em 0 1em 0;
   text-align : center;
-  border : brown solid 4px;
+  border : brown solid 2px;
+  border-radius: 3px;
   background : url("../img/title.jpg");
   box-shadow : 5px 5px 5px black;
 }

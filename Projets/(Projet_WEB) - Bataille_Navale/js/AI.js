@@ -1,140 +1,150 @@
-class AI {
-    constructor(gameObject) {
-        this.gameObject = gameObject;
-        this.virtualGrid = new Grid(Game.dimension);
-        this.virtualFleet = new Fleet(this.virtualGrid, CONST.ADVERSAIRE);
-        this.probGrid = [];
-        this.initProbs();
-        this.updateProbs();
+class AI{
+    constructor(object){
+        this.object = object;
+        this.grille = new Grid(10);
+        this.flotte = new Fleet(this.grille, CONST.ADVERSAIRE);
+        this.proba = [];
+        this.init();
+        this.update();
     }
-
+    
+    /* Tir de l'intelligence artificielle sur la grille du joueur */
     tir(){
-        var maxProbability = 0;
-        var maxProbCoords;
-        var maxProbs = [];
-        for (var i = 0; i < AI.CALCULE.length; i++) {
-            var cell = AI.CALCULE[i];
-            if (this.probGrid[cell.x][cell.y] !== 0) {
-                this.probGrid[cell.x][cell.y] += cell.weight;
+        let max_coords;
+        let max_proba = 0;
+        let max = [];
+
+        /* Tir provenant de l'intelligence artificielle sur les cases du joueur */
+        for(let i = 0; i < AI.CALCULE.length; i++){
+            let cases = AI.CALCULE[i];
+            if(this.proba[cases.x][cases.y] != 0)
+                this.proba[cases.x][cases.y] += cases.weight;
+        }
+
+        /* Calculer le coup dans les bornes de la grille */
+        for(let x = 0; x < 10; x++){
+            for(let y = 0; y < 10; y++){
+                if(this.proba[x][y] > max_proba){
+                    max_proba = this.proba[x][y];
+                    max = [{ 'x': x, 'y': y }];
+                }else if(this.proba[x][y] == max_proba)
+                    max.push({ 'x': x, 'y': y });
             }
         }
-        for (var x = 0; x < Game.dimension; x++) {
-            for (var y = 0; y < Game.dimension; y++) {
-                if (this.probGrid[x][y] > maxProbability) {
-                    maxProbability = this.probGrid[x][y];
-                    maxProbs = [{ 'x': x, 'y': y }];
-                }
-                else if (this.probGrid[x][y] === maxProbability) {
-                    maxProbs.push({ 'x': x, 'y': y });
-                }
-            }
-        }
-        maxProbCoords = Math.random() < 0.1 ?
-            maxProbs[Math.floor(Math.random() * maxProbs.length)] : maxProbs[0];
-        var res = this.gameObject.tir(maxProbCoords.x, maxProbCoords.y, CONST.JOUEUR);
-        if (Game.jeu_perdu) {
+
+        max_coords = Math.random() < 0.1 ? max[Math.floor(Math.random() * max.length)] : max[0];
+        let res = this.object.tir(max_coords.x, max_coords.y, CONST.JOUEUR);
+
+        /* Si le jeu est perdu */
+        if(Game.jeu_perdu){
             Game.jeu_perdu = false;
             return;
         }
-        this.virtualGrid.cells[maxProbCoords.x][maxProbCoords.y] = res;
-        if (res === CONST.TOUCHE) {
-            var humanShip = this.findHumanShip(maxProbCoords.x, maxProbCoords.y);
-            if (humanShip.isSunk()) {
-                var type_navires = [];
-                for (var k = 0; k < this.virtualFleet.fleetRoster.length; k++) {
-                    type_navires.push(this.virtualFleet.fleetRoster[k].type);
-                }
-                var index = type_navires.indexOf(humanShip.type);
-                this.virtualFleet.fleetRoster.splice(index, 1);
-                var shipCells = humanShip.getAllShipCells();
-                for (var _i = 0; _i < shipCells.length; _i++) {
-                    this.virtualGrid.cells[shipCells[_i].x][shipCells[_i].y] = CONST.COULE;
-                }
+
+        this.grille.coordonnees[max_coords.x][max_coords.y] = res;
+
+        /* Si un navire est touché */
+        if(res == CONST.TOUCHE){
+            let flotte_joueur = this.object.flotte_joueur.localisation(
+                max_coords.x, max_coords.y);
+            if(flotte_joueur.navire_detruit()) {
+                let type_navires = [];
+                for(let i = 0; i < this.flotte.artillerie.length; i++)
+                    type_navires.push(this.flotte.artillerie[i].type);
+    
+                this.flotte.artillerie.splice(type_navires.indexOf(flotte_joueur.type), 1);
+ 
+                let cases = flotte_joueur.taille_navire();
+                for(let i = 0; i < cases.length; i++)
+                    this.grille.coordonnees[cases[i].x][cases[i].y] = CONST.COULE;
             }
         }
-        this.updateProbs();
+        this.update();
     }
-    updateProbs() {
-        let unite = this.virtualFleet.fleetRoster;
+
+    /* Met l'état de la grille à jour après une action effectuée dessus */
+    update() {
+        let unite = this.flotte.artillerie;
         let coords;
-        this.resetProbs();
-        for (let k = 0; k < unite.length; k++) {
-            for (let x = 0; x < Game.dimension; x++) {
-                for (let y = 0; y < Game.dimension; y++) {
-                    if (unite[k].isLegal(x, y, Ship.DIRECTION_VERTICAL)) {
-                        unite[k].create(x, y, Ship.DIRECTION_VERTICAL, true);
-                        coords = unite[k].getAllShipCells();
-                        if (this.passesThroughHitCell(coords)) {
-                            for (let i = 0; i < coords.length; i++)
-                                this.probGrid[coords[i].x][coords[i].y] += 5000 * this.numHitCellsCovered(coords);
+
+        /* Réinitialiser la grille de jeu */
+        for(let x = 0; x < 10; x++){
+            for(let y = 0; y < 10; y++)
+                this.proba[x][y] = 0;
+        }
+
+        /* Unité navale */
+        for(let k = 0; k < unite.length; k++){
+            /* Cases de la grille */
+            for(let x = 0; x < 10; x++){
+                for(let y = 0; y < 10; y++){
+
+                    /* Pour détruire un navire du joueur en position verticale */
+                    if(unite[k].borne(x, y, Ship.DIRECTION_VERTICAL)){
+                        unite[k].positionner(x, y, Ship.DIRECTION_VERTICAL, true);
+                        coords = unite[k].taille_navire();
+                        if(this.toucher_case(coords)){
+                            for(let i = 0; i < coords.length; i++)
+                                this.proba[coords[i].x][coords[i].y] += 5000 * this.case_visee(coords);
+                        }else{
+                            for(let i = 0; i < coords.length; i++)
+                                this.proba[coords[i].x][coords[i].y]++;
                         }
-                        else {
-                            for (let i = 0; i < coords.length; i++)
-                                this.probGrid[coords[i].x][coords[i].y]++;
+                    /* Pour détruire un navire du joueur en position horizontale */
+                    }else if(unite[k].borne(x, y, Ship.DIRECTION_HORIZONTAL)){
+                        unite[k].positionner(x, y, Ship.DIRECTION_HORIZONTAL, true);
+                        coords = unite[k].taille_navire();
+                        if(this.toucher_case(coords)){
+                            for(let i = 0; i < coords.length; i++)
+                                this.proba[coords[i].x][coords[i].y] += 5000 * this.case_visee(coords);
+                        }else{
+                            for(let i = 0; i < coords.length; i++)
+                                this.proba[coords[i].x][coords[i].y]++;
                         }
                     }
-                    if (unite[k].isLegal(x, y, Ship.DIRECTION_HORIZONTAL)) {
-                        unite[k].create(x, y, Ship.DIRECTION_HORIZONTAL, true);
-                        coords = unite[k].getAllShipCells();
-                        if (this.passesThroughHitCell(coords)) {
-                            for (var j = 0; j < coords.length; j++)
-                                this.probGrid[coords[j].x][coords[j].y] += 5000 * this.numHitCellsCovered(coords);
-                        }
-                        else {
-                            for (var _j = 0; _j < coords.length; _j++)
-                                this.probGrid[coords[_j].x][coords[_j].y]++;
-                        }
-                    }
-                    if (this.virtualGrid.cells[x][y] === CONST.TOUCHE)
-                        this.probGrid[x][y] = 0;
+
+                    if(this.grille.coordonnees[x][y] == CONST.TOUCHE)
+                        this.proba[x][y] = 0;
                 }
             }
         }
     }
-
-    initProbs() {
-        for (var x = 0; x < Game.dimension; x++) {
-            var colonne = [];
-            this.probGrid[x] = colonne;
-            for (var y = 0; y < Game.dimension; y++)
-                colonne.push(0);
+    
+    /* Initialise les probabilités par rapport à la grille */
+    init(){
+        for(let x = 0; x < 10; x++){
+            let colonne = [];
+            this.proba[x] = colonne;
+            for(let y = 0; y < 10; y++){ colonne.push(0); }
         }
     }
-
-    resetProbs() {
-        for (var x = 0; x < Game.dimension; x++) {
-            for (var y = 0; y < Game.dimension; y++) {
-                this.probGrid[x][y] = 0;
-            }
-        }
-    }
-
-    findHumanShip(x, y) {
-        return this.gameObject.flotte_joueur.localisation(x, y);
-    }
-
-    passesThroughHitCell(espace) {
-        for (var i = 0; i < espace.length; i++) {
-            if (this.virtualGrid.cells[espace[i].x][espace[i].y] === CONST.TOUCHE)
+    
+    /* Espace touché */
+    toucher_case(espace){
+        for(let i = 0; i < espace.length; i++) {
+            if(this.grille.coordonnees[espace[i].x][espace[i].y] == CONST.TOUCHE)
                 return true;
         }
         return false;
     }
 
-    numHitCellsCovered(espace) {
-        var cases = 0;
-        for (var i = 0; i < espace.length; i++) {
-            if(this.virtualGrid.cells[espace[i].x][espace[i].y] === CONST.TOUCHE)
-            cases++;
+    /* Si une case est ciblée, tirer dessus */
+    case_visee(espace){
+        let cases = 0;
+        for(let i = 0; i < espace.length; i++){
+            if(this.grille.coordonnees[espace[i].x][espace[i].y] == CONST.TOUCHE) 
+                cases++;
         }
         return cases;
     }
 }
 
-function gen(min, max) {
+/* Génération aleatoire entre un minimum et maximum entré */
+function gen(min, max){
 	return Math.random() * (max - min) + min;
 }
 
+/* Calcule du coup aléatoire en fonction des cases de la grille */
 AI.CALCULE = [
     {'x': 7, 'y': 3, 'weight': gen(10, 20)}, {'x': 6, 'y': 2, 'weight': gen(10, 20)},
     {'x': 3, 'y': 7, 'weight': gen(10, 20)}, {'x': 2, 'y': 6, 'weight': gen(10, 20)},
@@ -144,10 +154,3 @@ AI.CALCULE = [
     {'x': 8, 'y': 0, 'weight': gen(15, 25)}, {'x': 9, 'y': 1, 'weight': gen(20, 30)},
     {'x': 9, 'y': 9, 'weight': gen(20, 30)}, {'x': 0, 'y': 0, 'weight': gen(20, 30)}
 ];
-
-
-
-
-
-
-

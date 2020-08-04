@@ -1,95 +1,97 @@
 class Ship {
-    constructor(type, playerGrid, player) {
-        this.damage = 0;
+    constructor(type, grille_joueur, player) {
+        this.degats = 0;
         this.type = type;
-        this.playerGrid = playerGrid;
+        this.grille_joueur = grille_joueur;
         this.player = player;
-
-        switch (this.type) {
-            case CONST.FLOTTE[0]: this.shipLength = 5; break;
-            case CONST.FLOTTE[1]: this.shipLength = 4; break;
-            case CONST.FLOTTE[2]: this.shipLength = 3; break;
-            case CONST.FLOTTE[3]: this.shipLength = 3; break;
-            case CONST.FLOTTE[4]: this.shipLength = 2; break;
-            default: this.shipLength = 3; break;
+        /* Taille des différents type de navire */
+        switch(this.type){
+            /* Porte-avions */
+            case CONST.FLOTTE[0]: this.longueur = 5; break;
+            /* Croiseur */
+            case CONST.FLOTTE[1]: this.longueur = 4; break;
+            /* Destroyer */
+            case CONST.FLOTTE[2]: this.longueur = 3; break;
+            /* Sous marin */
+            case CONST.FLOTTE[3]: this.longueur = 3; break;
+            /* Patrouilleur */
+            case CONST.FLOTTE[4]: this.longueur = 2; break;
         }
-        this.maxDamage = this.shipLength;
+        this.max = this.longueur;
         this.sunk = false;
     }
 
-    isLegal(x, y, direction) {
-        if (this.withinBounds(x, y, direction)) {
-            for (var i = 0; i < this.shipLength; i++) {
-                if (direction === Ship.DIRECTION_VERTICAL) {
-                    if (this.playerGrid.cells[x + i][y] === CONST.NAVIRE ||
-                        this.playerGrid.cells[x + i][y] === CONST.RATE ||
-                        this.playerGrid.cells[x + i][y] === CONST.COULE)
+    /* Limite les actions possibles dans la grille de jeu */
+    limite(x, y, direction) {
+        if(direction == Ship.DIRECTION_VERTICAL)
+            return x + this.longueur <= 10;
+        else{ return y + this.longueur <= 10; }
+    }
+
+    /* Borne de la grille et des actions a effectuer à l'intérieur */
+    borne(x, y, direction) {
+        if(this.limite(x, y, direction)) {
+            for(let i = 0; i < this.longueur; i++) {
+                if(direction == Ship.DIRECTION_VERTICAL){
+                    if((this.grille_joueur.coordonnees[x + i][y] == CONST.NAVIRE) ||
+                        (this.grille_joueur.coordonnees[x + i][y] == CONST.RATE) ||
+                        (this.grille_joueur.coordonnees[x + i][y] == CONST.COULE))
                         return false;
-                }
-                else {
-                    if (this.playerGrid.cells[x][y + i] === CONST.NAVIRE ||
-                        this.playerGrid.cells[x][y + i] === CONST.RATE ||
-                        this.playerGrid.cells[x][y + i] === CONST.COULE)
+                }else{
+                    if((this.grille_joueur.coordonnees[x][y + i] == CONST.NAVIRE) ||
+                        (this.grille_joueur.coordonnees[x][y + i] == CONST.RATE) ||
+                        (this.grille_joueur.coordonnees[x][y + i] == CONST.COULE))
                         return false;
                 }
             }
             return true;
-        }
-        else { return false; }
+        }else{ return false; }
     }
 
-    withinBounds(x, y, direction) {
-        if (direction === Ship.DIRECTION_VERTICAL)
-            return x + this.shipLength <= Game.dimension;
-        else
-            return y + this.shipLength <= Game.dimension;
+    /* Etat détruit d'un bateau */
+    navire_detruit(){ return this.degats >= this.max; }
+
+    /* Score des navires détruits */
+    score_degats(){
+        this.degats++;
+        if(this.navire_detruit()){ this.navire_coule(false); }
     }
 
-    dommages_scoring() {
-        this.damage++;
-        if (this.isSunk()) { this.sinkShip(false); }
-    }
-
-    isSunk() {
-        return this.damage >= this.maxDamage;
-    }
-
-    sinkShip(virtual) {
-        this.damage = this.maxDamage;
+    navire_coule(unite){
+        this.degats = this.max;
         this.sunk = true;
-        if (!virtual) {
-            var allCells = this.getAllShipCells();
-            for (var i = 0; i < this.shipLength; i++)
-                this.playerGrid.curseur(allCells[i].x, allCells[i].y, 'sunk', this.player);
+        if(!(unite)){
+            let cases = this.taille_navire();
+            for(let i = 0; i < this.longueur; i++)
+                this.grille_joueur.curseur(cases[i].x, cases[i].y, 'sunk', this.player);
         }
     }
 
-    getAllShipCells() {
-        var resObject = [];
-        for (var i = 0; i < this.shipLength; i++) {
-            if (this.direction === Ship.DIRECTION_VERTICAL)
-                resObject[i] = { 'x': this.xPosition + i, 'y': this.yPosition };
+    /* Espace occupé, au niveau des cases de la grille, par un navire */
+    taille_navire() {
+        let res = [];
+        for(let i = 0; i < this.longueur; i++){
+            if(this.direction == Ship.DIRECTION_VERTICAL)
+                res[i] = { 'x': this.abscisse + i, 'y': this.ordonnee };
             else
-                resObject[i] = { 'x': this.xPosition, 'y': this.yPosition + i };
-
+                res[i] = { 'x': this.abscisse, 'y': this.ordonnee + i };
         }
-        return resObject;
+        return res;
     }
-
-    create(x, y, direction, virtual) {
-        this.xPosition = x;
-        this.yPosition = y;
+    
+    /* Placement d'un navire sur la grille de jeu concernée */
+    positionner(x, y, direction, unite) {
+        this.abscisse = x;
+        this.ordonnee = y;
         this.direction = direction;
-        if (!virtual) {
-            for (var i = 0; i < this.shipLength; i++) {
-                if (this.direction === Ship.DIRECTION_VERTICAL)
-                    this.playerGrid.cells[x + i][y] = CONST.NAVIRE;
-                else
-                    this.playerGrid.cells[x][y + i] = CONST.NAVIRE;
+        if(!(unite)){
+            for(let i = 0; i < this.longueur; i++){
+                if(this.direction == Ship.DIRECTION_VERTICAL)
+                    this.grille_joueur.coordonnees[x + i][y] = CONST.NAVIRE;
+                else{ this.grille_joueur.coordonnees[x][y + i] = CONST.NAVIRE; }
 
             }
         }
-
     }
 }
 
