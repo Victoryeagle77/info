@@ -5,11 +5,6 @@ import java.util.Random;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
-* @author Arthur Chenu
-* @version final
-*/
-
-/**
 * La classe <code>Editor</code> est le mod d'&eacute;dition du labyrinthe.
 * - Elle permet de configurer sa taille.
 * - De cr&eacute;er un labyrinthe avec l'interactivit&eacute;e de la souris,
