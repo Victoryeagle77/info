@@ -2,11 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
-* @author Arthur Chenu
-* @version final
-*/
-
-/**
 * La classe <code>State</code> permet de d&eacute;finir le placement des cases.
 */
 public class State extends JButton {
