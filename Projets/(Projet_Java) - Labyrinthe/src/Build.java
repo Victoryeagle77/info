@@ -2,11 +2,6 @@ import java.awt.*;
 import javax.swing.*;
 
 /**
-* @author Arthur Chenu
-* @version final
-*/
-
-/**
 * La classe <code>Build</code> permet de pr&eacute;parer une fenetre graphique,
 * avec ces &eacute;l&eacute;ments graphiques pour la construction du labyrinthe par l'utilisateur.
 */
