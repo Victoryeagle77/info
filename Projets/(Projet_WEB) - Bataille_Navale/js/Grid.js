@@ -17,11 +17,11 @@ class Grid{
 	/* Cible lockée */
 	curseur(x, y, type, cible) {
 		let player;
-		let classes = ['grid-cell', 'grid-cell-' + x + '-' + y, 'grid-' + type];
+		let classes = ['cell', 'cell-' + x + '-' + y, 'grid-' + type];
 		/* S'il s'agit du joueur */
-		if(cible == CONST.JOUEUR){ player = 'human-player'; }
+		if(cible == CONST.JOUEUR){ player = 'player'; }
 		/* S'il s'agit d" l'intelligence artificielle */
-		else if(cible == CONST.IA){ player = 'computer-player'; }
+		else if(cible == CONST.IA){ player = 'AI'; }
 
 		switch(type){
 			case CONST.STYLE_VIDE:
@@ -43,7 +43,7 @@ class Grid{
 				this.coordonnees[x][y] = CONST.VIDE;
 			break;
 		}
-		document.querySelector('.' + player + ' .grid-cell-' + x + '-' + y).setAttribute('class', classes.join(' '));
+		document.querySelector('.' + player + ' .cell-' + x + '-' + y).setAttribute('class', classes.join(' '));
 	}
 
 	/* Navire non-endommagé */

@@ -10,22 +10,6 @@ html {
   background-size : cover;
 }
 
-#logo, #rule { margin: auto; }
-
-#rule {
-  padding-left: 20px;
-  padding-right: 20px;
-  border : gray solid 2px;
-  box-shadow : 10px 10px 10px black;
-  background-color: #111;
-}
-
-.no-js {
-  display : table-cell;
-  font-size : 1.5em;
-  padding : 100px;
-}
-
 h3 { font-weight: normal; }
 
 button {
@@ -45,15 +29,41 @@ button:active {
   background-color : #500;
 }
 
-#start-game, #restart-game {
+footer {
+  position: fixed;
+  width : 100%;
+  text-align : center;
+  background-color : #111;
+  padding : 6px;
+  bottom: 0px;
+}
+footer a{ 
+  color : white;
+  text-decoration : none; 
+}
+footer a:hover{ 
+  color : #00BFFF; 
+}
+
+#logo { margin: auto; }
+#rule {
+  margin: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+  border : gray solid 2px;
+  box-shadow : 10px 10px 10px black;
+  background-color: #111;
+}
+
+#start, #restart {
   position : relative;
   color : #fff;
   background-color : #303030;
 }
-#start-game:hover, #restart-game:hover {
-  background-color : orange;
+#start:hover, #restart:hover {
+  background-color : #8b122c;
 }
-#start-game:active, #restart-game:active {
+#start:active, #restart:active {
   background-color : #400000;
 }
 .container {
@@ -61,11 +71,11 @@ button:active {
   text-align : center;
   margin : 0 auto;
 }
-.game-container {
+.game {
   position : relative;
   top : -2em;
 }
-.grid-container-title {
+.title {
   width : 50%;
   margin : auto;
   top: 4em;
@@ -75,7 +85,7 @@ button:active {
   border-radius: 5px;
   box-shadow : 5px 5px 5px #6495ED;
 }
-#roster-sidebar, #restart-sidebar {
+#rotate, #reload {
   width : 200px;
   padding : 8px;
   margin : auto;
@@ -86,7 +96,7 @@ button:active {
   border-radius: 3px;
   box-shadow : 10px 10px 10px black;
 }
-#roster-sidebar h3, #restart-sidebar h3 {
+#rotate h3, #reload h3 {
   padding : 5px;
   margin : 0.2em 0 1em 0;
   text-align : center;
@@ -95,7 +105,7 @@ button:active {
   background-color: #111;
   box-shadow : 5px 5px 5px black;
 }
-.fleet-roster {
+.fleet {
   position : relative;
   margin : 0;
   padding : 0;
@@ -103,19 +113,19 @@ button:active {
   color : silver;
   font-size : 20px;
 }
-.fleet-roster, button {
+.fleet, button {
   opacity : 1;
   transition : opacity 0.5s ease-out;
 }
-.fleet-roster li { margin : 0.5em 0; }
-.fleet-roster li:hover {
+.fleet li { margin : 0.5em 0; }
+.fleet li:hover {
   color : #fff;
   cursor : pointer;
 }
-.fleet-roster li:active {
+.fleet li:active {
   color : #800;
 }
-.fleet-roster .placed {
+.fleet .placed {
   visibility : hidden;
   opacity : 0;
   transition : all 0.4s ease-in;
@@ -126,7 +136,7 @@ button:active {
   z-index : -20;
 }
 .hidden { display : none; }
-.grid-container {
+.area {
   display : inline-block;
   margin : 50px;
   height : 10px;
@@ -140,7 +150,7 @@ button:active {
   border-radius: 3px;
   box-shadow : 10px 10px 10px #000;
 }
-.grid-cell {
+.cell {
   vertical-align : top;
   height : 40px;
   width : 40px;
@@ -148,45 +158,29 @@ button:active {
   background : url("../img/water.gif") fixed;
   margin : 1px;
 }
-.grid-cell:hover {
-  background-color : orange;
+.cell:hover {
+  background-color : #cab01d;
   background-repeat : no-repeat;
 }
-.human-player .grid-cell:hover {
+.player .cell:hover {
   background-color : #303030;
 }
-.computer-player .grid-cell:hover, .computer-player:hover {
+.AI .cell:hover, .AI:hover {
   cursor : crosshair;
 }
-.grid-ship, .human-player .grid-ship:hover {
+.grid-ship, .player .grid-ship:hover {
   background-color : #888;
   background-repeat : no-repeat;
 }
-.grid-miss, .grid-miss:hover, .human-player .grid-miss:hover {
+.grid-miss, .grid-miss:hover, .player .grid-miss:hover {
   background : url("../img/ploof.gif") center;
   background-repeat : no-repeat;
 }
-.grid-hit, .grid-hit:hover, .human-player .grid-hit:hover {
+.grid-hit, .grid-hit:hover, .player .grid-hit:hover {
   background : url("../img/explosion.gif") center;
   background-repeat : no-repeat;
 }
-.grid-sunk, .grid-sunk:hover, .human-player .grid-sunk:hover {
+.grid-sunk, .grid-sunk:hover, .player .grid-sunk:hover {
   background : url("../img/Fire.gif") center;
   background-repeat : no-repeat;
-}
-
-footer {
-  position: fixed;
-  width : 100%;
-  text-align : center;
-  background-color : #222;
-  padding : 3px;
-  bottom: 0px;
-}
-footer a{ 
-  color : white;
-  text-decoration : none; 
-}
-footer a:hover{ 
-  color : #00BFFF; 
 }

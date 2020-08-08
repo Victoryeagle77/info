@@ -12,7 +12,7 @@
   <body>
     <div class="container">
       <div id="logo">
-        <img src="./img/game_logo.png" alt="logo"/>
+        <img id="haut" src="./img/game_logo.png" alt="logo"/>
       </div>
         <!-- Règle du jeu !-->
         <br><div id="rule">
@@ -28,39 +28,39 @@
         </audio>
 
         <!-- Elément contenant les grilles de jeu !-->
-        <div id="haut" class="game-container">
+        <div class="game">
 
           <!-- Menu de lancement et de placement de la flotte !-->
-          <div id="restart-sidebar" class="hidden">
+          <div id="reload" class="hidden">
             <h3>Nouvelle partie</h3>
-            <button id="restart-game">Réessayer</button>
+            <button id="restart">Réessayer</button>
           </div>
           <!-- Menu de placement des bateaux !-->
-          <div id="roster-sidebar">
+          <div id="rotate">
             <h3>Placement de la flotte</h3>
-            <ul class="fleet-roster">
+            <ul class="fleet">
               <li id="patrouilleur">Patrouilleur</li> 
               <li id="sous_marin">Sous-marin</li>
               <li id="destroyer">Destroyer</li>
               <li id="croiseur">Croiseur</li>
               <li id="porte_avions">Porte-avions</li>
             </ul>
-            <button id="rotate-button" data-direction="0">Rotation</button>
-            <button id="start-game" class="hidden">Commencer</button>
+            <button id="rotation" data-direction="0">Rotation</button>
+            <button id="start" class="hidden">Commencer</button>
           </div>
  
           <!-- Grille de placement des navires pour le joueur !-->
-          <div class="grid-container">
-            <div class="grid-container-title"><h3>Votre Flotte</h3></div>
-            <br><div class="grid human-player">
+          <div class="area">
+            <div class="title"><h3>Votre Flotte</h3></div>
+            <br><div class="grid player">
               <!-- Message d'erreur en cas de non-chargement des éléments en js sur la grille !-->
               <span class="error">Pas de pluging JavaScript. Installez en un, activez le ou changez de navigateur</span>
             </div>
           </div>
           <!-- Grille de placement des navires pour l'ordinateur !-->
-          <div class="grid-container">
-            <div class="grid-container-title"><h3>Flotte adverse</h3></div>
-            <br><div class="grid computer-player">
+          <div class="area">
+            <div class="title"><h3>Flotte adverse</h3></div>
+            <br><div class="grid AI">
               <!-- Message d'erreur en cas de non-chargement des éléments en js sur la grille !-->
               <span class="error">Pas de pluging JavaScript. Installez en un, activez le ou changez de navigateur</span>
             </div>

@@ -95,7 +95,7 @@ class Game{
 	flotte_param(e){
 		let self = e.target.self;
 		/* Selectionner la classe CSS correspondante */
-		let flotte = document.querySelectorAll('.fleet-roster li');
+		let flotte = document.querySelectorAll('.fleet li');
 		for(let i = 0; i < flotte.length; i++){
 			/* Obtenir les classes CSS */
 			let classes = flotte[i].getAttribute('class') || '';
@@ -106,7 +106,7 @@ class Game{
 		Game.place_navire = e.target.getAttribute('id');
 		document.getElementById(Game.place_navire).setAttribute('class', 'placing');
 		/* Obtenir par l'id CSS le bouton de rotation du positionnement des navires */
-		Game.place_direction = parseInt(document.getElementById('rotate-button').getAttribute('data-direction'), 10);
+		Game.place_direction = parseInt(document.getElementById('rotation').getAttribute('data-direction'), 10);
 		self.place_grille = true;
 	}
 
@@ -122,13 +122,13 @@ class Game{
 				self.place_grille = false;
 				/* Pour tous les bateaux placés sur la grille */
 				if(self.grille_remplie()){
-					let e = document.getElementById('rotate-button');
+					let e = document.getElementById('rotation');
 					e.addEventListener(animation(),
 						(function () {
 							e.setAttribute('class', 'hidden');
                             /* Caché l'élément de bouton commencer,
                             tant que tous les navvires ne sont pas placés. */
-							document.getElementById('start-game').removeAttribute('class');
+							document.getElementById('start').removeAttribute('class');
 						}), false);
 					e.setAttribute('class', 'invisible');
 				}
@@ -154,7 +154,7 @@ class Game{
 					Game.navire_coords = flotte[i].taille_navire();
 
 					for(let j = 0; j < Game.navire_coords.length; j++){
-						let e = document.querySelector('.grid-cell-' + Game.navire_coords[j].x + '-' + Game.navire_coords[j].y);
+						let e = document.querySelector('.cell-' + Game.navire_coords[j].x + '-' + Game.navire_coords[j].y);
 						classes = e.getAttribute('class');
 						if(classes.indexOf(' grid-ship') < 0){
 							classes += ' grid-ship';
@@ -172,7 +172,7 @@ class Game{
 		let cible = e.target.self;
 		if(cible.place_grille){
 			for(let j = 0; j < Game.navire_coords.length; j++){
-				let e = document.querySelector('.grid-cell-' + Game.navire_coords[j].x
+				let e = document.querySelector('.cell-' + Game.navire_coords[j].x
 					+ '-' + Game.navire_coords[j].y);
 				classes = e.getAttribute('class');
 				if(classes.indexOf(' grid-ship') > -1){
@@ -199,7 +199,7 @@ class Game{
 
 	commence_jeu(e){
 		let self = e.target.self;
-		var e = document.getElementById('roster-sidebar');
+		var e = document.getElementById('rotate');
 
 		e.addEventListener(animation(), e.setAttribute('class', 'hidden'), false);
 		e.setAttribute('class', 'invisible');
@@ -209,7 +209,7 @@ class Game{
 	
 	recommence_jeu(e){
 		let self = e.target.self;
-		document.getElementById('restart-sidebar').setAttribute('class', 'hidden');
+		document.getElementById('reload').setAttribute('class', 'hidden');
 		self.chargement();
 		self.init();
 	}
@@ -225,7 +225,7 @@ class Game{
 	
 	/* Détermine quand la grille est pleine (5 navires placés) */
 	grille_remplie(){
-		let navires = document.querySelectorAll('.fleet-roster li');
+		let navires = document.querySelectorAll('.fleet li');
 		for(let i = 0; i < navires.length; i++){
 			if(navires[i].getAttribute('class') == 'placed'){ continue; }
 			else{ return false; }
@@ -250,33 +250,34 @@ class Game{
     /* Permet de gérer le menu pour rejouer.
     lorsque tous les navires ennemis ou de alliés sont détruits. */
 	menu_rejouer(){
-		document.getElementById('restart-sidebar').setAttribute('class', '');
+		document.getElementById('reload').setAttribute('class', '');
 
-		let cases = document.querySelector('.computer-player').childNodes;
+		let cases = document.querySelector('.AI').childNodes;
 		for(let j = 0; j < cases.length; j++)
 			cases[j].removeEventListener('click', this.tir_param, false);
 
 		/* Créé une liste correspondant aux 5 types de bateaux pouvant être placés. */
-		let flotte_joueur = document.querySelector('.fleet-roster').querySelectorAll('li');
+		let flotte_joueur = document.querySelector('.fleet').querySelectorAll('li');
 		for(let i = 0; i < flotte_joueur.length; i++)
 			flotte_joueur[i].removeEventListener('click', this.flotte_param, false);
 
 		/* Bouton recommencer */
-		document.getElementById('restart-game').addEventListener('click', this.recommence_jeu, false);
-		document.getElementById('restart-game').self = this;
+		document.getElementById('restart').addEventListener('click', this.recommence_jeu, false);
+		document.getElementById('restart').self = this;
 	}
 
 	/* Prototype de la fonction Game qui permet de gérer la grille de jeu */
 	grille_jeu(){
 		let cases = document.querySelectorAll('.grid');
 		for(let grille = 0; grille < cases.length; grille++){
+			/* En cas d'erreur JavaScript */
 			cases[grille].removeChild(cases[grille].querySelector('.error'));
 			for(let i = 0; i < 10; i++){ /* Lignes */
 				for(let j = 0; j < 10; j++){ /* Colonnes */
 					let e = document.createElement('div');
 					/* Attribuer les valeurs de rotations initiales en abscisse et ordonnée */
 					e.setAttribute('data-x', i); e.setAttribute('data-y', j);
-					e.setAttribute('class', 'grid-cell grid-cell-' + i + '-' + j);
+					e.setAttribute('class', 'cell cell-' + i + '-' + j);
 					cases[grille].appendChild(e);
 				}
 			}
@@ -302,20 +303,20 @@ class Game{
 		Game.navire_coords = [];
 
 		/* Réinitialiser la bar de placement de la flotte */
-		let e = document.querySelector('.fleet-roster').querySelectorAll('li');
+		let e = document.querySelector('.fleet').querySelectorAll('li');
 		for(let i = 0; i < e.length; i++){ e[i].removeAttribute('class'); }
 		/* Transition par suppression des éléments */
-		document.getElementById('roster-sidebar').removeAttribute('class');
-		document.getElementById('rotate-button').removeAttribute('class');
-		document.getElementById('start-game').setAttribute('class', 'hidden');
+		document.getElementById('rotate').removeAttribute('class');
+		document.getElementById('rotation').removeAttribute('class');
+		document.getElementById('start').setAttribute('class', 'hidden');
 
-		let cases_ia = document.querySelector('.computer-player').childNodes;
+		let cases_ia = document.querySelector('.AI').childNodes;
 		for(let i = 0; i < cases_ia.length; i++){
 			cases_ia[i].self = this;
 			cases_ia[i].addEventListener('click', this.tir_param, false);
 		}
 
-		let cases_joueur = document.querySelector('.human-player').childNodes;
+		let cases_joueur = document.querySelector('.player').childNodes;
 		for(let i = 0; i < cases_joueur.length; i++){
 			cases_joueur[i].self = this;
 			cases_joueur[i].addEventListener('click', this.place_param, false);
@@ -323,16 +324,16 @@ class Game{
 			cases_joueur[i].addEventListener('mouseout', this.sortie_curseur, false);
 		}
 
-		let flotte_navale = document.querySelector('.fleet-roster').querySelectorAll('li');
+		let flotte_navale = document.querySelector('.fleet').querySelectorAll('li');
 		for(let i = 0; i < flotte_navale.length; i++){
 			flotte_navale[i].self = this;
 			flotte_navale[i].addEventListener('click', this.flotte_param, false);
 		}
 
-		document.getElementById('rotate-button').addEventListener('click', this.rotation, false);
+		document.getElementById('rotation').addEventListener('click', this.rotation, false);
 
-		document.getElementById('start-game').self = this;
-		document.getElementById('start-game').addEventListener('click', this.commence_jeu, false);
+		document.getElementById('start').self = this;
+		document.getElementById('start').addEventListener('click', this.commence_jeu, false);
 		this.flotte_ia.gen_pos();
 	}
 }
