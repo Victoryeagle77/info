@@ -1,9 +1,4 @@
 /**
-* @author Arthur Chenu
-* @version final
-*/
-
-/**
 * La classe <code>Main</code>
 * permet de rappeler la classe : 
 * @see <code>View</code>
