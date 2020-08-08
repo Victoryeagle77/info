@@ -2,11 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-/**
-* @author Arthur Chenu
-* @version final
-*/
-
 /** 
 * La classe <code>View</code>
 * permet la gestion de toutes les fenêtres et de leur succession et mise en forme.
