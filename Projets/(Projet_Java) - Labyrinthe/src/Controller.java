@@ -1,11 +1,6 @@
 import java.awt.event.*;
 
 /**
-* @author Arthur Chenu
-* @version final
-*/
-
-/**
 * La classe <code>Controller</code>
 * permet en utilisant les méthodess de la classe KeyEvent la d&eacute;t&eacute;ction des touches du clavier,
 * et faire avancer manuellement l'algorithme avec le paramètre :

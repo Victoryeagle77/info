@@ -4,11 +4,6 @@ import java.io.*;
 import java.util.*;
 
 /**
-* @author Arthur Chenu
-* @version final
-*/
-
-/**
 * La classe <code>Saving</code> permet la sauvegarde des &eacute;l&eacute;ments d&eacute;finissant un tableau
 * En fonction de la configuration de celui-ci.
 */

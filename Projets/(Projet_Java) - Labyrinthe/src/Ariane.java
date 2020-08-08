@@ -2,11 +2,6 @@ import javax.swing.JComponent;
 import java.awt.*;
 import java.util.Random;
 
-/**
-* @author Arthur Chenu
-* @version final
-*/
-
 /** 
 * La classe <code>Ariane</code>
 * Cr&eacute;&eacute; le mod manuel (dessiner le labyrinthe) et automatique (nombre de d&eacute;placement) en fonction : 

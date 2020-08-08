@@ -3,11 +3,6 @@ import java.awt.*;
 import javax.swing.*;
 import java.util.*;
 
-/**
-* @author Arthur Chenu
-* @version final
-*/
-
 /** 
 * La classe <code>Model</code>
 * permet de lire un fichier et stocker les valeurs qui doivent etre comptablis&eacute;es comme param&egrave;tre du labyrinthe.

@@ -3,11 +3,6 @@ import java.awt.event.*;
 import java.awt.*;
 
 /**
-* @author Arthur Chenu
-* @version final
-*/
-
-/**
 * La classe <code>Action</code>
 * permet de g&eacute;rer les interactions &agrave; la souris, 
 * et les &eacute;venements qui doivent suivre sur les activations d&eacute;finis dans la classe :
