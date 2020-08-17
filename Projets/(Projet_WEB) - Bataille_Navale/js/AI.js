@@ -141,7 +141,7 @@ class AI{
 
 /* Génération aleatoire entre un minimum et maximum entré */
 function gen(min, max){
-	return Math.random() * (max - min) + min;
+    return Math.random() * (max - min) + min;
 }
 
 /* Calcule du coup aléatoire en fonction des cases de la grille */
