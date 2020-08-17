@@ -16,7 +16,6 @@ h3 {
   letter-spacing: 0.05em; 
 }
 
-/* Style graphique d'un bouton */
 button {
   background: #fff;
   font-family: 'Noto Sans JP', sans-serif;
@@ -64,10 +63,10 @@ button:hover:after {
   transform: rotate(40deg);
 }
 
-/* Pied de page */
 footer {
   position: fixed;
   font-size: 0.7em;
+  border-top: 2px solid #500;
   width : 100%;
   text-align : center;
   background-color : #111;
@@ -82,9 +81,8 @@ footer a:hover{
   color : #00bfff; 
 }
 
-#logo { margin: auto; }
+#logo img{ width: 400px; }
 #rule {
-  margin : auto;
   padding : 30px;
   box-shadow : 30px 30px 30px #000;
   background : url("../img/rule.jpg");
@@ -109,7 +107,7 @@ footer a:hover{
   background-color: #111;
   border : #500 solid 3px;
   border-radius: 5px;
-  box-shadow : 5px 5px 5px #1a81a3;
+  box-shadow : 5px 5px 5px #000;
 }
 #rotate, #reload {
   width : 200px;
@@ -126,7 +124,7 @@ footer a:hover{
   padding : 5px;
   margin : 0.8em 0.6em 1em 0.6em;
   text-align : center;
-  border : #800 solid 2px;
+  border : #500 solid 2px;
   border-radius: 3px;
   background-color: #111;
   box-shadow : 5px 5px 5px #000;
@@ -164,22 +162,22 @@ footer a:hover{
 .hidden { display : none; }
 .area {
   display : inline-block;
-  margin : 50px;
+  margin : 50px 5px 5px 5px;
   height : 10px;
 }
 .grid {
   top: 4em;
   position: relative;
-  width : 420px;
-  background-color : #4169E1;
+  width : 370px;
+  background-color : #355f70;
   border : #7089d4 solid 3px;
   border-radius: 3px;
   box-shadow : 10px 10px 10px #000;
 }
 .cell {
   vertical-align : top;
-  height : 40px;
-  width : 40px;
+  height : 35px;
+  width : 35px;
   display : inline-block;
   background : url("../img/water.gif") fixed;
   margin : 1px;

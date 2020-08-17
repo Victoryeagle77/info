@@ -207,12 +207,7 @@ class Game{
 		e.removeEventListener(animation(), e.setAttribute('class', 'hidden'), false);
 	}
 	
-	recommence_jeu(e){
-		let self = e.target.self;
-		document.getElementById('reload').setAttribute('class', 'hidden');
-		self.chargement();
-		self.init();
-	}
+	recommence_jeu(){ window.location.reload(false); }
 	
 	/* Détermine lorsqu'un bateau est placé sur la grille après clique */
 	place_final(type_navire){
@@ -222,7 +217,7 @@ class Game{
 		Game.place_navire = '';
 		Game.navire_coords = [];
 	}
-	
+
 	/* Détermine quand la grille est pleine (5 navires placés) */
 	grille_remplie(){
 		let navires = document.querySelectorAll('.fleet li');

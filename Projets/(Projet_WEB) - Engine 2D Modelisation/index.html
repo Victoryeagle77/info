@@ -22,20 +22,21 @@
           <br><h2>Dimensions du plan</h2>
             <form method="GET" action="index.html#page3">
               <p>Veuillez entrer les dimensions en hauteur et largeur du plan de votre objet à modéliser, celles-ci sont comprises entre 1cm et 1000cm.</p>
-              <br><p class="groupe">
-                <input type="number" name="longueur" placeholder="(en cm)" min="1" max="1000" required/>
+              <div class="groupe">
                 <label>Longueur</label>
-              </p>
-              <p class="groupe">
-                <input type="number" name="largeur" placeholder="(en cm)" min="1" max="1000" required/>
+                <input type="number" name="longueur" placeholder="(en cm)" min="1" max="1000" required/>
+              </div>
+              <div class="groupe">
                 <label>Largeur</label>
-              </p>
-              <button onclick='window.location.href="#page1"'><span>Retour</span></button>
+                <input type="number" name="largeur" placeholder="(en cm)" min="1" max="1000" required/>
+              </div>
+              <br><button onclick='window.location.href="#page1"'><span>Retour</span></button>
               <button href="#page3" type="submit" name="submit"><span>Valider</span></button>
             </form>
             <br>
           </div>
-          <!-- Partie permettant de modéliser la séparation d'un terrain en parcelle !-->
+
+          <!-- Partie permettant de modéliser des objets !-->
           <div id="page3" class="page">
             <h2>Modélisation</h2>
             <p>Modélisez votre objet dans la zone de modélisation dédiée ci-dessous. Pour modéliser votre objet ou figure, cliquez une fois sur la souris dans la zone, pour créer une point. 
@@ -43,13 +44,13 @@
               La figure et son aire se construiront après avoir relié deux points entre eux. Vous pouvez modéliser plusieurs figures en même temps, celles-ci se distingueront les unes des autres par une couleur unique attribuée à chaqu'une d'entre elles.
               Après création, vous pouvez modifiez la forme de votre objet par les sommets, séléctionnez un point avec votre souris par un simple clique et bougez le afin de lui donner la forme souhaitée. 
             </p>
-            <p>Si vous souhaitez effacer votre création, cliquez sur le bouton
+            <p>Si vous souhaitez effacer votre création, cliquez sur le bouton :
               <!-- Bouton permettant de recharger la page pour effacer le contenu du canvas !-->
-              <button onclick='window.location.reload(false)' value="clear"><span>Effacer</span></button>
+              <br><br><button onclick='window.location.reload(false)' value="clear"><span>Effacer</span></button>
             </p>
 
             <!-- Appel à la fonction récupérant les paramètre de dimensions !-->
-            <br><h2>Dimensions de votre figure ou objet</h2>
+            <h2>Dimensions de votre objet</h2>
             <p>
               <i>Longueur : </i> <span id="longueur"></span> cm
               <br><i>Largeur : </i><span id="largeur"></span> cm
@@ -65,6 +66,7 @@
               <br>
             </p>
           </div>
+
           <!-- Page finale !-->
           <div id="page4" class="page">
             <h2>Sauvegarde de votre travail</h2>
@@ -85,5 +87,6 @@
 
         </main>
       </div>
+      <footer><a>Réalisation d'Arthur Chenu</a></footer>
   </body>
 </html>

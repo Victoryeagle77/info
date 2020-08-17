@@ -23,9 +23,9 @@ function Parcelage(){
     let deplace = false, dessine = false, origine;
     /* Ici l'élément svg est notre canvas, commode pour utiliser la librairie d3.min.js */
     let canvas = d3.select('body').select('div').select('#page3').append('svg')
-        .attr('height', 400).attr('width', 400)
-        .style({background: '#303030'}).style({position: 'relative'})
-        .style({margin: 'auto'}).style({border: '2px solid #aaa'});
+        .attr('height', 800).attr('width', 425)
+        .style({background: '#222'}).style({position: 'relative'})
+        .style({margin: 'auto'}).style({border: '5px solid #888'});
     let points = [], g;
     /* Avec d3, définie le comportement lors du déplacement de la souris,
     (Après le placement du premier point d'origine) */
@@ -37,7 +37,8 @@ function Parcelage(){
         if(canvas.select('g.drawPoly').empty()) 
             g = canvas.append('g').attr('class', 'drawPoly');
         if(d3.event.target.hasAttribute('is-handle')){ 
-            figure(); return;
+            figure(); 
+            return;
         };
         points.push(d3.mouse(this));
         g.select('polyline').remove();
@@ -83,9 +84,9 @@ function Parcelage(){
         /* Permet de définir les points,
         après la construction d'un segment (points posé) */
         for(let i = 0; i < points.length; i++) {
-            let circle = g.selectAll('circles')
+            circle = g.selectAll('circles')
             /* Allocation du tableau points au Document Object Model, 
-            pour une mise à jours sans fuite mémoire */
+            pour une mise à jours sans fuite mémoire. */
             .data([points[i]])
             /* Jointure tu tableau de donnée définie par la méthode data(),
             pour définir les éléments à ajouter. */

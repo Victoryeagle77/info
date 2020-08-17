@@ -1,18 +1,15 @@
-/*** CHARGEMENT D'UNE IMAGE DANS L'INTEGRALITE DU FICHIER ***/
 html { background-color: black; }
 
-/*** MISE EN FORME DE L'ECRITURE DANS LE CORPS PRINCIPALE ***/
 body {
   font-family: "Open sans", Georgia, serif;
   background-color: #000;
   color : #eee;
-  margin-top: 50px;
+  margin : 0 auto;
   letter-spacing: 0.05em; 
 }
 
 h1 {
   font-weight: lighter;
-  text-align: center;
   letter-spacing: 0.05em; 
   color: #bac;
 }
@@ -23,12 +20,18 @@ h2 {
   color: #888;
 }
 
-/*** CONTAINER DE LA MAQUETTE ***/
-.container { 
+.container {
   text-align: center;
+  position : relative;
 }
 
-/* Style graphique d'un bouton */
+p {
+  margin : 40px auto;
+  width : 80%;
+  text-align: center;
+  position : relative;
+}
+
 button {
   background: #fff;
   font-family: 'Noto Sans JP', sans-serif;
@@ -90,18 +93,18 @@ button:hover:after {
   margin-right: 10%;
 }
 input::placeholder{
-    font-style: italic;
-    font-size: 0.7em;
-    color: #aca;
+  font-style: italic;
+  font-size: 0.7em;
+  color: #aca;
 }
 input[type=number] {
-    -moz-appearance:textfield;
+  -moz-appearance: textfield;
 }
 input {
   width: 200px;
   border: 0;
   border-bottom: 2px solid #888;
-  font-size: 1.3rem;
+  font-size: 1.3em;
   color: #888;
   padding: 7px 0;
   background: transparent;
@@ -110,7 +113,6 @@ input {
 
 label {
   position: relative;
-  top: -70px;
   display: block;
   transition: 0.2s;
   font-size: 1.3em;
@@ -124,20 +126,35 @@ input:focus {
   border-image-slice: 1;
 }
 
-/*** ELEMENTS CONCERNANT LE DEFILEMENT DES PAGES DANS UNE BALISE DIV ***/
 * { box-sizing: border-box; }
 .page { display: none; }
 .default { display:block; }
 :target { display:block; }
 :target ~ .default { display:none; }
 
-/* Liens à séléctionner */
 a {
   text-decoration: none;
   color : #d36420;
 }
 
-/*** ADAPTATION DE LA MISE EN FORME A DES REOLUTIONS D'ECRAN DIFFERENTES ***/
+footer {
+  border-top: 1px solid #555;
+  position: fixed;
+  font-size: 0.8em;
+  width : 100%;
+  text-align : center;
+  background-color : #111;
+  padding : 6px;
+  bottom: 0px;
+}
+footer a{ 
+  color : #fff;
+  text-decoration : none; 
+}
+footer a:hover{ 
+  color : #ccc; 
+}
+
 @media all and (max-width : 1024px) {	
   body { font-size : 0.8em; }
 } 
