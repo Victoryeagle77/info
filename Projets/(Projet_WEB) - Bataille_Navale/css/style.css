@@ -1,13 +1,13 @@
+html {
+  background : url("../img/background.jpg") center center no-repeat fixed;
+  background-size : cover;
+}
+
 body {
   font-family : "Open sans", Georgia, serif;
   color : #fff;
   margin : 0 auto;
   font-size : 1.1em;
-}
-
-html {
-  background : url("../img/background.jpg") center center no-repeat fixed;
-  background-size : cover;
 }
 
 h3 { 
