@@ -1,0 +1,143 @@
+/*** CHARGEMENT D'UNE IMAGE DANS L'INTEGRALITE DU FICHIER ***/
+html { background-color: black; }
+
+/*** MISE EN FORME DE L'ECRITURE DANS LE CORPS PRINCIPALE ***/
+body {
+  font-family: "Open sans", Georgia, serif;
+  background-color: #000;
+  color : #eee;
+  margin-top: 50px;
+  letter-spacing: 0.05em; 
+}
+
+h1 {
+  font-weight: lighter;
+  text-align: center;
+  letter-spacing: 0.05em; 
+  color: #bac;
+}
+h2 { 
+  font-weight: lighter;
+  font-size: 1.7em;
+  font-style: italic;
+  color: #888;
+}
+
+/*** CONTAINER DE LA MAQUETTE ***/
+.container { 
+  text-align: center;
+}
+
+/* Style graphique d'un bouton */
+button {
+  background: #fff;
+  font-family: 'Noto Sans JP', sans-serif;
+  letter-spacing: 0.1em;
+  margin: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 35px;
+  position: relative;
+  text-transform: uppercase;
+  color: #fff;
+  border: 4px solid #222;
+  box-shadow: 0px 0px 0px 1px #222 inset;
+  background-color: #222;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+}
+button:hover {
+  border: 4px solid #666;
+  background-color: #fff;
+  box-shadow: 0px 0px 0px 4px #eee inset;
+}
+button span {
+  transition: all 0.2s ease-out;
+  z-index: 2;
+}
+button:hover span{
+  letter-spacing: 0.13em;
+  color: #333;
+}
+button:after {
+  background: #fff;
+  border: 0px solid #000;
+  content: "";
+  height: 155px;
+  left: -75px;
+  opacity: .8;
+  position: absolute;
+  top: -50px;
+  -webkit-transform: rotate(35deg);
+  transform: rotate(35deg);
+  width: 50px;
+  transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+  z-index: 1;
+}
+button:hover:after {
+  background: #fff;
+  border: 20px solid #000;
+  opacity: 0;
+  left: 120%;
+  -webkit-transform: rotate(40deg);
+  transform: rotate(40deg);
+}
+
+.groupe {
+  position: relative;
+  padding: 10px 0 0;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+input::placeholder{
+    font-style: italic;
+    font-size: 0.7em;
+    color: #aca;
+}
+input[type=number] {
+    -moz-appearance:textfield;
+}
+input {
+  width: 200px;
+  border: 0;
+  border-bottom: 2px solid #888;
+  font-size: 1.3rem;
+  color: #888;
+  padding: 7px 0;
+  background: transparent;
+  transition: border-color 0.2s;
+}
+
+label {
+  position: relative;
+  top: -70px;
+  display: block;
+  transition: 0.2s;
+  font-size: 1.3em;
+  color: #555;
+}
+
+input:focus {
+  padding-bottom: 6px;  
+  font-weight: 500;
+  border-width: 3px;
+  border-image-slice: 1;
+}
+
+/*** ELEMENTS CONCERNANT LE DEFILEMENT DES PAGES DANS UNE BALISE DIV ***/
+* { box-sizing: border-box; }
+.page { display: none; }
+.default { display:block; }
+:target { display:block; }
+:target ~ .default { display:none; }
+
+/* Liens à séléctionner */
+a {
+  text-decoration: none;
+  color : #d36420;
+}
+
+/*** ADAPTATION DE LA MISE EN FORME A DES REOLUTIONS D'ECRAN DIFFERENTES ***/
+@media all and (max-width : 1024px) {	
+  body { font-size : 0.8em; }
+} 
