@@ -20,9 +20,9 @@ CONST.COULE = 4;
 class Game{
     constructor(){
         this.tir_subis = 0;
-	this.grille_jeu();
-	this.init();
-	this.jeu_perdu = false;
+        this.grille_jeu();
+        this.init();
+        this.jeu_perdu = false;
     }
 
     /* Gère l'intégration de la perte ou de la victoire d'une partie. */

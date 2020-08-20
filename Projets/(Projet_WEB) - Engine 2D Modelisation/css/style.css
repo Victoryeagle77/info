@@ -94,7 +94,7 @@ button:hover:after {
 }
 input::placeholder{
   font-style: italic;
-  font-size: 0.7em;
+  font-size: 0.8em;
   color: #aca;
 }
 input[type=number] {
@@ -104,7 +104,7 @@ input {
   width: 200px;
   border: 0;
   border-bottom: 2px solid #888;
-  font-size: 1.3em;
+  font-size: 1em;
   color: #888;
   padding: 7px 0;
   background: transparent;
@@ -126,16 +126,13 @@ input:focus {
   border-image-slice: 1;
 }
 
+#nom, #longueur, #largeur { color: #cfc; }
+
 * { box-sizing: border-box; }
 .page { display: none; }
 .default { display:block; }
 :target { display:block; }
 :target ~ .default { display:none; }
-
-a {
-  text-decoration: none;
-  color : #d36420;
-}
 
 footer {
   border-top: 1px solid #555;
