@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <!-- Appel du fichier de style en CSS3 !-->
     <link href="./css/style.css"  rel="stylesheet" media="all"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans">
+    <!-- Librairie JavaScript utilisée -->
+    <script src="js/d3.min.js"></script>
     <!-- Appel du fichier d'action dynamique en JavaScript !-->
     <script src="./js/js.js"></script>
-    <script src="js/d3.min.js"></script>
     <title>Engine 2D Modelisation</title>
   </head>
   <body>
@@ -18,7 +20,7 @@
   
         <!-- Menu de séléction des dimension du terrain !-->
         <br><div id="page2" class="page">
-          <br><h2>Paramètre de l'objet</h2>
+          <br><h2>Paramètres de l'objet</h2>
             <form method="GET" action="index.html#page3">
               <p>Si vous le souhaitez, vous pouvez entrer le nom, ainsi que les dimensions en hauteur et largeur de votre objet à modéliser (comprises entre 0.1cm et 100000cm), à titre indicatif.
                 <br>Cela vous servira d'indice quant à l'objet que vous voulez réaliser, et ses proportions.
@@ -54,8 +56,8 @@
               <br><br><button onclick='window.location.reload(false)' value="clear"><span>Effacer</span></button>
             </p>
 
-            <!-- Appel à la fonction récupérant les paramètre de dimensions !-->
-            <h2>Paramètre de votre objet</h2>
+            <!-- Appel à la fonction récupérant les paramètres de dimensions !-->
+            <h2>Paramètres de votre objet</h2>
             <p>
               <i>Nom du projet : </i> <span id="nom"></span>
               <br><i>Longueur : </i> <span id="longueur"></span>
@@ -64,6 +66,7 @@
             <script>Parametre()</script>
             <!-- Appel de la fonction d'édition de parcelle !-->
             <div id="canvas"><script>Modelisation()</script></div>
+
             <!-- Permet d'afficher la date du jour !-->
             <p>Objet créé le : <script>Datation()</script></p>
             <p>
@@ -76,10 +79,12 @@
 
           <!-- Page finale !-->
           <div id="page4" class="page">
-            <h2>Sauvegarde de votre travail</h2>
-            <p>Objet sauvegardé le : <script>Datation()</script>
-              <br>Votre objet sera sauvegardé sous forme d'une capture d'écran, souhaitez vous en modéliser un autre ?
+            <h2>Projet terminé</h2>
+            <p>Objet datant du : <script>Datation()</script>
+              <br>Nous vous conseillons de prendre une capture d'écran de votre pojet si vous souhaitez en conserver une trace visuelle. 
+              <br><br>Souhaitez modéliser un autre projet ?
             </p>
+            <button onclick='window.location.href="#page3"'><span>Retour</span></button>
             <button onclick='window.location.href="#page2"'><span>Modéliser</span></button>
           </div>
 
