@@ -5,7 +5,7 @@ body {
   background-color: #000;
   color : #eee;
   margin : 0 auto;
-  letter-spacing: 0.05em; 
+  letter-spacing: 0.05em;
 }
 
 h1 {
@@ -30,6 +30,15 @@ p {
   width : 80%;
   text-align: center;
   position : relative;
+}
+
+#canvas {
+  width: 90%;
+  height: 800px;
+  border: 2px solid #888;
+  margin: 0 auto;
+  background-size: 20px 20px;
+  background-image: radial-gradient(circle, #555 1px, #222 1px);
 }
 
 button {

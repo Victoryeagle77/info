@@ -35,9 +35,9 @@
                 <label>Largeur</label>
                 <input type="number" step=0.01 name="largeur" placeholder="(en cm)" min="0.1" max="100000"/>
               </div>
-              <br><button onclick='window.location.href="#page1"'><span>Retour</span></button>
-              <button href="#page3" type="submit" name="submit"><span>Valider</span></button>
+              <br><button href="#page3" type="submit" name="submit"><span>Valider</span></button>
             </form>
+            <button onclick='window.location.href="#page1"'><span>Retour</span></button>
             <br>
           </div>
 
@@ -63,7 +63,7 @@
             </p>
             <script>Parametre()</script>
             <!-- Appel de la fonction d'édition de parcelle !-->
-            <script>Modelisation()</script>
+            <div id="canvas"><script>Modelisation()</script></div>
             <!-- Permet d'afficher la date du jour !-->
             <p>Objet créé le : <script>Datation()</script></p>
             <p>

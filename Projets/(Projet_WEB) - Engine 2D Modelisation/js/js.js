@@ -33,10 +33,8 @@ function Modelisation() {
     et de déplacement des points */
     let deplace = false, dessine = false, origine = true;
     /* Ici l'élément svg est notre canvas, commode pour utiliser la librairie d3.min.js */
-    let canvas = d3.select('body').select('div').select('#page3').append('svg')
-        .attr('height', '800').attr('width', '90%').attr('id', 'c')
-        .style({background: '#222'}).style({position: 'relative'})
-        .style({margin: 'auto'}).style({border: '3px solid #888'});
+    let canvas = d3.select('body').select('div').select('#page3').select('#canvas').append('svg')
+        .attr('height', '800px').attr('width', '90%').style({background : 'none'});
     let points = [], g;
     /* Avec d3, définie le comportement lors du déplacement de la souris,
     (Après le placement du premier point d'origine) */
@@ -56,7 +54,7 @@ function Modelisation() {
         d3.select(this.parentNode).select('polygon').attr('points', points);
     }
 
-    /* Génère un code couleur hexadécimale aléatoire */
+    /* Génère un code couleur hexadécimale aléatoire pour définir une couleur */
     function coloration(){
         /* Divise la chaine de caracètre 0123456789ABCDEF,
         (créé une sous-chaine) */
@@ -76,7 +74,7 @@ function Modelisation() {
         g.append('polygon')
         .attr('points', points)
         /* Remplie la forme avec une couleur aléatoire */
-        .style('fill', coloration());
+        .style('fill', coloration()).style('opacity', '0.5');
         /* Permet de définir les points,
         après la construction d'un segment (points posé) */
         for(let i = 0; i < points.length; i++) {
@@ -93,7 +91,7 @@ function Modelisation() {
             .call(bouger);
         }
         /* Modifier la variable i du tableau points pour qu'elle vale 0, 
-        Permettant ainsi de terminer et délier la figure tracé. */
+        Permettant ainsi de terminer et délier de la souris la figure à tracer. */
         points.splice(0);
         dessine = false;
     }
