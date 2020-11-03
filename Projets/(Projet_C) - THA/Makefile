@@ -11,18 +11,18 @@ OFILES = src/main.o \
          src/analyse.o
 
 # Compilation et arguments de compilation
-CC = gcc -Ofast -flto
+CC = gcc -Ofast -flto -lwiringPi -lX11 -pthread
 
 ### 3] Depedences precedentes appliquees par commandes ###
 exe : $(OFILES)
-	$(CC) -o exe $(OFILES) -lwiringPi -lX11 -pthread
+	$(CC) -o exe $(OFILES) 
 
 ### 4] Nettoyage des fichiers d'extension ".o" generes ###
 clean :
 	rm -f $(OFILES) exe
-.PHONY : compilation clean
+.PHONY : clean
 
 ### 5] Execution du programme par l'executable ###
 run :
-	sudo ./exe
+	./exe
 .PHONY : run
